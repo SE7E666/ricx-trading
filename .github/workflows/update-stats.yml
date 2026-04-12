@@ -2,14 +2,17 @@ name: 📊 Atualizar Stats myfxbook
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # Todos os dias às 08:00 UTC (09:00 Portugal / 05:00 BRT)
-  workflow_dispatch:        # Permite executar manualmente com um clique
+    - cron: '0 8 * * *'   # Todos os dias às 08:00 UTC
+  workflow_dispatch:        # Permite executar manualmente
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   update-stats:
     runs-on: ubuntu-latest
     permissions:
-      contents: write       # Necessário para fazer commit do stats.json atualizado
+      contents: write
 
     steps:
       - name: 📥 Baixar repositório
@@ -18,21 +21,21 @@ jobs:
       - name: 🐍 Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
 
       - name: 📦 Instalar dependências
         run: pip install requests
 
-      - name: 🔄 Executar script de atualização
-        run: python fetch_stats.py
-        env:
-          MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
-          MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD }}
+      - name: 🔍 Verificar se secrets estão configurados
+        id: check_secrets
+        run: |
+          if [ -z "${{ secrets.MYFXBOOK_EMAIL }}" ] || [ -z "${{ secrets.MYFXBOOK_PASSWORD }}" ]; then
+            echo "configured=false" >> $GITHUB_OUTPUT
+            echo "⚠️ Secrets MYFXBOOK_EMAIL / MYFXBOOK_PASSWORD não configurados. A saltar atualização."
+          else
+            echo "configured=true" >> $GITHUB_OUTPUT
+            echo "✅ Secrets encontrados. A executar script..."
+          fi
 
-      - name: 💾 Guardar stats.json atualizado
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "📊 chore: atualizar stats myfxbook [skip ci]"
-          file_pattern: stats.json
-          commit_user_name: "RICX Stats Bot"
-          commit_user_email: "bot@ricx.trading"
+      - name: 🔄 Executar script de atualização
+        if: steps.check_sec
