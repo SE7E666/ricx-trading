@@ -469,9 +469,9 @@
     <a href="#faq" data-i18n="nav_faq">FAQ</a>
   </div>
   <div class="lang-btns">
-    <button class="lang-btn active" onclick="setLang('pt')">PT</button>
-    <button class="lang-btn" onclick="setLang('es')">ES</button>
-    <button class="lang-btn" onclick="setLang('en')">EN</button>
+    <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" data-lang="es" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
   </div>
 </nav>
 
@@ -518,7 +518,7 @@
       <a class="btn-primary" href="https://axicom.onelink.me/MfaL?af_sub1=profile%3A735535&af_referrer_customer_id=735535&c=refer_strategy&af_referrer_name=profile%3A735535&af_referrer_uid=1774170860911-3932322813370004410&pid=af_app_invites&af_channel=mobile_invite&deep_link_sub1=2075100&deep_link_sub2=735535&af_siteid=com.axi.pelican&deep_link_value=strategy" target="_blank" data-i18n="hero_cta">
         🚀 Conectar ao Robot
       </a>
-      <a class="btn-outline" href="#tutorial" data-i18n="hero_cta2">
+      <a class="btn-outline" href="https://www.myfxbook.com/members/RIppeR_SE7E/rycx-axi/11746315" target="_blank" rel="noopener" data-i18n="hero_cta2">
         📖 Ver Tutorial
       </a>
     </div>
@@ -554,32 +554,32 @@
   <div class="stats-grid">
     <div class="stat-card fade-in">
       <div class="stat-value green" id="stat-gain">--</div>
-      <div class="stat-label" data-i18n="stat1">Ganho Total</div>
+      <div class="stat-label" data-i18n="stat1_label">Ganho Total</div>
       <div class="stat-sub" data-i18n="stat1_sub">Desde o início</div>
     </div>
     <div class="stat-card fade-in">
       <div class="stat-value" id="stat-months">--</div>
-      <div class="stat-label" data-i18n="stat2">Meses Ativos</div>
+      <div class="stat-label" data-i18n="stat2_label">Meses Ativos</div>
       <div class="stat-sub" data-i18n="stat2_sub">Histórico consistente</div>
     </div>
     <div class="stat-card fade-in">
       <div class="stat-value" id="stat-winrate">--</div>
-      <div class="stat-label" data-i18n="stat3">Win Rate</div>
+      <div class="stat-label" data-i18n="stat3_label">Win Rate</div>
       <div class="stat-sub" data-i18n="stat3_sub">Operações vencedoras</div>
     </div>
     <div class="stat-card fade-in">
       <div class="stat-value" style="color:var(--red)" id="stat-dd">--</div>
-      <div class="stat-label" data-i18n="stat4">Drawdown Máx.</div>
+      <div class="stat-label" data-i18n="stat4_label">Drawdown Máx.</div>
       <div class="stat-sub" data-i18n="stat4_sub">Gestão de risco</div>
     </div>
     <div class="stat-card fade-in">
       <div class="stat-value" id="stat-trades">--</div>
-      <div class="stat-label" data-i18n="stat5">Total de Trades</div>
+      <div class="stat-label" data-i18n="stat5_label">Total de Trades</div>
       <div class="stat-sub" data-i18n="stat5_sub">Operações executadas</div>
     </div>
     <div class="stat-card fade-in">
       <div class="stat-value" id="stat-pf">--</div>
-      <div class="stat-label" data-i18n="stat6">Profit Factor</div>
+      <div class="stat-label" data-i18n="stat6_label">Profit Factor</div>
       <div class="stat-sub" data-i18n="stat6_sub">Ratio lucro/perda</div>
     </div>
   </div>
@@ -1095,9 +1095,9 @@
 
 <!-- FOOTER -->
 <footer style="background:var(--bg2);border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--text-dim);font-size:0.82rem;">
-  <div style="font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:900;color:var(--primary);letter-spacing:2px;margin-bottom:0.5rem;">RICX <span style="color:var(--text)">BOT</span></div>
+  <div style="font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:900;color:var(--primary);letter-spacing:2px;margin-bottom:0.5rem;">RICX <span style="color:var(--text)">AUTOMATED TRADING</span></div>
   <p data-i18n="footer_risk">Trading envolve risco. Resultados passados nao garantem resultados futuros. Invista apenas o que pode perder.</p>
-  <p style="margin-top:0.5rem;">&#169; 2025 RICX Trading &mdash; Powered by <a href="https://www.axi.com" style="color:var(--primary);text-decoration:none;">Axi CopyTrading</a></p>
+  <p style="margin-top:0.5rem;">&#169; 2025 RICX Automated Trading &mdash; Todos os direitos reservados.</p>
 </footer>
 
 <script>
@@ -1114,6 +1114,13 @@ const T = {
     stats_sub:"Dados em tempo real sincronizados com myfxbook",
     stat1_label:"Ganho Total", stat2_label:"Meses Ativo", stat3_label:"Win Rate",
     stat4_label:"Max Drawdown", stat5_label:"Total Operacoes", stat6_label:"Profit Factor",
+    stats_tag:"PERFORMANCE VERIFICADA",
+    stats_title:"Resultados <span>Verificados</span>",
+    stat1_sub:"Desde o inicio", stat2_sub:"Historico consistente", stat3_sub:"Operacoes vencedoras",
+    stat4_sub:"Gestao de risco", stat5_sub:"Operacoes executadas", stat6_sub:"Ratio lucro/perda",
+    myfxbook_link:"Ver resultados completos no myfxbook",
+    verified_text:"Resultados auditados e verificados no myfxbook",
+    stats_tag_es:"RENDIMIENTO VERIFICADO",
     how_tag:"COMO FUNCIONA", how_title:"Simples, <span>Automatico</span>",
     how1_title:"Voce Deposita", how1_desc:"Abre conta na Axi e deposita o capital.",
     how2_title:"Voce Copia", how2_desc:"Liga o RICX na app e define o risco.",
@@ -1154,6 +1161,12 @@ const T = {
     stats_sub:"Datos en tiempo real sincronizados con myfxbook",
     stat1_label:"Ganancia Total", stat2_label:"Meses Activo", stat3_label:"Win Rate",
     stat4_label:"Max Drawdown", stat5_label:"Total Operaciones", stat6_label:"Factor Ganancia",
+    stats_tag:"RENDIMIENTO VERIFICADO",
+    stats_title:"Resultados <span>Verificados</span>",
+    stat1_sub:"Desde el inicio", stat2_sub:"Historico consistente", stat3_sub:"Operaciones ganadoras",
+    stat4_sub:"Gestion de riesgo", stat5_sub:"Operaciones ejecutadas", stat6_sub:"Ratio ganancia/perdida",
+    myfxbook_link:"Ver resultados completos en myfxbook",
+    verified_text:"Resultados auditados y verificados en myfxbook",
     how_tag:"COMO FUNCIONA", how_title:"Simple, <span>Automatico</span>",
     how1_title:"Tu Depositas", how1_desc:"Abre cuenta en Axi y deposita tu capital.",
     how2_title:"Tu Copias", how2_desc:"Activa el RICX en la app y define el riesgo.",
@@ -1194,6 +1207,12 @@ const T = {
     stats_sub:"Real-time data synced from myfxbook",
     stat1_label:"Total Gain", stat2_label:"Months Active", stat3_label:"Win Rate",
     stat4_label:"Max Drawdown", stat5_label:"Total Trades", stat6_label:"Profit Factor",
+    stats_tag:"VERIFIED PERFORMANCE",
+    stats_title:"Verified <span>Results</span>",
+    stat1_sub:"Since the beginning", stat2_sub:"Consistent history", stat3_sub:"Winning trades",
+    stat4_sub:"Risk management", stat5_sub:"Trades executed", stat6_sub:"Profit/loss ratio",
+    myfxbook_link:"View full results on myfxbook",
+    verified_text:"Results audited and publicly verified on myfxbook",
     how_tag:"HOW IT WORKS", how_title:"Simple, <span>Automatic</span>",
     how1_title:"You Deposit", how1_desc:"Open an Axi account and deposit your capital.",
     how2_title:"You Copy", how2_desc:"Enable RICX in the app and set your risk level.",

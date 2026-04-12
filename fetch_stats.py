@@ -86,7 +86,10 @@ def main():
     if d.get("error"):
         print(f"Login falhou: {d.get('message')}"); sys.exit(1)
 
-    token = d["session"]
+    # myfxbook por vezes retorna o token ja URL-encoded (ex: %2B em vez de +)
+    # Se nao fizer unquote, o requests faz double-encoding e o servidor rejeita
+    from urllib.parse import unquote
+    token = unquote(d["session"])
     print(f"Login OK. Token: {token[:8]}...")
     print(f"Cookies recebidos: {list(login_cookies.keys())}")
 
@@ -130,8 +133,4 @@ def main():
 
     print(f"Contas: {len(accounts)}")
     for a in accounts:
-        print(f"  ID={a.get('id')} | {a.get('name')} | gain={a.get('gain')}")
-
-    acc = next((a for a in accounts if str(a.get("id"))==str(ACCOUNT_ID)), accounts[0])
-    won  = int(acc.get("wonTrades",0) or 0)
-    lost = int(acc.get("los
+        print(f"  ID={a.get('id')}
