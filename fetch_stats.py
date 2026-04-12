@@ -1,211 +1,231 @@
 """
-RICX Trading Bot — myfxbook Stats Fetcher
-==========================================
-Busca os dados de performance do myfxbook via API oficial
-e salva em stats.json para o site exibir automaticamente.
-
-Uso:
-  1. Cria um ficheiro .env na mesma pasta com as tuas credenciais
-  2. Executa: python fetch_stats.py
-  3. O ficheiro stats.json sera atualizado automaticamente
+RICX Trading Bot -- myfxbook Stats Fetcher
+===========================================
+Acessa a pagina PUBLICA do robot no myfxbook via browser real (Playwright).
+Nao precisa de login. Funciona mesmo com IPs de cloud providers.
 
 Requisitos:
-  pip install requests
+  pip install playwright
+  playwright install --with-deps chromium
 """
 
-import requests
 import json
 import sys
-import time
+import re
 from pathlib import Path
 from datetime import datetime
 
-# ─── CONFIGURACAO ────────────────────────────────────────────────
-ACCOUNT_ID = 11746315
 SCRIPT_DIR = Path(__file__).parent
-ENV_FILE   = SCRIPT_DIR / ".env"
 OUTPUT     = SCRIPT_DIR / "stats.json"
-API_BASE   = "https://www.myfxbook.com/api"
 
-# Headers para imitar um browser real
-HEADERS = {
-    "User-Agent": (
-        "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-        "AppleWebKit/537.36 (KHTML, like Gecko) "
-        "Chrome/124.0.0.0 Safari/537.36"
-    ),
-    "Accept": "application/json, text/plain, */*",
-    "Accept-Language": "pt-PT,pt;q=0.9,en;q=0.8",
-    "Referer": "https://www.myfxbook.com/",
-}
+# URL publica da conta RICX no myfxbook
+MYFXBOOK_URL = "https://www.myfxbook.com/members/RIppeR_SE7E/rycx-axi/11746315"
 
 
-# ─── CREDENCIAIS ─────────────────────────────────────────────────
-def load_credentials():
-    import os
-    email    = os.environ.get("MYFXBOOK_EMAIL", "").strip()
-    password = os.environ.get("MYFXBOOK_PASSWORD", "").strip()
-    if email and password:
-        print("Credenciais carregadas via variaveis de ambiente.")
-        return email, password
-
-    if not ENV_FILE.exists():
-        print("ERRO: Credenciais nao encontradas.")
-        print("  Em producao: define MYFXBOOK_EMAIL e MYFXBOOK_PASSWORD como secrets no GitHub.")
-        print("  Localmente: cria o ficheiro .env")
-        sys.exit(1)
-
-    creds = {}
-    with open(ENV_FILE, "r", encoding="utf-8") as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#") and "=" in line:
-                key, _, val = line.partition("=")
-                creds[key.strip()] = val.strip().strip('"').strip("'")
-
-    email    = creds.get("MYFXBOOK_EMAIL", "")
-    password = creds.get("MYFXBOOK_PASSWORD", "")
-    if not email or not password:
-        print("ERRO: MYFXBOOK_EMAIL ou MYFXBOOK_PASSWORD nao definidos no .env")
-        sys.exit(1)
-
-    print("Credenciais carregadas via .env local.")
-    return email, password
+def parse_percent(text):
+    """Extrai numero de string como '52.17%' ou '-8.46%'"""
+    if not text:
+        return None
+    text = text.strip().replace(",", ".")
+    m = re.search(r"[-+]?\d+\.?\d*", text)
+    return float(m.group()) if m else None
 
 
-# ─── CALCULOS ────────────────────────────────────────────────────
+def format_gain(v):
+    if v is None:
+        return "--"
+    sign = "+" if v >= 0 else ""
+    return f"{sign}{v:.1f}%"
+
+
+def format_drawdown(v):
+    if v is None:
+        return "--"
+    return f"-{abs(v):.1f}%"
+
+
 def months_since(date_str):
+    """Calcula meses desde uma data no formato 'MM/YYYY' ou 'YYYY-MM-DD'"""
     if not date_str:
         return "--"
     try:
-        dt = datetime.strptime(date_str[:10], "%Y-%m-%d")
+        # tenta MM/YYYY primeiro
+        for fmt in ("%m/%Y", "%Y-%m-%d", "%Y-%m-%d %H:%M:%S"):
+            try:
+                dt = datetime.strptime(date_str.strip()[:10], fmt[:len(date_str.strip()[:10])])
+                break
+            except ValueError:
+                continue
+        else:
+            return "--"
         delta = datetime.now() - dt
         return str(max(1, delta.days // 30))
     except Exception:
         return "--"
 
-def format_gain(value):
-    try:
-        v = float(value)
-        sign = "+" if v >= 0 else ""
-        return f"{sign}{v:.1f}%"
-    except Exception:
-        return "--"
 
-def format_drawdown(value):
-    try:
-        v = abs(float(value))
-        return f"-{v:.1f}%"
-    except Exception:
-        return "--"
-
-def format_winrate(won, total):
-    try:
-        if total > 0:
-            return f"{(won / total * 100):.1f}%"
-    except Exception:
-        pass
-    return "--"
-
-
-# ─── MAIN ────────────────────────────────────────────────────────
 def main():
     print("=" * 50)
-    print("  RICX -- myfxbook Stats Fetcher")
+    print("  RICX -- myfxbook Public Page Scraper")
     print(f"  {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print("=" * 50)
 
-    email, password = load_credentials()
-
-    # Usar requests.Session() para manter cookies entre chamadas
-    # (essencial: myfxbook valida o IP via cookie de sessao, nao so o token)
-    http = requests.Session()
-    http.headers.update(HEADERS)
-
-    # ── LOGIN ──
-    print("A fazer login no myfxbook...")
     try:
-        r = http.get(
-            f"{API_BASE}/login.json",
-            params={"email": email, "password": password},
-            timeout=20,
-        )
-        r.raise_for_status()
-        data = r.json()
-    except Exception as e:
-        print(f"ERRO na chamada de login: {e}")
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("ERRO: playwright nao instalado. Execute: pip install playwright")
         sys.exit(1)
-
-    if data.get("error"):
-        print(f"ERRO: Login falhou: {data.get('message', 'Erro desconhecido')}")
-        sys.exit(1)
-
-    session_token = data["session"]
-    print(f"Login bem-sucedido. Token: {session_token[:8]}...")
-
-    # Pequena pausa para evitar rate limiting
-    time.sleep(1)
-
-    # ── GET ACCOUNTS ──
-    print("A buscar dados das contas...")
-    try:
-        r2 = http.get(
-            f"{API_BASE}/get-my-accounts.json",
-            params={"session": session_token},
-            timeout=20,
-        )
-        r2.raise_for_status()
-        accounts_data = r2.json()
-    except Exception as e:
-        print(f"ERRO na chamada get-my-accounts: {e}")
-        sys.exit(1)
-    finally:
-        # Logout (best-effort)
-        try:
-            http.get(f"{API_BASE}/logout.json", params={"session": session_token}, timeout=10)
-        except Exception:
-            pass
-
-    print(f"Resposta: error={accounts_data.get('error')}, message={accounts_data.get('message','')}")
-
-    if accounts_data.get("error"):
-        print(f"ERRO ao buscar contas: {accounts_data.get('message')}")
-        sys.exit(1)
-
-    accounts = accounts_data.get("accounts", [])
-    if not accounts:
-        print("ERRO: Nenhuma conta encontrada.")
-        sys.exit(1)
-
-    print(f"Contas encontradas: {len(accounts)}")
-    for a in accounts:
-        print(f"  - ID={a.get('id')} nome={a.get('name')} gain={a.get('gain')}")
-
-    # Encontrar conta pelo ID (comparar como string para evitar tipo errado)
-    account = next((a for a in accounts if str(a.get("id")) == str(ACCOUNT_ID)), None)
-    if not account:
-        print(f"Conta ID {ACCOUNT_ID} nao encontrada. A usar a primeira conta disponivel.")
-        account = accounts[0]
-
-    print(f"Conta selecionada: {account.get('name', 'N/A')} (ID={account.get('id')})")
-
-    won   = int(account.get("wonTrades", 0) or 0)
-    lost  = int(account.get("lostTrades", 0) or 0)
-    total = won + lost
 
     stats = {
-        "gain":          format_gain(account.get("gain", 0)),
-        "months":        months_since(account.get("firstTradeDate", "")),
-        "winrate":       format_winrate(won, total),
-        "drawdown":      format_drawdown(account.get("drawdown", 0)),
-        "trades":        str(total) if total > 0 else "--",
-        "profit_factor": f"{float(account.get('profitFactor', 0)):.2f}" if account.get("profitFactor") else "--",
-        "balance":       f"${float(account.get('balance', 0)):,.2f}",
-        "profit":        f"${float(account.get('profit', 0)):,.2f}",
-        "last_updated":  datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "account_name":  account.get("name", "RICX"),
-        "currency":      account.get("currency", "USD"),
+        "gain": "--", "months": "--", "winrate": "--",
+        "drawdown": "--", "trades": "--", "profit_factor": "--",
+        "balance": "--", "profit": "--",
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "account_name": "RICX", "currency": "USD",
     }
 
+    with sync_playwright() as p:
+        print("Abrindo browser Chromium...")
+        browser = p.chromium.launch(
+            headless=True,
+            args=["--no-sandbox", "--disable-dev-shm-usage"],
+        )
+        page = browser.new_page(
+            user_agent=(
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) "
+                "Chrome/124.0.0.0 Safari/537.36"
+            )
+        )
+
+        # Interceptar chamadas de API do myfxbook para capturar dados JSON
+        captured = {}
+
+        def handle_response(response):
+            url = response.url
+            if "myfxbook.com" in url and any(k in url for k in ["get-gain", "get-data", "account-data", "stats"]):
+                try:
+                    body = response.text()
+                    if body and body.strip().startswith("{"):
+                        captured[url] = json.loads(body)
+                        print(f"  Capturado: {url[:80]}")
+                except Exception:
+                    pass
+
+        page.on("response", handle_response)
+
+        print(f"Navegando para: {MYFXBOOK_URL}")
+        try:
+            page.goto(MYFXBOOK_URL, wait_until="domcontentloaded", timeout=30000)
+            page.wait_for_timeout(4000)  # esperar carregamento JS
+        except Exception as e:
+            print(f"AVISO ao navegar: {e}")
+
+        html = page.content()
+        print(f"HTML carregado: {len(html)} chars")
+
+        # ── Extrair dados do DOM ──
+        def safe_text(selector):
+            try:
+                el = page.query_selector(selector)
+                return el.inner_text().strip() if el else None
+            except Exception:
+                return None
+
+        def safe_attr(selector, attr):
+            try:
+                el = page.query_selector(selector)
+                return el.get_attribute(attr) if el else None
+            except Exception:
+                return None
+
+        # Gain total -- myfxbook usa #totalGain ou elemento com essa classe
+        gain_raw = (
+            safe_text("#totalGain") or
+            safe_text("[id*='gain']") or
+            safe_text(".gain") or
+            safe_text("[class*='gain']")
+        )
+
+        # Drawdown
+        dd_raw = (
+            safe_text("#maxDrawdown") or
+            safe_text("[id*='drawdown']") or
+            safe_text("[class*='drawdown']")
+        )
+
+        # Trades
+        trades_raw = (
+            safe_text("#totalTrades") or
+            safe_text("[id*='trades']") or
+            safe_text("[class*='trades']")
+        )
+
+        # Win rate / profitability
+        wr_raw = (
+            safe_text("#profitability") or
+            safe_text("[id*='profit']") or
+            safe_text("[class*='profit']")
+        )
+
+        print(f"DOM -- gain={gain_raw} dd={dd_raw} trades={trades_raw} wr={wr_raw}")
+
+        # Tentar extrair de texto do HTML via regex se DOM nao encontrou
+        if not gain_raw:
+            # Procurar padroes de stats no HTML
+            # myfxbook normalmente tem: "Gain</td><td>52.17%"
+            m = re.search(r'(?i)gain[^<]{0,50}>([+-]?\d+\.?\d*%)', html)
+            if m:
+                gain_raw = m.group(1)
+                print(f"Gain extraido via regex: {gain_raw}")
+
+        if not dd_raw:
+            m = re.search(r'(?i)drawdown[^<]{0,100}>([+-]?\d+\.?\d*%)', html)
+            if m:
+                dd_raw = m.group(1)
+
+        if not trades_raw:
+            m = re.search(r'(?i)trades[^<]{0,100}>([\d,]+)', html)
+            if m:
+                trades_raw = m.group(1)
+
+        browser.close()
+
+    # ── Processar valores extraidos ──
+    gain_v = parse_percent(gain_raw)
+    dd_v   = parse_percent(dd_raw)
+
+    if gain_v is not None:
+        stats["gain"]     = format_gain(gain_v)
+    if dd_v is not None:
+        stats["drawdown"] = format_drawdown(dd_v)
+    if trades_raw:
+        t = trades_raw.replace(",", "").strip()
+        if t.isdigit():
+            stats["trades"] = t
+    if wr_raw:
+        wr_v = parse_percent(wr_raw)
+        if wr_v is not None:
+            stats["winrate"] = f"{wr_v:.1f}%"
+
+    # Verificar se conseguiu dados reais
+    got_data = any(stats[k] != "--" for k in ["gain", "drawdown", "trades"])
+    if not got_data:
+        print("AVISO: Nao foi possivel extrair dados da pagina publica.")
+        print("A tentar API autenticada como fallback...")
+        result = _try_api_fallback()
+        if result:
+            stats.update(result)
+            got_data = True
+
+    stats["last_updated"] = datetime.now().strftime("%Y-%m-%d %H:%M")
+
     with open(OUTPUT, "w", encoding="utf-8") as f:
-   
+        json.dump(stats, f, indent=2, ensure_ascii=False)
+
+    print("\nstats.json:")
+    print(json.dumps(stats, indent=2, ensure_ascii=False))
+
+    if not got_data:
+        print("\nAVISO: Stats mantidos como '--'. Dados nao disponiveis.")
+        # Nao falha
