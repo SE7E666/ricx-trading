@@ -126,9 +126,9 @@ def main():
     }
 
     json.dump(stats, open(OUTPUT,"w",encoding="utf-8"), indent=2, ensure_ascii=False)
-    print("\nstats.json atualizado\!")
+    print("\nstats.json atualizado!")
     print(json.dumps(stats, indent=2, ensure_ascii=False))
-    print("\nConcluido\!")
+    print("\nConcluido!")
 
 if __name__=="__main__":
     main()
