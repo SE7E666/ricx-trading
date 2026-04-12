@@ -1,14 +1,8 @@
 """
 RICX Trading Bot -- myfxbook Stats Fetcher
-===========================================
-EXECUTA LOCALMENTE (na tua maquina) onde o myfxbook e acessivel.
-Depois faz git push automatico para atualizar o site.
-
-Uso: duplo clique em atualizar_stats.bat
-     ou: python fetch_stats.py
 """
 
-import requests, json, sys, time, os
+import requests, json, sys, os
 from pathlib import Path
 from datetime import datetime
 
@@ -42,23 +36,50 @@ def load_creds():
     sys.exit(1)
 
 def fmt_gain(v):
-    try: v=float(v); return f"+{v:.1f}%" if v>=0 else f"{v:.1f}%"
-    except: return "--"
+    try:
+        v = float(v)
+        return f"+{v:.1f}%" if v >= 0 else f"{v:.1f}%"
+    except:
+        return "--"
 
 def fmt_dd(v):
-    try: return f"-{abs(float(v)):.1f}%"
-    except: return "--"
+    try:
+        return f"-{abs(float(v)):.1f}%"
+    except:
+        return "--"
 
-def fmt_wr(won,total):
-    try: return f"{won/total*100:.1f}%" if total>0 else "--"
-    except: return "--"
+def fmt_wr(won, total):
+    try:
+        return f"{won/total*100:.1f}%" if total > 0 else "--"
+    except:
+        return "--"
+
+def fmt_wr_pct(pct):
+    """Format winrate from a direct percentage value (e.g. 65.5 -> '65.5%')"""
+    try:
+        v = float(pct)
+        return f"{v:.1f}%" if v > 0 else "--"
+    except:
+        return "--"
 
 def months_since(d):
-    if not d: return "--"
-    try:
-        dt = datetime.strptime(d[:10],"%Y-%m-%d")
-        return str(max(1,(datetime.now()-dt).days//30))
-    except: return "--"
+    """Parse multiple date formats myfxbook might return."""
+    if not d:
+        return "--"
+    for fmt in ("%m/%d/%Y %H:%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%m/%d/%Y"):
+        try:
+            dt = datetime.strptime(str(d).strip()[:16], fmt[:len(fmt)])
+            return str(max(1, (datetime.now()-dt).days // 30))
+        except:
+            pass
+    # Try just first 10 chars
+    for fmt in ("%m/%d/%Y", "%Y-%m-%d"):
+        try:
+            dt = datetime.strptime(str(d).strip()[:10], fmt)
+            return str(max(1, (datetime.now()-dt).days // 30))
+        except:
+            pass
+    return "--"
 
 def main():
     print("="*50)
@@ -70,7 +91,6 @@ def main():
 
     print("A fazer login no myfxbook...")
     try:
-        # Sem Session() — login puro, guardar cookies da resposta
         r = requests.get(
             f"{API_BASE}/login.json",
             params={"email": email, "password": pw},
@@ -79,31 +99,29 @@ def main():
         )
         r.raise_for_status()
         d = r.json()
-        login_cookies = r.cookies  # cookies de sessao retornados pelo servidor
+        login_cookies = r.cookies
     except Exception as e:
-        print(f"ERRO login: {e}"); sys.exit(1)
+        print(f"ERRO login: {e}")
+        sys.exit(1)
 
     if d.get("error"):
-        print(f"Login falhou: {d.get('message')}"); sys.exit(1)
+        print(f"Login falhou: {d.get('message')}")
+        sys.exit(1)
 
-    # myfxbook por vezes retorna o token ja URL-encoded (ex: %2B em vez de +)
-    # Se nao fizer unquote, o requests faz double-encoding e o servidor rejeita
     from urllib.parse import unquote
     token = unquote(d["session"])
     print(f"Login OK. Token: {token[:8]}...")
     print(f"Cookies recebidos: {list(login_cookies.keys())}")
 
-    # XSRF-TOKEN: o myfxbook usa Angular que exige este cookie como header
-    # O browser faz isso automaticamente; nos temos de fazer manualmente
     xsrf = login_cookies.get("XSRF-TOKEN", "")
-    request_headers = {**HEADERS}
+    request_headers = dict(HEADERS)
     if xsrf:
         request_headers["X-XSRF-TOKEN"] = xsrf
-        print(f"XSRF-TOKEN encontrado, a adicionar como header.")
+        print("XSRF-TOKEN encontrado, a adicionar como header.")
 
     print("A buscar contas...")
+    adata = None
     try:
-        # Passar token + cookies + header XSRF — myfxbook valida os tres
         r2 = requests.get(
             f"{API_BASE}/get-my-accounts.json",
             params={"session": token},
@@ -115,22 +133,94 @@ def main():
         adata = r2.json()
         print(f"Resposta: {adata.get('error')} | {adata.get('message','')}")
     except Exception as e:
-        print(f"ERRO contas: {e}"); sys.exit(1)
+        print(f"ERRO contas: {e}")
+        sys.exit(1)
     finally:
         try:
-            requests.get(f"{API_BASE}/logout.json",
-                         params={"session": token},
-                         cookies=login_cookies,
-                         headers=request_headers, timeout=5)
-        except: pass
+            requests.get(
+                f"{API_BASE}/logout.json",
+                params={"session": token},
+                cookies=login_cookies,
+                headers=request_headers,
+                timeout=5
+            )
+        except:
+            pass
 
     if adata.get("error"):
-        print(f"ERRO: {adata.get('message')}"); sys.exit(1)
+        print(f"ERRO: {adata.get('message')}")
+        sys.exit(1)
 
-    accounts = adata.get("accounts",[])
+    accounts = adata.get("accounts", [])
     if not accounts:
-        print("Nenhuma conta encontrada."); sys.exit(1)
+        print("Nenhuma conta encontrada.")
+        sys.exit(1)
 
     print(f"Contas: {len(accounts)}")
     for a in accounts:
-        print(f"  ID={a.get('id')}
+        print(f"  ID={a.get('id')} | {a.get('name')} | gain={a.get('gain')}")
+
+    acc = next((a for a in accounts if str(a.get("id")) == str(ACCOUNT_ID)), accounts[0])
+
+    # DEBUG: print all fields so we know what's available
+    print("\n--- Campos disponíveis para a conta RYCX AXI ---")
+    for k, v in acc.items():
+        print(f"  {k}: {v}")
+    print("---")
+
+    # Trades: try wonTrades+lostTrades, then longTrades+shortTrades
+    won  = int(acc.get("wonTrades", 0) or 0)
+    lost = int(acc.get("lostTrades", 0) or 0)
+    total_trades = won + lost
+    if total_trades == 0:
+        long_t  = int(acc.get("longTrades", 0) or 0)
+        short_t = int(acc.get("shortTrades", 0) or 0)
+        total_trades = long_t + short_t
+        won = long_t  # use as proxy if no won/lost split
+
+    # Winrate: try direct percentage field first
+    wr_pct = acc.get("wonTradesPercent") or acc.get("profitableTradesPercent")
+    if wr_pct and float(wr_pct) > 0:
+        winrate = fmt_wr_pct(wr_pct)
+    elif won + lost > 0:
+        winrate = fmt_wr(won, won + lost)
+    else:
+        # Try to get from public stats endpoint
+        winrate = "--"
+
+    # Months: try firstTradeDate then creationDate then tracking
+    date_field = (acc.get("firstTradeDate") or
+                  acc.get("creationDate") or
+                  acc.get("tracking") or "")
+    months = months_since(date_field)
+
+    # Profit factor
+    pf_raw = acc.get("profitFactor")
+    if pf_raw and float(pf_raw) > 0:
+        profit_factor = f"{float(pf_raw):.2f}"
+    else:
+        profit_factor = "--"
+
+    stats = {
+        "gain":          fmt_gain(acc.get("gain", 0)),
+        "months":        months,
+        "winrate":       winrate,
+        "drawdown":      fmt_dd(acc.get("drawdown", 0)),
+        "trades":        str(total_trades) if total_trades > 0 else "--",
+        "profit_factor": profit_factor,
+        "balance":       f"${float(acc.get('balance', 0)):,.2f}",
+        "profit":        f"${float(acc.get('profit', 0)):,.2f}",
+        "last_updated":  datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "account_name":  acc.get("name", "RICX"),
+        "currency":      acc.get("currency", "USD"),
+    }
+
+    with open(OUTPUT, "w", encoding="utf-8") as f:
+        json.dump(stats, f, indent=2, ensure_ascii=False)
+
+    print("\nstats.json atualizado\!")
+    print(json.dumps(stats, indent=2, ensure_ascii=False))
+    print("\nConcluido\!")
+
+if __name__ == "__main__":
+    main()

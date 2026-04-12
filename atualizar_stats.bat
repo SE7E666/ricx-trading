@@ -53,17 +53,75 @@ if errorlevel 1 (
 )
 
 echo.
-echo  A publicar no site...
-git add stats.json
-git diff --staged --quiet && (
-    echo  Nenhuma alteracao nos stats.
-) || (
-    git commit -m "chore: atualizar stats myfxbook"
-    git push
+echo  A publicar stats.json no GitHub...
+%PYTHON% -c "
+import json, base64, os, sys
+
+# Ler .env
+env = {}
+with open('.env') as f:
+    for line in f:
+        line = line.strip()
+        if '=' in line and not line.startswith('#'):
+            k, v = line.split('=', 1)
+            env[k.strip()] = v.strip()
+
+token = env.get('GITHUB_TOKEN', '')
+repo  = env.get('GITHUB_REPO', 'SE7E666/ricx-trading')
+
+if not token:
+    print('  ERRO: GITHUB_TOKEN nao encontrado no .env')
+    sys.exit(1)
+
+try:
+    import requests
+except ImportError:
+    print('  ERRO: requests nao instalado')
+    sys.exit(1)
+
+headers = {
+    'Authorization': f'token {token}',
+    'Accept': 'application/vnd.github.v3+json'
+}
+
+# Ler stats.json local
+with open('stats.json', 'rb') as f:
+    content = base64.b64encode(f.read()).decode()
+
+# Obter SHA atual do ficheiro no GitHub (necessario para update)
+url = f'https://api.github.com/repos/{repo}/contents/stats.json'
+r = requests.get(url, headers=headers)
+sha = r.json().get('sha', '') if r.status_code == 200 else ''
+
+# Fazer update via API
+body = {
+    'message': 'chore: atualizar stats myfxbook',
+    'content': content,
+}
+if sha:
+    body['sha'] = sha
+
+r2 = requests.put(url, headers=headers, json=body)
+if r2.status_code in (200, 201):
+    print('  Stats publicados com sucesso\!')
+else:
+    print(f'  ERRO ao publicar: {r2.status_code} {r2.json().get(\"message\",\"\")}')
+    sys.exit(1)
+"
+
+if errorlevel 1 (
     echo.
-    echo  SUCESSO\! Site atualizado em:
-    echo  https://se7e666.github.io/ricx-trading/
+    echo  ERRO ao publicar no GitHub.
+    echo  Verifica se o GITHUB_TOKEN no .env e valido.
+    echo.
+    pause
+    exit /b 1
 )
 
+echo.
+echo  =========================================
+echo   SUCESSO\! Site atualizado em:
+echo   https://se7e666.github.io/ricx-trading/
+echo  =========================================
 echo.
 pause
