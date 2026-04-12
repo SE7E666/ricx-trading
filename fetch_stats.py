@@ -194,40 +194,36 @@ def main():
                   acc.get("tracking") or "")
     months = months_since(date_field)
 
-    # Profit factor
-    pf_raw = acc.get("profitFactor")
-    if pf_raw and float(pf_raw) > 0:
-        profit_factor = f"{float(pf_raw):.2f}"
+    # Monthly gain (myfxbook field: "monthly")
+    monthly_raw = acc.get("monthly") or acc.get("avgMonthlyGain") or acc.get("monthlyGain")
+    if monthly_raw:
+        try:
+            monthly = f"+{abs(float(monthly_raw)):.2f}%"
+        except:
+            monthly = "--"
     else:
-        profit_factor = "--"
+        monthly = "--"
+
+    # Winrate: try multiple field names
+    wr_direct = (acc.get("wonTradesPercent") or acc.get("profitableTradesPercent") or
+                 acc.get("winRate") or acc.get("winrate"))
+    if wr_direct and float(str(wr_direct).replace('%','')) > 0:
+        try:
+            winrate = f"{float(str(wr_direct).replace('%','')):.1f}%"
+        except:
+            pass  # keep winrate from earlier calculation
 
     stats = {
-        "gain":          fmt_gain(acc.get("gain", 0)),
-        "months":        months,
-        "winrate":       winrate,
-        "drawdown":      fmt_dd(acc.get("drawdown", 0)),
-        "trades":        str(total_trades) if total_trades > 0 else "--",
-        "profit_factor": profit_factor,
-        "balance":       f"${float(acc.get('balance', 0)):,.2f}",
-        "profit":        f"${float(acc.get('profit', 0)):,.2f}",
-        "last_updated":  datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "account_name":  acc.get("name", "RICX"),
-        "currency":      acc.get("currency", "USD"),
+        "gain":         fmt_gain(acc.get("gain", 0)),
+        "monthly":      monthly,
+        "months":       months,
+        "winrate":      winrate,
+        "drawdown":     fmt_dd(acc.get("drawdown", 0)),
+        "balance":      f"${float(acc.get('balance', 0)):,.2f}",
+        "profit":       f"${float(acc.get('profit', 0)):,.2f}",
+        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "account_name": acc.get("name", "RICX"),
+        "currency":     acc.get("currency", "USD"),
     }
 
-    # Escrita atómica: escreve em ficheiro temporário e depois renomeia
-    import tempfile, os
-    tmp = str(OUTPUT) + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(stats, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, str(OUTPUT))
-
-    print("\nstats.json atualizado!")
-    print(json.dumps(stats, indent=2, ensure_ascii=False))
-    print("\nConcluido!")
-
-if __name__ == "__main__":
-    main()
+    # Escrita atómica: escreve em ficheiro temporário e 

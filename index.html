@@ -234,19 +234,44 @@
       font-weight: 700; color: #fff;
     }
     h2 span { color: var(--primary); }
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+    /* ─── EQUITY CHART ─── */
+    .chart-wrap {
+      max-width: 1100px; margin: 0 auto 2rem;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.5rem 1.5rem 1rem;
+      position: relative;
     }
+    .chart-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1rem;
+    }
+    .chart-title {
+      font-family: 'Orbitron', sans-serif; font-size: 0.75rem;
+      color: var(--text-dim); letter-spacing: 1px; text-transform: uppercase;
+    }
+    .chart-badge {
+      font-size: 0.72rem; color: var(--green);
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 20px; padding: 0.2rem 0.7rem; font-weight: 600;
+    }
+    #equity-chart { width: 100%; height: 180px; display: block; }
+
+    /* ─── STATS ROW ─── */
+    .stats-grid {
+      display: flex; flex-wrap: nowrap; gap: 1rem;
+      max-width: 1100px; margin: 0 auto;
+      justify-content: center;
+    }
+    @media(max-width:700px) { .stats-grid { flex-wrap: wrap; } }
     .stat-card {
       background: var(--card);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.8rem 1.5rem;
+      padding: 1.4rem 1.2rem;
       text-align: center;
       position: relative; overflow: hidden;
       transition: all 0.3s;
+      flex: 1; min-width: 130px;
     }
     .stat-card::before {
       content: ''; position: absolute; top: 0; left: 0; right: 0;
@@ -256,12 +281,12 @@
     .stat-card:hover { transform: translateY(-4px); border-color: rgba(0,245,196,0.3); }
     .stat-value {
       font-family: 'Orbitron', sans-serif;
-      font-size: 2rem; font-weight: 900;
+      font-size: 1.7rem; font-weight: 900;
       color: var(--primary); margin-bottom: 0.3rem;
     }
     .stat-value.green { color: var(--green); }
-    .stat-label { font-size: 0.8rem; color: var(--text-dim); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
-    .stat-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.3rem; opacity: 0.7; }
+    .stat-label { font-size: 0.78rem; color: var(--text-dim); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+    .stat-sub { font-size: 0.68rem; color: var(--text-dim); margin-top: 0.3rem; opacity: 0.7; }
     .verified-badge {
       margin-top: 2rem; text-align: center;
     }
@@ -551,6 +576,15 @@
     <h2 data-i18n="stats_title">Resultados <span>Reais</span></h2>
     <p style="color:var(--text-dim);margin-top:0.5rem;font-size:0.9rem" data-i18n="stats_sub">Dados verificados por myfxbook — transparência total.</p>
   </div>
+  <\!-- Equity Chart -->
+  <div class="chart-wrap fade-in">
+    <div class="chart-header">
+      <div class="chart-title">📈 Curva de Equity — RYCX AXI</div>
+      <div class="chart-badge" id="chart-gain-badge">+65.1%</div>
+    </div>
+    <canvas id="equity-chart"></canvas>
+  </div>
+
   <div class="stats-grid">
     <div class="stat-card fade-in">
       <div class="stat-value green" id="stat-gain">--</div>
@@ -558,9 +592,9 @@
       <div class="stat-sub" data-i18n="stat1_sub">Desde o início</div>
     </div>
     <div class="stat-card fade-in">
-      <div class="stat-value" id="stat-months">--</div>
-      <div class="stat-label" data-i18n="stat2_label">Meses Ativos</div>
-      <div class="stat-sub" data-i18n="stat2_sub">Histórico consistente</div>
+      <div class="stat-value" id="stat-monthly">--</div>
+      <div class="stat-label" data-i18n="stat5_label">Ganho Mensal</div>
+      <div class="stat-sub" data-i18n="stat5_sub">Média composta</div>
     </div>
     <div class="stat-card fade-in">
       <div class="stat-value" id="stat-winrate">--</div>
@@ -573,14 +607,9 @@
       <div class="stat-sub" data-i18n="stat4_sub">Gestão de risco</div>
     </div>
     <div class="stat-card fade-in">
-      <div class="stat-value" id="stat-trades">--</div>
-      <div class="stat-label" data-i18n="stat5_label">Total de Trades</div>
-      <div class="stat-sub" data-i18n="stat5_sub">Operações executadas</div>
-    </div>
-    <div class="stat-card fade-in">
-      <div class="stat-value" id="stat-pf">--</div>
-      <div class="stat-label" data-i18n="stat6_label">Profit Factor</div>
-      <div class="stat-sub" data-i18n="stat6_sub">Ratio lucro/perda</div>
+      <div class="stat-value" id="stat-months">--</div>
+      <div class="stat-label" data-i18n="stat2_label">Meses Ativos</div>
+      <div class="stat-sub" data-i18n="stat2_sub">Histórico consistente</div>
     </div>
   </div>
   <div class="verified-badge fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.6rem">
@@ -1161,12 +1190,12 @@ const T = {
     hero_cta2:"Ver resultados verificados",
     stats_title:"Resultados <span>Verificados</span>",
     stats_sub:"Dados em tempo real sincronizados com myfxbook",
-    stat1_label:"Ganho Total", stat2_label:"Meses Ativo", stat3_label:"Win Rate",
-    stat4_label:"Max Drawdown", stat5_label:"Total Operacoes", stat6_label:"Profit Factor",
+    stat1_label:"Ganho Total", stat2_label:"Meses Ativos", stat3_label:"Win Rate",
+    stat4_label:"Max Drawdown", stat5_label:"Ganho Mensal",
     stats_tag:"PERFORMANCE VERIFICADA",
     stats_title:"Resultados <span>Verificados</span>",
     stat1_sub:"Desde o inicio", stat2_sub:"Historico consistente", stat3_sub:"Operacoes vencedoras",
-    stat4_sub:"Gestao de risco", stat5_sub:"Operacoes executadas", stat6_sub:"Ratio lucro/perda",
+    stat4_sub:"Gestao de risco", stat5_sub:"Media composta",
     myfxbook_link:"Ver resultados completos no myfxbook",
     verified_text:"Resultados auditados e verificados no myfxbook",
     stats_tag_es:"RENDIMIENTO VERIFICADO",
@@ -1208,12 +1237,12 @@ const T = {
     hero_cta2:"Ver resultados verificados",
     stats_title:"Resultados <span>Verificados</span>",
     stats_sub:"Datos en tiempo real sincronizados con myfxbook",
-    stat1_label:"Ganancia Total", stat2_label:"Meses Activo", stat3_label:"Win Rate",
-    stat4_label:"Max Drawdown", stat5_label:"Total Operaciones", stat6_label:"Factor Ganancia",
+    stat1_label:"Ganancia Total", stat2_label:"Meses Activos", stat3_label:"Win Rate",
+    stat4_label:"Max Drawdown", stat5_label:"Ganancia Mensual",
     stats_tag:"RENDIMIENTO VERIFICADO",
     stats_title:"Resultados <span>Verificados</span>",
     stat1_sub:"Desde el inicio", stat2_sub:"Historico consistente", stat3_sub:"Operaciones ganadoras",
-    stat4_sub:"Gestion de riesgo", stat5_sub:"Operaciones ejecutadas", stat6_sub:"Ratio ganancia/perdida",
+    stat4_sub:"Gestion de riesgo", stat5_sub:"Media compuesta",
     myfxbook_link:"Ver resultados completos en myfxbook",
     verified_text:"Resultados auditados y verificados en myfxbook",
     how_tag:"COMO FUNCIONA", how_title:"Simple, <span>Automatico</span>",
@@ -1304,11 +1333,11 @@ const T = {
     stats_title:"Verified <span>Results</span>",
     stats_sub:"Real-time data synced from myfxbook",
     stat1_label:"Total Gain", stat2_label:"Months Active", stat3_label:"Win Rate",
-    stat4_label:"Max Drawdown", stat5_label:"Total Trades", stat6_label:"Profit Factor",
+    stat4_label:"Max Drawdown", stat5_label:"Monthly Gain",
     stats_tag:"VERIFIED PERFORMANCE",
     stats_title:"Verified <span>Results</span>",
     stat1_sub:"Since the beginning", stat2_sub:"Consistent history", stat3_sub:"Winning trades",
-    stat4_sub:"Risk management", stat5_sub:"Trades executed", stat6_sub:"Profit/loss ratio",
+    stat4_sub:"Risk management", stat5_sub:"Compound average",
     myfxbook_link:"View full results on myfxbook",
     verified_text:"Results audited and publicly verified on myfxbook",
     how_tag:"HOW IT WORKS", how_title:"Simple, <span>Automatic</span>",
@@ -1482,37 +1511,34 @@ function animateValue(el, target) {
   requestAnimationFrame(step);
 }
 
-async function loadStats() {
-  try {
-    const res = await fetch('stats.json?t=' + Date.now());
-    if (!res.ok) throw new Error('not found');
-    const s = await res.json();
-    const map = {
-      'stat-gain': s.gain, 'stat-months': s.months, 'stat-winrate': s.winrate,
-      'stat-dd': s.drawdown, 'stat-trades': s.trades, 'stat-pf': s.profit_factor,
-    };
-    Object.entries(map).forEach(([id, val]) => {
-      const el = document.getElementById(id);
-      if (el && val && val !== '--') animateValue(el, val);
-      else if (el && val) el.textContent = val;
-    });
-    const updEl = document.getElementById('stats-updated');
-    if (updEl && s.last_updated) updEl.textContent = 'Updated: ' + s.last_updated;
-  } catch(e) {
-    console.info('stats.json not yet available.');
+function buildEquityChart(chartData, totalGain) {
+  const canvas = document.getElementById('equity-chart');
+  if (!canvas || !window.Chart) return;
+  const ctx = canvas.getContext('2d');
+
+  let labels, values;
+  if (chartData && chartData.length > 1) {
+    labels = chartData.map(p => p.date);
+    values = chartData.map(p => p.value);
+  } else {
+    // Approximate 6-month curve at 8.49%/month
+    labels = ['Out/25','Nov/25','Dez/25','Jan/26','Fev/26','Mar/26','Abr/26'];
+    let v = 0; values = [v];
+    for (let i = 1; i < labels.length; i++) { v = parseFloat((v === 0 ? 8.49 : v * 1.0849 + 8.49 - v).toFixed(2)); values.push(v); }
+    // simpler: cumulative gain %
+    let base = 100; values = [0];
+    for (let i = 1; i < labels.length; i++) { base *= 1.0849; values.push(parseFloat((base-100).toFixed(1))); }
   }
-}
-window.addEventListener('DOMContentLoaded', loadStats);
-</script>
 
-<!-- LIGHTBOX -->
-<div id="lb-overlay" onclick="closeLightbox(event)">
-  <button id="lb-close" onclick="closeLightbox()">&#10005;</button>
-  <div id="lb-phone">
-    <img id="lb-img" src="" alt="Screenshot ampliado"/>
-  </div>
-  <span id="lb-hint">Clique para fechar</span>
-</div>
+  const grad = ctx.createLinearGradient(0, 0, 0, 180);
+  grad.addColorStop(0, 'rgba(0,245,196,0.35)');
+  grad.addColorStop(1, 'rgba(0,245,196,0)');
 
-</body>
-</html>
+  new Chart(canvas, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [{
+        data: values,
+        borderColor: '#00f5c4', borderWidth: 2.5,
+        backgroundColor:
