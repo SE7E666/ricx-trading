@@ -215,12 +215,19 @@ def main():
         "currency":      acc.get("currency", "USD"),
     }
 
-    with open(OUTPUT, "w", encoding="utf-8") as f:
+    # Escrita atómica: escreve em ficheiro temporário e depois renomeia
+    import tempfile, os
+    tmp = str(OUTPUT) + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(stats, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+        f.flush()
+        os.fsync(f.fileno())
+    os.replace(tmp, str(OUTPUT))
 
-    print("\nstats.json atualizado\!")
+    print("\nstats.json atualizado!")
     print(json.dumps(stats, indent=2, ensure_ascii=False))
-    print("\nConcluido\!")
+    print("\nConcluido!")
 
 if __name__ == "__main__":
     main()
