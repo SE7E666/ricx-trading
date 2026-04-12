@@ -24,7 +24,7 @@ jobs:
         run: pip install requests
 
       - name: Run fetch_stats
-        run: python fetch_stats.py
+        run: python fetch_stats.py || echo "Stats fetch failed - keeping existing stats.json"
         env:
           MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
           MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD }}
