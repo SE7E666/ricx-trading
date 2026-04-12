@@ -1264,7 +1264,7 @@ function toggleFaq(el) {
 // ─── LIGHTBOX ───
 function openLightbox(phoneDiv) {
   const img = phoneDiv.querySelector('img');
-  if (\!img) return;
+  if (!img) return;
   document.getElementById('lb-img').src = img.src;
   document.getElementById('lb-img').alt = img.alt;
   const overlay = document.getElementById('lb-overlay');
