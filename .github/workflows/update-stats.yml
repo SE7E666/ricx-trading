@@ -1,12 +1,9 @@
-name: 📊 Atualizar Stats myfxbook
+name: Atualizar Stats myfxbook
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # Todos os dias às 08:00 UTC
-  workflow_dispatch:        # Permite executar manualmente
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    - cron: '0 8 * * *'
+  workflow_dispatch:
 
 jobs:
   update-stats:
@@ -15,27 +12,34 @@ jobs:
       contents: write
 
     steps:
-      - name: 📥 Baixar repositório
+      - name: Baixar repositório
         uses: actions/checkout@v4
 
-      - name: 🐍 Configurar Python
+      - name: Configurar Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: 📦 Instalar dependências
+      - name: Instalar dependências
         run: pip install requests
 
-      - name: 🔍 Verificar se secrets estão configurados
-        id: check_secrets
+      - name: Verificar secrets
+        id: check
         run: |
-          if [ -z "${{ secrets.MYFXBOOK_EMAIL }}" ] || [ -z "${{ secrets.MYFXBOOK_PASSWORD }}" ]; then
-            echo "configured=false" >> $GITHUB_OUTPUT
-            echo "⚠️ Secrets MYFXBOOK_EMAIL / MYFXBOOK_PASSWORD não configurados. A saltar atualização."
+          if [ -z "$MYFXBOOK_EMAIL" ] || [ -z "$MYFXBOOK_PASSWORD" ]; then
+            echo "ok=false" >> $GITHUB_OUTPUT
+            echo "Secrets nao configurados — a saltar."
           else
-            echo "configured=true" >> $GITHUB_OUTPUT
-            echo "✅ Secrets encontrados. A executar script..."
+            echo "ok=true" >> $GITHUB_OUTPUT
+            echo "Secrets encontrados!"
           fi
+        env:
+          MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
+          MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD }}
 
-      - name: 🔄 Executar script de atualização
-        if: steps.check_sec
+      - name: Executar fetch_stats.py
+        if: steps.check.outputs.ok == 'true'
+        run: python fetch_stats.py
+        env:
+          MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
+          MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD 
