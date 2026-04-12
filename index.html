@@ -1011,4 +1011,265 @@
       <div class="faq-a" data-i18n="faq3_a">O RICX cobra uma taxa de 10% sobre os lucros gerados. Essa taxa só é cobrada quando há lucro — se não houver ganho, não há cobrança. A taxa é gerenciada automaticamente pela plataforma Axi.</div>
     </div>
     <div class="faq-item fade-in">
-      <div class="
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq4_q">O meu dinheiro fica na minha conta?</span>
+        <span class="faq-chevron">&#9662;</span>
+      </div>
+      <div class="faq-a" data-i18n="faq4_a">Sim. Os seus fundos permanecem sempre na sua conta pessoal Axi. O RICX apenas envia sinais de trading — nunca tem acesso direto ao seu dinheiro.</div>
+    </div>
+    <div class="faq-item fade-in">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq5_q">Que par de divisas opera o RICX?</span>
+        <span class="faq-chevron">&#9662;</span>
+      </div>
+      <div class="faq-a" data-i18n="faq5_a">O RICX opera principalmente o par XAU/USD (Ouro vs Dolar) com possibilidade de incorporar outros pares de sua preferencia, utilizando estrategias de price action e gestao de risco avancada.</div>
+    </div>
+    <div class="faq-item fade-in">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq6_q">Posso desconectar quando quiser?</span>
+        <span class="faq-chevron">&#9662;</span>
+      </div>
+      <div class="faq-a" data-i18n="faq6_a">Sim, pode desconectar do RICX a qualquer momento diretamente pela app Axi, sem penalizacoes. Os seus fundos continuam na sua conta.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta" style="text-align:center;padding:6rem 2rem;">
+  <div class="glow-orb orb1" style="opacity:0.5"></div>
+  <div class="cta-title fade-in" data-i18n="cta_title">Pronto para comecar <span>a lucrar?</span></div>
+  <p class="cta-sub fade-in" data-i18n="cta_sub">Conecte-se ao RICX hoje e deixe o robot fazer o trabalho por voce.</p>
+  <div class="cta-group fade-in">
+    <a class="btn-primary" href="https://axicom.onelink.me/MfaL?af_sub1=profile%3A735535&af_referrer_customer_id=735535&c=refer_strategy&af_referrer_name=profile%3A735535&af_referrer_uid=1774170860911-3932322813370004410&pid=af_app_invites&af_channel=mobile_invite&deep_link_sub1=2075100&deep_link_sub2=735535&af_siteid=com.axi.pelican&deep_link_value=strategy" target="_blank" rel="noopener" data-i18n="hero_cta">Conectar ao RICX</a>
+    <a class="btn-secondary" href="https://www.myfxbook.com/members/RIppeR_SE7E/rycx-axi/11746315" target="_blank" rel="noopener" data-i18n="hero_cta2">Ver resultados verificados</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:var(--bg2);border-top:1px solid var(--border);padding:2rem;text-align:center;color:var(--text-dim);font-size:0.82rem;">
+  <div style="font-family:'Orbitron',sans-serif;font-size:1.1rem;font-weight:900;color:var(--primary);letter-spacing:2px;margin-bottom:0.5rem;">RICX <span style="color:var(--text)">BOT</span></div>
+  <p data-i18n="footer_risk">Trading envolve risco. Resultados passados nao garantem resultados futuros. Invista apenas o que pode perder.</p>
+  <p style="margin-top:0.5rem;">&#169; 2025 RICX Trading &mdash; Powered by <a href="https://www.axi.com" style="color:var(--primary);text-decoration:none;">Axi CopyTrading</a></p>
+</footer>
+
+<script>
+// ─── TRANSLATIONS ───
+const T = {
+  pt: {
+    nav_stats:"Estatísticas", nav_how:"Como Funciona", nav_tutorial:"Tutorial", nav_faq:"FAQ",
+    hero_badge:"Verificado no myfxbook",
+    hero_title:"O Robot que <span>Opera por Você</span>",
+    hero_sub:"Conecte-se ao RICX na app Axi e deixe a automacao trabalhar 24/7. Resultados reais, verificados e transparentes.",
+    hero_cta:"Conectar ao RICX",
+    hero_cta2:"Ver resultados verificados",
+    stats_title:"Resultados <span>Verificados</span>",
+    stats_sub:"Dados em tempo real sincronizados com myfxbook",
+    stat1_label:"Ganho Total", stat2_label:"Meses Ativo", stat3_label:"Win Rate",
+    stat4_label:"Max Drawdown", stat5_label:"Total Operacoes", stat6_label:"Profit Factor",
+    how_tag:"COMO FUNCIONA", how_title:"Simples, <span>Automatico</span>",
+    how1_title:"Voce Deposita", how1_desc:"Abre conta na Axi e deposita o capital.",
+    how2_title:"Voce Copia", how2_desc:"Liga o RICX na app e define o risco.",
+    how3_title:"RICX Opera", how3_desc:"O robot opera 24/7. Voce acompanha os lucros.",
+    tut_tag:"TUTORIAL PASSO A PASSO",
+    tut_title:"Como <span>conectar-se</span>",
+    tab1:"Criar Conta", tab2:"Vincular Broker", tab3:"Copiar RICX",
+    vid_tag:"VIDEO TUTORIAL",
+    vid_title:"Veja como <span>funciona</span>",
+    vid_sub:"Tutorial completo em video para voce nao perder nenhum passo.",
+    faq_tag:"DUVIDAS FREQUENTES",
+    faq_title:"FAQ — <span>Perguntas</span>",
+    faq1_q:"O RICX e um robot 100% automatico?",
+    faq1_a:"Sim. O RICX opera de forma completamente automatizada 24/7, todos os dias. Voce nao precisa fazer nada — basta estar conectado na plataforma Axi.",
+    faq2_q:"Qual e o valor minimo para investir?",
+    faq2_a:"O valor minimo recomendado e de $1.500 USD para que a gestao de risco funcione corretamente.",
+    faq3_q:"Como funciona a taxa de performance?",
+    faq3_a:"O RICX cobra uma taxa de 10% sobre os lucros gerados. So e cobrada quando ha lucro.",
+    faq4_q:"O meu dinheiro fica na minha conta?",
+    faq4_a:"Sim. Os seus fundos permanecem sempre na sua conta pessoal Axi. O RICX apenas envia sinais de trading.",
+    faq5_q:"Que par de divisas opera o RICX?",
+    faq5_a:"O RICX opera principalmente XAU/USD (Ouro) com estrategias de price action e gestao de risco avancada.",
+    faq6_q:"Posso desconectar quando quiser?",
+    faq6_a:"Sim, pode desconectar a qualquer momento pela app Axi, sem penalizacoes.",
+    cta_title:"Pronto para comecar <span>a lucrar?</span>",
+    cta_sub:"Conecte-se ao RICX hoje e deixe o robot fazer o trabalho por voce.",
+    footer_risk:"Trading envolve risco. Resultados passados nao garantem resultados futuros.",
+    verified_text:"Resultados auditados e verificados publicamente no myfxbook",
+  },
+  es: {
+    nav_stats:"Estadísticas", nav_how:"Como Funciona", nav_tutorial:"Tutorial", nav_faq:"FAQ",
+    hero_badge:"Verificado en myfxbook",
+    hero_title:"El Robot que <span>Opera por Ti</span>",
+    hero_sub:"Conectate al RICX en la app Axi y deja que la automatizacion trabaje 24/7. Resultados reales, verificados y transparentes.",
+    hero_cta:"Conectar al RICX",
+    hero_cta2:"Ver resultados verificados",
+    stats_title:"Resultados <span>Verificados</span>",
+    stats_sub:"Datos en tiempo real sincronizados con myfxbook",
+    stat1_label:"Ganancia Total", stat2_label:"Meses Activo", stat3_label:"Win Rate",
+    stat4_label:"Max Drawdown", stat5_label:"Total Operaciones", stat6_label:"Factor Ganancia",
+    how_tag:"COMO FUNCIONA", how_title:"Simple, <span>Automatico</span>",
+    how1_title:"Tu Depositas", how1_desc:"Abre cuenta en Axi y deposita tu capital.",
+    how2_title:"Tu Copias", how2_desc:"Activa el RICX en la app y define el riesgo.",
+    how3_title:"RICX Opera", how3_desc:"El robot opera 24/7. Tu solo miras las ganancias.",
+    tut_tag:"TUTORIAL PASO A PASO",
+    tut_title:"Como <span>conectarse</span>",
+    tab1:"Crear Cuenta", tab2:"Vincular Broker", tab3:"Copiar RICX",
+    vid_tag:"VIDEO TUTORIAL",
+    vid_title:"Mira como <span>funciona</span>",
+    vid_sub:"Tutorial completo en video para que no te pierdas ningun paso.",
+    faq_tag:"PREGUNTAS FRECUENTES",
+    faq_title:"FAQ — <span>Preguntas</span>",
+    faq1_q:"El RICX es un robot 100% automatico?",
+    faq1_a:"Si. El RICX opera de forma completamente automatizada 24/7. No necesitas hacer nada.",
+    faq2_q:"Cual es el valor minimo para invertir?",
+    faq2_a:"El valor minimo recomendado es de $1.500 USD para que la gestion de riesgo funcione correctamente.",
+    faq3_q:"Como funciona la comision de rendimiento?",
+    faq3_a:"El RICX cobra un 10% sobre las ganancias generadas. Solo se cobra cuando hay ganancia.",
+    faq4_q:"Mi dinero permanece en mi cuenta?",
+    faq4_a:"Si. Tus fondos permanecen siempre en tu cuenta personal Axi. El RICX solo envia senales.",
+    faq5_q:"Que par de divisas opera el RICX?",
+    faq5_a:"El RICX opera principalmente XAU/USD (Oro) con estrategias de price action y gestion de riesgo avanzada.",
+    faq6_q:"Puedo desconectarme cuando quiera?",
+    faq6_a:"Si, puedes desconectarte en cualquier momento desde la app Axi, sin penalizaciones.",
+    cta_title:"Listo para empezar <span>a ganar?</span>",
+    cta_sub:"Conectate al RICX hoy y deja que el robot trabaje por ti.",
+    footer_risk:"El trading implica riesgo. Los resultados pasados no garantizan resultados futuros.",
+    verified_text:"Resultados auditados y verificados publicamente en myfxbook",
+  },
+  en: {
+    nav_stats:"Statistics", nav_how:"How It Works", nav_tutorial:"Tutorial", nav_faq:"FAQ",
+    hero_badge:"Verified on myfxbook",
+    hero_title:"The Robot that <span>Trades for You</span>",
+    hero_sub:"Connect to RICX on the Axi app and let automation work 24/7. Real, verified and transparent results.",
+    hero_cta:"Connect to RICX",
+    hero_cta2:"See verified results",
+    stats_title:"Verified <span>Results</span>",
+    stats_sub:"Real-time data synced from myfxbook",
+    stat1_label:"Total Gain", stat2_label:"Months Active", stat3_label:"Win Rate",
+    stat4_label:"Max Drawdown", stat5_label:"Total Trades", stat6_label:"Profit Factor",
+    how_tag:"HOW IT WORKS", how_title:"Simple, <span>Automatic</span>",
+    how1_title:"You Deposit", how1_desc:"Open an Axi account and deposit your capital.",
+    how2_title:"You Copy", how2_desc:"Enable RICX in the app and set your risk level.",
+    how3_title:"RICX Trades", how3_desc:"The robot trades 24/7. You just watch the profits.",
+    tut_tag:"STEP BY STEP TUTORIAL",
+    tut_title:"How to <span>connect</span>",
+    tab1:"Create Account", tab2:"Link Broker", tab3:"Copy RICX",
+    vid_tag:"VIDEO TUTORIAL",
+    vid_title:"See how it <span>works</span>",
+    vid_sub:"Full video tutorial so you don't miss any step.",
+    faq_tag:"FREQUENTLY ASKED QUESTIONS",
+    faq_title:"FAQ — <span>Questions</span>",
+    faq1_q:"Is RICX a 100% automatic robot?",
+    faq1_a:"Yes. RICX operates fully automated 24/7. You don't need to do anything.",
+    faq2_q:"What is the minimum investment amount?",
+    faq2_a:"The recommended minimum is $1,500 USD for the risk management to work correctly.",
+    faq3_q:"How does the performance fee work?",
+    faq3_a:"RICX charges 10% on generated profits. It is only charged when there is profit.",
+    faq4_q:"Does my money stay in my account?",
+    faq4_a:"Yes. Your funds always remain in your personal Axi account. RICX only sends trading signals.",
+    faq5_q:"What currency pairs does RICX trade?",
+    faq5_a:"RICX mainly trades XAU/USD (Gold) using price action strategies and advanced risk management.",
+    faq6_q:"Can I disconnect whenever I want?",
+    faq6_a:"Yes, you can disconnect at any time from the Axi app, with no penalties.",
+    cta_title:"Ready to start <span>profiting?</span>",
+    cta_sub:"Connect to RICX today and let the robot do the work for you.",
+    footer_risk:"Trading involves risk. Past results do not guarantee future results.",
+    verified_text:"Results audited and publicly verified on myfxbook",
+  }
+};
+
+let currentLang = 'pt';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (T[lang] && T[lang][key]) el.innerHTML = T[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+  // re-reveal in case new content appeared
+  revealInViewport();
+}
+
+function showTab(tabId, btn) {
+  document.querySelectorAll('.tut-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+  // Animate fade-ins inside the newly shown tab
+  document.querySelectorAll('#'+tabId+' .fade-in').forEach(el => {
+    el.classList.add('visible');
+  });
+}
+
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  document.querySelectorAll('.faq-a').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q => q.classList.remove('open'));
+  if (!isOpen) { answer.classList.add('open'); el.classList.add('open'); }
+}
+
+// ─── SCROLL ANIMATIONS ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// Fix: immediately show elements already visible in viewport on page load
+function revealInViewport() {
+  document.querySelectorAll('.fade-in:not(.visible)').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      el.classList.add('visible');
+    }
+  });
+}
+revealInViewport();
+setTimeout(revealInViewport, 200);
+window.addEventListener('load', revealInViewport);
+
+// ─── LOAD STATS FROM stats.json ───
+function animateValue(el, target) {
+  const num = parseFloat(target.replace(/[^0-9.-]/g, ''));
+  if (isNaN(num)) { el.textContent = target; return; }
+  let start = 0, duration = 1200, startTime = null;
+  function step(ts) {
+    if (!startTime) startTime = ts;
+    const progress = Math.min((ts - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = start + (num - start) * eased;
+    const prefix = target.startsWith('+') ? '+' : target.startsWith('-') ? '-' : '';
+    const suffix = target.replace(/[0-9.+-]/g, '');
+    el.textContent = prefix + current.toFixed(target.includes('.') ? 1 : 0) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+async function loadStats() {
+  try {
+    const res = await fetch('stats.json?t=' + Date.now());
+    if (!res.ok) throw new Error('not found');
+    const s = await res.json();
+    const map = {
+      'stat-gain': s.gain, 'stat-months': s.months, 'stat-winrate': s.winrate,
+      'stat-dd': s.drawdown, 'stat-trades': s.trades, 'stat-pf': s.profit_factor,
+    };
+    Object.entries(map).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el && val && val !== '--') animateValue(el, val);
+      else if (el && val) el.textContent = val;
+    });
+    const updEl = document.getElementById('stats-updated');
+    if (updEl && s.last_updated) updEl.textContent = 'Updated: ' + s.last_updated;
+  } catch(e) {
+    console.info('stats.json not yet available.');
+  }
+}
+window.addEventListener('DOMContentLoaded', loadStats);
+</script>
+</body>
+</html>
