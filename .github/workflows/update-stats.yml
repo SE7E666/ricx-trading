@@ -10,29 +10,34 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
     steps:
-      - name: Checkout
+      - name: Baixar repositorio
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Configurar Python 3.12
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Install deps
+      - name: Instalar dependencias
         run: pip install requests
 
-      - name: Run fetch_stats
-        run: python fetch_stats.py || echo "Stats fetch failed - keeping existing stats.json"
+      - name: Executar fetch_stats.py
+        run: python fetch_stats.py
         env:
           MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
           MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD }}
 
-      - name: Commit stats.json
+      - name: Mostrar stats.json gerado
+        run: cat stats.json
+
+      - name: Commit e push stats.json
         run: |
-          git config user.name "RICX Bot"
-          git config user.email "bot@ricx.bot"
+          git config user.name "RICX Stats Bot"
+          git config user.email "bot@ricx.trading"
           git add stats.json
-          git diff --staged --quiet || git commit -m "chore: update stats"
+          git diff --staged --quiet && echo "sem alteracoes" || git commit -m "chore: atualizar stats myfxbook"
           git push

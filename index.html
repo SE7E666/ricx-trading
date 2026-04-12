@@ -33,6 +33,33 @@
       overflow-x: hidden;
     }
 
+
+    /* ─── PHONE IMAGE HOVER ZOOM ─── */
+    .phone-wrap { position: relative; }
+    .phone { overflow: visible; cursor: zoom-in; }
+    .phone img {
+      border-radius: 25px;
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1),
+                  box-shadow 0.35s ease, z-index 0s;
+      position: relative; z-index: 1;
+    }
+    .phone:hover img {
+      transform: scale(2.4);
+      z-index: 200;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.9), 0 0 40px rgba(0,245,196,0.15);
+    }
+    /* Overlay dimmer */
+    .phone::after {
+      content:'';
+      position:fixed; inset:0;
+      background:rgba(0,0,0,0);
+      pointer-events:none; z-index:100;
+      transition: background 0.3s ease;
+    }
+    .phone:hover::after {
+      background: rgba(0,0,0,0.6);
+    }
+
     /* ─── LANGUAGE SWITCHER ─── */
     #lang-bar {
       position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
@@ -673,9 +700,9 @@
     <p style="color:var(--text-dim);margin-top:0.5rem;font-size:0.9rem" data-i18n="tut_sub">14 passos com capturas reais do app — do zero ao robot conectado.</p>
   </div>
   <div class="tabs">
-    <button class="tab-btn active" onclick="showTab('tab-account')" data-i18n="tab1">① Criar Conta</button>
-    <button class="tab-btn" onclick="showTab('tab-link')" data-i18n="tab_link">② Vincular Broker</button>
-    <button class="tab-btn" onclick="showTab('tab-ricx')" data-i18n="tab_ricx">③ Copiar RICX</button>
+    <button class="tab-btn active" onclick="showTab('tab-account', this)" data-i18n="tab1">① Criar Conta</button>
+    <button class="tab-btn" onclick="showTab('tab-link', this)" data-i18n="tab2">② Vincular Broker</button>
+    <button class="tab-btn" onclick="showTab('tab-ricx', this)" data-i18n="tab3">③ Copiar RICX</button>
   </div>
 
   <!-- TAB 1: Criar conta -->
@@ -1194,7 +1221,7 @@ function setLang(lang) {
 }
 
 function showTab(tabId, btn) {
-  document.querySelectorAll('.tut-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById(tabId).classList.add('active');
   btn.classList.add('active');
