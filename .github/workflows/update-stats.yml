@@ -12,27 +12,27 @@ jobs:
       contents: write
 
     steps:
-      - name: Baixar repositorio
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Configurar Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: Instalar dependencias
+      - name: Install deps
         run: pip install requests
 
-      - name: Executar fetch_stats.py
+      - name: Run fetch_stats
         run: python fetch_stats.py
         env:
           MYFXBOOK_EMAIL: ${{ secrets.MYFXBOOK_EMAIL }}
           MYFXBOOK_PASSWORD: ${{ secrets.MYFXBOOK_PASSWORD }}
 
-      - name: Commit e push stats.json
+      - name: Commit stats.json
         run: |
-          git config user.name "RICX Stats Bot"
-          git config user.email "bot@ricx.trading"
+          git config user.name "RICX Bot"
+          git config user.email "bot@ricx.bot"
           git add stats.json
-          git diff --staged --quiet || git commit -m "chore: atualizar stats myfxbook"
+          git diff --staged --quiet || git commit -m "chore: update stats"
           git push
