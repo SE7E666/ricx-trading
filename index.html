@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RICX Trading Bot — Axi CopyTrading</title>
+  <meta name="description" content="Conecta-se ao RICX, o robot de trading automatizado na plataforma Axi CopyTrading. Resultados verificados, tutoriais e suporte."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --primary: #00f5c4;
+      --primary-dim: #00c49a;
+      --accent: #7c3aed;
+      --accent2: #06b6d4;
+      --bg: #060b14;
+      --bg2: #0d1525;
+      --bg3: #111e35;
+      --card: #0f1c30;
+      --border: #1a2d4a;
+      --text: #e2e8f0;
+      --text-dim: #7a9ab8;
+      --green: #22c55e;
+      --red: #ef4444;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* ─── LANGUAGE SWITCHER ─── */
+    #lang-bar {
+      position: fixed; top: 0; right: 0; left: 0; z-index: 1000;
+      background: rgba(6,11,20,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.6rem 2rem;
+    }
+    .logo-bar {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--primary);
+      letter-spacing: 2px;
+    }
+    .logo-bar span { color: var(--text); }
+    .lang-btns { display: flex; gap: 0.5rem; }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+      padding: 0.25rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .lang-btn.active, .lang-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: rgba(0,245,196,0.07);
+    }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      color: var(--text-dim); text-decoration: none;
+      font-size: 0.85rem; font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--primary); }
+
+    /* ─── HERO ─── */
+    #hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem 4rem;
+      position: relative; overflow: hidden;
+      text-align: center;
+    }
+    .grid-bg {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(0,245,196,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,245,196,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+    .glow-orb {
+      position: absolute; border-radius: 50%; filter: blur(100px); pointer-events: none;
+    }
+    .orb1 { width: 500px; height: 500px; background: rgba(124,58,237,0.15); top: -100px; left: -100px; }
+    .orb2 { width: 400px; height: 400px; background: rgba(0,245,196,0.1); bottom: -50px; right: -50px; }
+    .hero-content { position: relative; z-index: 1; max-width: 800px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0,245,196,0.1); border: 1px solid rgba(0,245,196,0.3);
+      color: var(--primary); padding: 0.4rem 1rem; border-radius: 50px;
+      font-size: 0.8rem; font-weight: 600; margin-bottom: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .dot-live {
+      width: 7px; height: 7px; background: var(--primary);
+      border-radius: 50%; animation: pulse-dot 1.5s infinite;
+    }
+    @keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(1.4)} }
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 0%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-dim);
+      max-width: 580px; margin: 0 auto 2.5rem;
+      line-height: 1.7;
+    }
+    .cta-group { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent2));
+      color: #060b14; font-weight: 800; padding: 0.9rem 2rem;
+      border-radius: 8px; text-decoration: none; font-size: 1rem;
+      transition: all 0.3s; box-shadow: 0 0 30px rgba(0,245,196,0.3);
+      border: none; cursor: pointer;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,245,196,0.5); }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: transparent;
+      color: var(--text); font-weight: 600; padding: 0.9rem 2rem;
+      border-radius: 8px; text-decoration: none; font-size: 1rem;
+      border: 1px solid var(--border); transition: all 0.3s; cursor: pointer;
+    }
+    .btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ─── TICKER ─── */
+    .ticker-wrap {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      overflow: hidden; padding: 0.6rem 0;
+    }
+    .ticker-inner {
+      display: flex; gap: 3rem;
+      animation: ticker 30s linear infinite;
+      white-space: nowrap;
+    }
+    @keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .ticker-item {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.75rem; color: var(--text-dim);
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .ticker-item .up { color: var(--green); }
+    .ticker-item .down { color: var(--red); }
+
+    /* ─── STATS ─── */
+    #stats {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+    }
+    .section-label {
+      text-align: center; margin-bottom: 3rem;
+    }
+    .section-tag {
+      display: inline-block;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.3);
+      color: #a78bfa; padding: 0.3rem 1rem;
+      border-radius: 50px; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 2px; text-transform: uppercase; margin-bottom: 0.8rem;
+    }
+    h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.5rem, 4vw, 2.2rem);
+      font-weight: 700; color: #fff;
+    }
+    h2 span { color: var(--primary); }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+    }
+    .stat-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.8rem 1.5rem;
+      text-align: center;
+      position: relative; overflow: hidden;
+      transition: all 0.3s;
+    }
+    .stat-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: rgba(0,245,196,0.3); }
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem; font-weight: 900;
+      color: var(--primary); margin-bottom: 0.3rem;
+    }
+    .stat-value.green { color: var(--green); }
+    .stat-label { font-size: 0.8rem; color: var(--text-dim); font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+    .stat-sub { font-size: 0.72rem; color: var(--text-dim); margin-top: 0.3rem; opacity: 0.7; }
+    .verified-badge {
+      margin-top: 2rem; text-align: center;
+    }
+    .verified-badge a {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: var(--text-dim); text-decoration: none; font-size: 0.85rem;
+      border: 1px solid var(--border); padding: 0.5rem 1.2rem;
+      border-radius: 8px; transition: all 0.2s;
+    }
+    .verified-badge a:hover { color: var(--primary); border-color: var(--primary); }
+
+    /* ─── HOW IT WORKS ─── */
+    #how {
+      padding: 5rem 2rem;
+    }
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem; max-width: 1100px; margin: 2.5rem auto 0;
+    }
+    .how-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem 1.5rem; position: relative;
+    }
+    .how-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: rgba(0,245,196,0.1); position: absolute; top: 1rem; right: 1.2rem;
+    }
+    .how-icon {
+      font-size: 2rem; margin-bottom: 1rem;
+    }
+    .how-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .how-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+    /* ─── TUTORIAL ─── */
+    #tutorial {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+    }
+    .tabs {
+      display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 3rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      background: var(--card); border: 1px solid var(--border);
+      color: var(--text-dim); padding: 0.6rem 1.5rem;
+      border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .tab-btn.active {
+      background: rgba(0,245,196,0.1);
+      border-color: var(--primary); color: var(--primary);
+    }
+    .tab-content { display: none; max-width: 860px; margin: 0 auto; }
+    .tab-content.active { display: block; }
+    .step {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.5rem;
+      margin-bottom: 1rem; transition: all 0.2s;
+    }
+    .step:hover { border-color: rgba(0,245,196,0.25); }
+    .step-num {
+      min-width: 40px; height: 40px;
+      background: linear-gradient(135deg, var(--primary), var(--accent2));
+      color: #060b14; font-weight: 900; font-size: 1rem;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', sans-serif; flex-shrink: 0;
+    }
+    .step-body { flex: 1; }
+    .step-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.4rem; }
+    .step-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+    .step-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      margin-top: 0.8rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent2));
+      color: #060b14; font-weight: 800; padding: 0.6rem 1.4rem;
+      border-radius: 6px; text-decoration: none; font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .step-link:hover { opacity: 0.85; transform: translateY(-1px); }
+    .step-img {
+      margin-top: 1rem; border-radius: 8px;
+      border: 1px solid var(--border); width: 100%; max-width: 400px;
+      background: var(--bg3); height: 180px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); font-size: 0.8rem;
+    }
+    .tip-box {
+      background: rgba(0,245,196,0.06);
+      border: 1px solid rgba(0,245,196,0.2);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      margin-top: 0.8rem; font-size: 0.82rem; color: var(--primary);
+    }
+    .tip-box strong { display: block; margin-bottom: 0.2rem; }
+
+    /* ─── VIDEO ─── */
+    #video {
+      padding: 5rem 2rem; text-align: center;
+    }
+    .video-wrap {
+      max-width: 760px; margin: 2.5rem auto 0;
+      border-radius: 16px; overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 60px rgba(0,245,196,0.1);
+      aspect-ratio: 16/9;
+    }
+    .video-wrap iframe { width: 100%; height: 100%; border: none; }
+
+    /* ─── FAQ ─── */
+    #faq {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+    }
+    .faq-list { max-width: 760px; margin: 2.5rem auto 0; }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px; margin-bottom: 0.8rem;
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: 1.2rem 1.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      cursor: pointer; font-weight: 600; font-size: 0.95rem;
+      background: var(--card); transition: background 0.2s;
+    }
+    .faq-q:hover { background: var(--bg3); }
+    .faq-q.open { color: var(--primary); }
+    .faq-chevron { transition: transform 0.3s; font-size: 1.2rem; }
+    .faq-q.open .faq-chevron { transform: rotate(180deg); }
+    .faq-a {
+      display: none; padding: 1rem 1.5rem 1.4rem;
+      font-size: 0.88rem; color: var(--text-dim); line-height: 1.7;
+      background: var(--bg3);
+    }
+    .faq-a.open { display: block; }
+
+    /* ─── CTA FINAL ─── */
+    #cta-final {
+      padding: 6rem 2rem; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #cta-final .orb1 { width: 600px; height: 600px; left: 50%; top: 50%; transform: translate(-50%,-50%); opacity: 0.6; }
+    .cta-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 900; color: #fff; margin-bottom: 1rem; position: relative;
+    }
+    .cta-title span { color: var(--primary); }
+    .cta-sub { color: var(--text-dim); max-width: 500px; margin: 0 auto 2rem; font-size: 1rem; position: relative; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--bg); border-top: 1px solid var(--border);
+      padding: 2rem; text-align: center;
+      color: var(--text-dim); font-size: 0.8rem; line-height: 1.8;
+    }
+    footer a { color: var(--primary); text-decoration: none; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .step { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="lang-bar">
+  <div class="logo-bar">
+    <svg width="110" height="36" viewBox="0 0 110 36" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block">
+      <!-- Globe hint -->
+      <ellipse cx="42" cy="18" rx="13" ry="13" stroke="#b0bec5" stroke-width="0.6" fill="none" opacity="0.35"/>
+      <line x1="29" y1="18" x2="55" y2="18" stroke="#b0bec5" stroke-width="0.6" opacity="0.35"/>
+      <line x1="42" y1="5" x2="42" y2="31" stroke="#b0bec5" stroke-width="0.6" opacity="0.35"/>
+      <path d="M31 10 Q42 18 53 10" stroke="#b0bec5" stroke-width="0.6" fill="none" opacity="0.35"/>
+      <path d="M31 26 Q42 18 53 26" stroke="#b0bec5" stroke-width="0.6" fill="none" opacity="0.35"/>
+      <!-- X — navy bar (top-left → bottom-right) -->
+      <line x1="30" y1="4" x2="56" y2="32" stroke="#1a2d5a" stroke-width="6" stroke-linecap="round"/>
+      <!-- X — teal gradient bar (top-right → bottom-left) -->
+      <defs>
+        <linearGradient id="tealGrad" x1="56" y1="4" x2="30" y2="32" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#00c9b1"/>
+          <stop offset="100%" stop-color="#0077cc"/>
+        </linearGradient>
+      </defs>
+      <line x1="56" y1="4" x2="30" y2="32" stroke="url(#tealGrad)" stroke-width="6" stroke-linecap="round"/>
+      <!-- RICX text -->
+      <text x="0" y="25" font-family="'Orbitron',sans-serif" font-size="18" font-weight="900" fill="#1a2d5a" letter-spacing="2">R</text>
+      <text x="14" y="25" font-family="'Orbitron',sans-serif" font-size="18" font-weight="900" fill="#1a2d5a" letter-spacing="2">I</text>
+      <text x="22" y="25" font-family="'Orbitron',sans-serif" font-size="18" font-weight="900" fill="#1a2d5a" letter-spacing="2">C</text>
+      <text x="62" y="25" font-family="'Orbitron',sans-serif" font-size="18" font-weight="900" fill="#1a2d5a" letter-spacing="2">X</text>
+    </svg>
+  </div>
+  <div class="nav-links">
+    <a href="#stats" data-i18n="nav_stats">Performance</a>
+    <a href="#tutorial" data-i18n="nav_tutorial">Tutorial</a>
+    <a href="#video" data-i18n="nav_video">Vídeo</a>
+    <a href="#faq" data-i18n="nav_faq">FAQ</a>
+  </div>
+  <div class="lang-btns">
+    <button class="lang-btn active" onclick="setLang('pt')">PT</button>
+    <button class="lang-btn" onclick="setLang('es')">ES</button>
+    <button class="lang-btn" onclick="setLang('en')">EN</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="grid-bg"></div>
+  <div class="glow-orb orb1"></div>
+  <div class="glow-orb orb2"></div>
+  <div class="hero-content fade-in">
+    <!-- Hero Logo -->
+    <div style="display:flex;justify-content:center;margin-bottom:1.5rem">
+      <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Globe -->
+        <circle cx="80" cy="72" r="42" stroke="rgba(176,190,197,0.25)" stroke-width="1.2" fill="none"/>
+        <line x1="38" y1="72" x2="122" y2="72" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+        <line x1="80" y1="30" x2="80" y2="114" stroke="rgba(176,190,197,0.2)" stroke-width="1"/>
+        <path d="M45 50 Q80 72 115 50" stroke="rgba(176,190,197,0.2)" stroke-width="1" fill="none"/>
+        <path d="M45 94 Q80 72 115 94" stroke="rgba(176,190,197,0.2)" stroke-width="1" fill="none"/>
+        <path d="M58 38 Q80 72 58 106" stroke="rgba(176,190,197,0.15)" stroke-width="1" fill="none"/>
+        <path d="M102 38 Q80 72 102 106" stroke="rgba(176,190,197,0.15)" stroke-width="1" fill="none"/>
+        <!-- Glow behind X -->
+        <ellipse cx="80" cy="72" rx="32" ry="32" fill="rgba(0,201,177,0.08)"/>
+        <!-- X — navy bar -->
+        <line x1="52" y1="36" x2="108" y2="108" stroke="#1a3a6b" stroke-width="14" stroke-linecap="round"/>
+        <!-- X — teal bar -->
+        <defs>
+          <linearGradient id="heroTeal" x1="108" y1="36" x2="52" y2="108" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#00f5c4"/>
+            <stop offset="100%" stop-color="#0099e6"/>
+          </linearGradient>
+        </defs>
+        <line x1="108" y1="36" x2="52" y2="108" stroke="url(#heroTeal)" stroke-width="14" stroke-linecap="round"/>
+        <!-- RICX label -->
+        <text x="80" y="138" font-family="'Orbitron',sans-serif" font-size="22" font-weight="900" fill="white" text-anchor="middle" letter-spacing="6">RICX</text>
+        <text x="80" y="154" font-family="Inter,sans-serif" font-size="9" fill="rgba(0,245,196,0.8)" text-anchor="middle" letter-spacing="2">AUTOMATED TRADING</text>
+      </svg>
+    </div>
+    <div class="hero-badge"><div class="dot-live"></div><span data-i18n="badge">✦ AO VIVO NA AXI COPYTRADING</span></div>
+    <h1 data-i18n="hero_title">RICX Trading Bot</h1>
+    <p class="hero-sub" data-i18n="hero_sub">
+      Robot de trading automatizado com resultados verificados. Conecte-se em minutos e deixe o algoritmo trabalhar por você — sem experiência necessária.
+    </p>
+    <div class="cta-group">
+      <a class="btn-primary" href="https://axicom.onelink.me/MfaL?af_sub1=profile%3A735535&af_referrer_customer_id=735535&c=refer_strategy&af_referrer_name=profile%3A735535&af_referrer_uid=1774170860911-3932322813370004410&pid=af_app_invites&af_channel=mobile_invite&deep_link_sub1=2075100&deep_link_sub2=735535&af_siteid=com.axi.pelican&deep_link_value=strategy" target="_blank" data-i18n="hero_cta">
+        🚀 Conectar ao Robot
+      </a>
+      <a class="btn-outline" href="#tutorial" data-i18n="hero_cta2">
+        📖 Ver Tutorial
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner" id="ticker">
+    <!-- duplicated for infinite scroll -->
+    <div class="ticker-item">EURUSD <span class="up">▲ +0.12%</span></div>
+    <div class="ticker-item">GBPUSD <span class="down">▼ -0.08%</span></div>
+    <div class="ticker-item">XAUUSD <span class="up">▲ +0.45%</span></div>
+    <div class="ticker-item">USDJPY <span class="up">▲ +0.22%</span></div>
+    <div class="ticker-item">NASDAQ <span class="up">▲ +1.1%</span></div>
+    <div class="ticker-item">RICX BOT <span class="up">✦ ATIVO</span></div>
+    <div class="ticker-item">EURUSD <span class="up">▲ +0.12%</span></div>
+    <div class="ticker-item">GBPUSD <span class="down">▼ -0.08%</span></div>
+    <div class="ticker-item">XAUUSD <span class="up">▲ +0.45%</span></div>
+    <div class="ticker-item">USDJPY <span class="up">▲ +0.22%</span></div>
+    <div class="ticker-item">NASDAQ <span class="up">▲ +1.1%</span></div>
+    <div class="ticker-item">RICX BOT <span class="up">✦ ATIVO</span></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="section-label fade-in">
+    <div class="section-tag" data-i18n="stats_tag">PERFORMANCE VERIFICADA</div>
+    <h2 data-i18n="stats_title">Resultados <span>Reais</span></h2>
+    <p style="color:var(--text-dim);margin-top:0.5rem;font-size:0.9rem" data-i18n="stats_sub">Dados verificados por myfxbook — transparência total.</p>
+  </div>
+  <div class="stats-grid">
+    <div class="stat-card fade-in">
+      <div class="stat-value green" id="stat-gain">--</div>
+      <div class="stat-label" data-i18n="stat1">Ganho Total</div>
+      <div class="stat-sub" data-i18n="stat1_sub">Desde o início</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value" id="stat-months">--</div>
+      <div class="stat-label" data-i18n="stat2">Meses Ativos</div>
+      <div class="stat-sub" data-i18n="stat2_sub">Histórico consistente</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value" id="stat-winrate">--</div>
+      <div class="stat-label" data-i18n="stat3">Win Rate</div>
+      <div class="stat-sub" data-i18n="stat3_sub">Operações vencedoras</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value" style="color:var(--red)" id="stat-dd">--</div>
+      <div class="stat-label" data-i18n="stat4">Drawdown Máx.</div>
+      <div class="stat-sub" data-i18n="stat4_sub">Gestão de risco</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value" id="stat-trades">--</div>
+      <div class="stat-label" data-i18n="stat5">Total de Trades</div>
+      <div class="stat-sub" data-i18n="stat5_sub">Operações executadas</div>
+    </div>
+    <div class="stat-card fade-in">
+      <div class="stat-value" id="stat-pf">--</div>
+      <div class="stat-label" data-i18n="stat6">Profit Factor</div>
+      <div class="stat-sub" data-i18n="stat6_sub">Ratio lucro/perda</div>
+    </div>
+  </div>
+  <div class="verified-badge fade-in" style="display:flex;flex-direction:column;align-items:center;gap:0.6rem">
+    <a href="https://www.myfxbook.com/members/RIppeR_SE7E/rycx-axi/11746315" target="_blank">
+      🔗 <span data-i18n="myfxbook_link">Ver resultados completos no myfxbook →</span>
+    </a>
+    <div id="stats-updated" style="font-size:0.72rem;color:var(--text-dim);opacity:0.6"></div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="section-label fade-in">
+    <div class="section-tag" data-i18n="how_tag">COMO FUNCIONA</div>
+    <h2 data-i18n="how_title">Simples como <span>3 passos</span></h2>
+  </div>
+  <div class="how-grid">
+    <div class="how-card fade-in">
+      <div class="how-num">01</div>
+      <div class="how-icon">📱</div>
+      <div class="how-title" data-i18n="how1_title">Baixe a App Axi</div>
+      <div class="how-desc" data-i18n="how1_desc">Instale gratuitamente no iOS ou Android. Crie sua conta Axi em minutos com verificação simples.</div>
+    </div>
+    <div class="how-card fade-in">
+      <div class="how-num">02</div>
+      <div class="how-icon">🔗</div>
+      <div class="how-title" data-i18n="how2_title">Conecte ao RICX</div>
+      <div class="how-desc" data-i18n="how2_desc">Use nosso link direto para encontrar a estratégia RICX dentro da plataforma e conecte-se com um clique.</div>
+    </div>
+    <div class="how-card fade-in">
+      <div class="how-num">03</div>
+      <div class="how-icon">📈</div>
+      <div class="how-title" data-i18n="how3_title">O Robot Trabalha</div>
+      <div class="how-desc" data-i18n="how3_desc">O algoritmo opera automaticamente 24/5. Acompanhe seus resultados em tempo real pela app.</div>
+    </div>
+  </div>
+</section>
+
+<!-- TUTORIAL -->
+<style>
+/* ── Phone mockup ── */
+.phone-wrap {
+  display:flex; justify-content:center;
+}
+.phone {
+  width: 160px; flex-shrink:0;
+  background: #0a0a0a;
+  border-radius: 28px;
+  border: 3px solid #2a2a2a;
+  box-shadow: 0 0 0 1px #111, 0 20px 50px rgba(0,0,0,0.6), 0 0 30px rgba(0,245,196,0.06);
+  overflow: hidden;
+  position: relative;
+}
+.phone::before {
+  content:''; position:absolute; top:0; left:50%; transform:translateX(-50%);
+  width:50px; height:6px; background:#1a1a1a; border-radius:0 0 6px 6px; z-index:10;
+}
+.phone img {
+  width:100%; display:block; object-fit:cover;
+}
+/* ── Step row ── */
+.tut-step {
+  display:grid;
+  grid-template-columns: 1fr 180px;
+  gap: 2rem;
+  align-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius:16px;
+  padding: 1.8rem;
+  margin-bottom: 1.2rem;
+  transition: border-color 0.3s;
+  position:relative;
+  overflow:hidden;
+}
+.tut-step::before {
+  content:''; position:absolute; left:0; top:0; bottom:0;
+  width:3px;
+  background: linear-gradient(180deg, var(--primary), var(--accent2));
+}
+.tut-step:hover { border-color: rgba(0,245,196,0.3); }
+.tut-step.reverse { grid-template-columns: 180px 1fr; }
+.tut-step.reverse .phone-wrap { order:-1; }
+.tut-step-num {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.7rem; font-weight:900;
+  color:var(--primary);
+  background:rgba(0,245,196,0.1);
+  border:1px solid rgba(0,245,196,0.25);
+  border-radius:50px;
+  padding:0.2rem 0.7rem;
+  display:inline-block;
+  margin-bottom:0.6rem;
+  letter-spacing:1px;
+}
+.tut-step-title {
+  font-size:1rem; font-weight:700; color:#fff; margin-bottom:0.5rem; line-height:1.3;
+}
+.tut-step-desc {
+  font-size:0.83rem; color:var(--text-dim); line-height:1.65;
+}
+.tut-tag-action {
+  display:inline-flex; align-items:center; gap:0.3rem;
+  background:rgba(124,58,237,0.15); border:1px solid rgba(124,58,237,0.3);
+  color:#a78bfa; padding:0.2rem 0.7rem; border-radius:4px;
+  font-size:0.72rem; font-weight:700; margin-top:0.6rem; letter-spacing:0.5px;
+}
+.tut-success {
+  background:rgba(34,197,94,0.08);
+  border:1px solid rgba(34,197,94,0.3);
+  color:var(--green);
+  border-radius:8px; padding:0.6rem 1rem;
+  font-size:0.82rem; font-weight:600; margin-top:0.7rem;
+  display:flex; align-items:center; gap:0.5rem;
+}
+/* ── Phase header ── */
+.phase-header {
+  display:flex; align-items:center; gap:1rem;
+  margin:2.5rem 0 1.2rem;
+}
+.phase-line { flex:1; height:1px; background:var(--border); }
+.phase-label {
+  font-family:'Orbitron',sans-serif;
+  font-size:0.7rem; font-weight:700;
+  color:var(--text-dim); letter-spacing:2px;
+  white-space:nowrap;
+}
+@media(max-width:640px){
+  .tut-step, .tut-step.reverse { grid-template-columns:1fr; }
+  .tut-step.reverse .phone-wrap { order:0; }
+  .phone { width:130px; }
+}
+</style>
+<section id="tutorial">
+  <div class="section-label fade-in">
+    <div class="section-tag" data-i18n="tut_tag">GUIA PASSO A PASSO</div>
+    <h2 data-i18n="tut_title">Tutorial <span>Completo</span></h2>
+    <p style="color:var(--text-dim);margin-top:0.5rem;font-size:0.9rem" data-i18n="tut_sub">14 passos com capturas reais do app — do zero ao robot conectado.</p>
+  </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('tab-account')" data-i18n="tab1">① Criar Conta</button>
+    <button class="tab-btn" onclick="showTab('tab-link')" data-i18n="tab_link">② Vincular Broker</button>
+    <button class="tab-btn" onclick="showTab('tab-ricx')" data-i18n="tab_ricx">③ Copiar RICX</button>
+  </div>
+
+  <!-- TAB 1: Criar conta -->
+  <div id="tab-account" class="tab-content active" style="max-width:900px;margin:0 auto">
+    <div class="step fade-in">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <div class="step-title" data-i18n="a1_title">Baixe o app Axi CopyTrading</div>
+        <div class="step-desc" data-i18n="a1_desc">Instale gratuitamente no seu smartphone. Disponível para iOS e Android.</div>
+        <div style="display:flex;gap:0.8rem;margin-top:1rem;flex-wrap:wrap">
+          <a href="https://apps.apple.com/app/axi-copy-trading/id1539520232" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:#000;color:#fff;padding:0.55rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.82rem;font-weight:600;border:1px solid #333">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            App Store (iOS)
+          </a>
+          <a href="https://play.google.com/store/apps/details?id=com.axi.pelican" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:#01875f;color:#fff;padding:0.55rem 1.2rem;border-radius:8px;text-decoration:none;font-size:0.82rem;font-weight:600">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.35.2.74.24 1.12.12l12.44-7.19-2.82-2.82-10.74 9.89zm-1.6-20.1A2 2 0 0 0 1.5 5v14a2 2 0 0 0 .08 1.34l.07.07L14.1 12v-.27L1.65 3.6l-.07.06zm19.03 8.79-2.89-1.67-3.15 3.15 3.15 3.15 2.91-1.68a2 2 0 0 0 0-2.95zM4.3.12C3.91-.01 3.53.04 3.18.24L14.1 11.73 16.92 8.9 4.3.12z"/></svg>
+            Google Play (Android)
+          </a>
+        </div>
+        <div class="tip-box" style="margin-top:0.8rem"><strong>💡 <span data-i18n="tip">Dica:</span></strong> <span data-i18n="a1_tip">O app pode aparecer como "Axi – Copy Trading" nas lojas. Desenvolvido pela Pelican Trading.</span></div>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <div class="step-title" data-i18n="a2_title">Crie sua conta gratuita</div>
+        <div class="step-desc" data-i18n="a2_desc">Toque em "Criar conta", insira seu e-mail, crie uma senha segura e aceite os termos. A conta básica é 100% gratuita.</div>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <div class="step-title" data-i18n="a3_title">Configure sua conta de trading — parâmetros importantes</div>
+        <div class="step-desc" data-i18n="a3_desc">No painel, selecione "Criar Nova Conta" e use os seguintes parâmetros para compatibilidade total com o RICX:</div>
+        <div style="margin-top:1rem;background:rgba(0,245,196,0.06);border:1px solid rgba(0,245,196,0.2);border-radius:10px;padding:1rem 1.2rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.7rem">
+            <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:0.7rem 1rem">
+              <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.2rem" data-i18n="mt4_platform_label">Plataforma</div>
+              <div style="font-weight:700;color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.95rem">MetaTrader 4</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:0.7rem 1rem">
+              <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.2rem" data-i18n="mt4_type_label">Tipo de Conta</div>
+              <div style="font-weight:700;color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.95rem">Standard</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:0.7rem 1rem">
+              <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.2rem" data-i18n="mt4_currency_label">Divisa</div>
+              <div style="font-weight:700;color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.75rem;line-height:1.3" data-i18n="mt4_currency_val">De sua preferência</div>
+            </div>
+            <div style="background:rgba(0,0,0,0.2);border-radius:8px;padding:0.7rem 1rem">
+              <div style="font-size:0.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;margin-bottom:0.2rem" data-i18n="mt4_leverage_label">Alavancagem</div>
+              <div style="font-weight:700;color:var(--primary);font-family:'Orbitron',sans-serif;font-size:0.95rem">1:1000</div>
+            </div>
+          </div>
+        </div>
+        <div class="tip-box" style="margin-top:0.8rem"><strong>⚠️ <span data-i18n="important">Importante:</span></strong> <span data-i18n="a3_tip">Estes parâmetros garantem compatibilidade total com o robot RICX. Configurações diferentes podem causar erros ao copiar as operações.</span></div>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <div class="step-title" data-i18n="a4_title">Verifique sua identidade (KYC)</div>
+        <div class="step-desc" data-i18n="a4_desc">Para operar você precisará fazer a verificação KYC: envie uma foto do documento de identidade e uma selfie. O processo leva em média 24-48h.</div>
+        <div class="tip-box"><strong>⚠️ <span data-i18n="important">Importante:</span></strong> <span data-i18n="a4_tip">A verificação é obrigatória por regulamentação financeira. Tenha em mãos seu passaporte ou carteira de identidade.</span></div>
+      </div>
+    </div>
+    <div class="step fade-in">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <div class="step-title" data-i18n="a5_title">Faça um depósito</div>
+        <div class="step-desc" data-i18n="a5_desc">Após verificado, deposite fundos via cartão de crédito, transferência bancária ou outros métodos disponíveis. O depósito mínimo varia por método.</div>
+        <div class="tip-box"><strong>💡 <span data-i18n="tip">Dica:</span></strong> <span data-i18n="a5_tip">Recomendamos começar com um valor com o qual você se sinta confortável. Lembre-se: trading envolve risco.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: Vincular Broker (screenshots 01-05) -->
+  <div id="tab-link" class="tab-content" style="max-width:900px;margin:0 auto">
+
+    <div class="phase-header">
+      <div class="phase-line"></div>
+      <div class="phase-label" data-i18n="phase_link">VINCULAR CONTA DO BROKER</div>
+      <div class="phase-line"></div>
+    </div>
+
+    <!-- Step 01 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 1</div>
+        <div class="tut-step-title" data-i18n="s01_title">Aba "Conta" → Toca em "Conectar uma conta"</div>
+        <div class="tut-step-desc" data-i18n="s01_desc">Depois de instalar o app e criar a tua conta Axi, vai para a aba <strong style="color:#fff">Conta</strong> (ícone em baixo à direita). O app pedirá para vincular uma conta de trading. Toca no botão amarelo <strong style="color:#fff">"Conectar uma conta"</strong>.</div>
+        <div class="tut-tag-action">👆 Toca aqui</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/01.jpg" alt="Conectar conta" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 02 -->
+    <div class="tut-step reverse fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 2</div>
+        <div class="tut-step-title" data-i18n="s02_title">Seleciona "Copiar operações de provedores de sinais"</div>
+        <div class="tut-step-desc" data-i18n="s02_desc">Aparecerá um menu com duas opções. Seleciona a primeira: <strong style="color:#fff">"Copiar operações de provedores de sinais"</strong>. Esta é a opção correta para seguir o robot RICX.</div>
+        <div class="tut-tag-action">☝️ Escolhe esta opção</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/02.jpg" alt="Copiar operações" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 03 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 3</div>
+        <div class="tut-step-title" data-i18n="s03_title">Insere os dados da tua conta MT4 do broker Axi</div>
+        <div class="tut-step-desc" data-i18n="s03_desc">Preenche os campos com os dados da tua conta MT4:<br><br>
+          <span style="color:var(--primary)">▸ Servidor:</span> seleciona o servidor Axi na lista<br>
+          <span style="color:var(--primary)">▸ Número de conta:</span> o número da tua conta MT4<br>
+          <span style="color:var(--primary)">▸ Senha:</span> a senha da tua conta MT4<br><br>
+          Marca a caixa de aceite e toca em continuar.</div>
+        <div class="tip-box"><strong>⚠️ <span data-i18n="important">Importante:</span></strong> <span data-i18n="s03_tip">Esta é a senha da conta MT4, não a senha do app Axi.</span></div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/03.jpg" alt="Dados do broker" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <div class="phase-header">
+      <div class="phase-line"></div>
+      <div class="phase-label" data-i18n="phase_risk">AVALIAÇÃO DE RISCO — OBRIGATÓRIO</div>
+      <div class="phase-line"></div>
+    </div>
+
+    <!-- Step 04 -->
+    <div class="tut-step reverse fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 4</div>
+        <div class="tut-step-title" data-i18n="s04_title">Toca em "Completar a avaliação" na aba Descobrir</div>
+        <div class="tut-step-desc" data-i18n="s04_desc">Na aba <strong style="color:#fff">Descobrir</strong> (lupa em baixo à esquerda), o app exigirá que completes uma avaliação de risco antes de poder ver as estratégias disponíveis. Toca em <strong style="color:#fff">"Completar a avaliação"</strong>.</div>
+        <div class="tut-tag-action">📋 Obrigatório por lei</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/04.jpg" alt="Completar avaliação" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 05 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 5</div>
+        <div class="tut-step-title" data-i18n="s05_title">Preenche o perfil de risco e toca em "Aceitar"</div>
+        <div class="tut-step-desc" data-i18n="s05_desc">Responde às perguntas sobre o teu perfil de risco de forma honesta. Exemplos de respostas típicas:<br><br>
+          <span style="color:var(--primary)">▸ Expectativas de perda/ganho:</span> 70% / 30%<br>
+          <span style="color:var(--primary)">▸ Usou robots antes?</span> Não (ou Sim, se aplicável)<br>
+          <span style="color:var(--primary)">▸ Setor de atividade:</span> o teu setor real<br><br>
+          Aceita os termos e toca em <strong style="color:#fff">"Aceitar"</strong>.</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/05.jpg" alt="Perfil de risco" loading="lazy"/></div>
+      </div>
+    </div>
+  </div><!-- /tab-link -->
+
+  <!-- TAB 3: Copiar RICX (screenshots 06-14) -->
+  <div id="tab-ricx" class="tab-content" style="max-width:900px;margin:0 auto">
+
+    <div class="phase-header">
+      <div class="phase-line"></div>
+      <div class="phase-label" data-i18n="phase_ricx">CONECTAR AO ROBOT RICX</div>
+      <div class="phase-line"></div>
+    </div>
+
+    <!-- Step 06 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 6</div>
+        <div class="tut-step-title" data-i18n="s06_title">Na aba "Descobrir", pesquisa "RICX"</div>
+        <div class="tut-step-desc" data-i18n="s06_desc">Na aba <strong style="color:#fff">Descobrir</strong>, toca na barra de pesquisa e digita <strong style="color:var(--primary)">RICX</strong>. O robot aparecerá como primeiro resultado com o logo azul/teal. Toca nele.</div>
+        <div class="tut-tag-action">🔍 Buscar: RICX</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/06.jpg" alt="Pesquisar RICX" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 07 -->
+    <div class="tut-step reverse fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 7</div>
+        <div class="tut-step-title" data-i18n="s07_title">Vê os resultados do RICX e toca em "Copiar"</div>
+        <div class="tut-step-desc" data-i18n="s07_desc">A página do RICX mostra os resultados reais: retorno acumulativo <strong style="color:var(--green)">+65,37%</strong>, gráfico de crescimento e P/L realizado. Confirma os dados e toca no botão amarelo <strong style="color:#fff">"Copiar"</strong>.</div>
+        <div class="tut-success">✅ +65,37% de retorno verificado em tempo real</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/07.jpg" alt="Página RICX" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 08 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 8</div>
+        <div class="tut-step-title" data-i18n="s08_title">Toca em "Tamanho da operação" para configurar</div>
+        <div class="tut-step-desc" data-i18n="s08_desc">No ecrã de configuração, vês que a comissão de rentabilidade é de <strong style="color:var(--primary)">10%</strong> (só sobre lucros). Toca no campo <strong style="color:#fff">"Tamanho da operação"</strong> para abrir as opções de configuração.</div>
+        <div class="tut-tag-action">⚙️ Configurar tamanho</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/08.jpg" alt="Configurar cópia" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 09 -->
+    <div class="tut-step reverse fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 9</div>
+        <div class="tut-step-title" data-i18n="s09_title">Seleciona "Proporcional a Balance" — Proporção: 1</div>
+        <div class="tut-step-desc" data-i18n="s09_desc">Escolhe a opção <strong style="color:var(--primary)">Proporcional a Balance</strong> e mantém a proporção em <strong style="color:#fff">1</strong>. Esta configuração garante que as operações sejam copiadas proporcionalmente ao teu saldo, que é o modo mais seguro e recomendado.</div>
+        <div class="tip-box"><strong>💡 <span data-i18n="tip">Dica:</span></strong> <span data-i18n="s09_tip">Com "Proporcional a Balance", o robot ajusta automaticamente o tamanho das ordens ao teu capital.</span></div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/09.jpg" alt="Proporcional a balance" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 10 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 10</div>
+        <div class="tut-step-title" data-i18n="s10_title">Scroll para baixo e toca em "Aceitar y Copiar"</div>
+        <div class="tut-step-desc" data-i18n="s10_desc">Desce o ecrã para ver o botão final. Antes de tocar, podes ler os links dos termos do copiador. Quando estiveres pronto, toca no botão amarelo <strong style="color:#fff">"Aceitar y Copiar"</strong>.</div>
+        <div class="tut-tag-action">✔️ Confirmar e Copiar</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/10.jpg" alt="Aceitar e Copiar" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 11 -->
+    <div class="tut-step reverse fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 11</div>
+        <div class="tut-step-title" data-i18n="s11_title">Lê e confirma a autorização — toca em "Ok"</div>
+        <div class="tut-step-desc" data-i18n="s11_desc">O app mostra o contrato de autorização onde confirmas que aceitas os termos do Social Trading. As duas caixas já aparecem marcadas. Toca em <strong style="color:#fff">"Ok"</strong> para continuar.</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/11.jpg" alt="Autorização" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 12 -->
+    <div class="tut-step fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 12</div>
+        <div class="tut-step-title" data-i18n="s12_title">Aviso de risco — toca em "Sí"</div>
+        <div class="tut-step-desc" data-i18n="s12_desc">Um aviso final lembra que o perfil de risco do sinal pode variar enquanto estás a copiar. É um aviso padrão de compliance. Confirma que entendes os riscos e toca em <strong style="color:#fff">"Sí"</strong>.</div>
+        <div class="tut-tag-action">⚠️ Aviso padrão — toca Sí</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/12.jpg" alt="Aviso de risco" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 13 -->
+    <div class="tut-step reverse fade-in">
+      <div>
+        <div class="tut-step-num">PASSO 13</div>
+        <div class="tut-step-title" data-i18n="s13_title">✅ Éxito! A tua solicitação foi processada</div>
+        <div class="tut-step-desc" data-i18n="s13_desc">A mensagem <strong style="color:var(--green)">"Éxito"</strong> confirma que a tua solicitação para copiar automaticamente as operações do RICX foi aceite. Podes gerir o drawdown máximo na opção indicada. Toca em <strong style="color:#fff">"Ok"</strong>.</div>
+        <div class="tut-success">🎉 Solicitação processada com sucesso!</div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/13.jpg" alt="Sucesso" loading="lazy"/></div>
+      </div>
+    </div>
+
+    <!-- Step 14 -->
+    <div class="tut-step fade-in" style="border-color:rgba(34,197,94,0.4)">
+      <div>
+        <div class="tut-step-num" style="color:var(--green);background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3)">CONCLUÍDO 🎉</div>
+        <div class="tut-step-title" data-i18n="s14_title">Conta conectada ao RICX — Estado: CONECTADO</div>
+        <div class="tut-step-desc" data-i18n="s14_desc">A tua conta aparece agora com o estado <strong style="color:var(--green)">"Conectado"</strong> e o sinal RICX associado. A partir de agora o robot copia automaticamente todas as operações para a tua conta. Acompanha os resultados na aba <strong style="color:#fff">Copias</strong>.</div>
+        <div class="tut-success">🟢 CONECTADO — O robot já está a operar por ti!</div>
+        <div style="margin-top:1rem">
+          <a class="step-link" href="https://axicom.onelink.me/MfaL?af_sub1=profile%3A735535&af_referrer_customer_id=735535&c=refer_strategy&af_referrer_name=profile%3A735535&af_referrer_uid=1774170860911-3932322813370004410&pid=af_app_invites&af_channel=mobile_invite&deep_link_sub1=2075100&deep_link_sub2=735535&af_siteid=com.axi.pelican&deep_link_value=strategy" target="_blank" data-i18n="hero_cta">🚀 Conectar ao Robot</a>
+        </div>
+      </div>
+      <div class="phone-wrap">
+        <div class="phone"><img src="PrintScreens/14.jpg" alt="Conectado" loading="lazy"/></div>
+      </div>
+    </div>
+
+  </div><!-- /tab-ricx -->
+</section>
+
+<!-- VIDEO -->
+<section id="video">
+  <div class="section-label fade-in">
+    <div class="section-tag" data-i18n="vid_tag">VÍDEO TUTORIAL</div>
+    <h2 data-i18n="vid_title">Veja como <span>funciona</span></h2>
+    <p style="color:var(--text-dim);margin-top:0.5rem;font-size:0.9rem" data-i18n="vid_sub">Tutorial completo em vídeo para você não perder nenhum passo.</p>
+  </div>
+  <div class="video-wrap fade-in">
+    <iframe src="https://www.youtube.com/embed/7OR7Iq5pHtM" title="RICX Tutorial" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="section-label fade-in">
+    <div class="section-tag" data-i18n="faq_tag">DÚVIDAS FREQUENTES</div>
+    <h2 data-i18n="faq_title">FAQ — <span>Perguntas</span></h2>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item fade-in">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq1_q">O RICX é um robot 100% automático?</span>
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a" data-i18n="faq1_a">Sim. O RICX opera de forma completamente automatizada 24/7, todos os dias. Você não precisa fazer nada — basta estar conectado na plataforma Axi.</div>
+    </div>
+    <div class="faq-item fade-in">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq2_q">Qual é o valor mínimo para investir?</span>
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a" data-i18n="faq2_a">O valor mínimo recomendado para o bom funcionamento do RICX dentro dos parâmetros de risco estabelecidos é de <strong style="color:var(--primary)">$1.500 USD</strong>. Este valor garante que as operações sejam executadas corretamente e que a gestão de risco funcione como projetado.</div>
+    </div>
+    <div class="faq-item fade-in">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq3_q">Como funciona a taxa de performance?</span>
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a" data-i18n="faq3_a">O RICX cobra uma taxa de 10% sobre os lucros gerados. Essa taxa só é cobrada quando há lucro — se não houver ganho, não há cobrança. A taxa é gerenciada automaticamente pela plataforma Axi.</div>
+    </div>
+    <div class="faq-item fade-in">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span data-i18n="faq4_q">Posso sacar meu dinheiro a qualquer momento?</span>
+        <span class="faq-chevron">▾</span>
+      </div>
+      <div class="faq-a" data-i18n="faq4_a">Sim. Você pode desconectar do robot e sacar seus fundos a qualquer momen
