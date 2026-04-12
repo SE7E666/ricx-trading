@@ -67,14 +67,19 @@ def main():
     print("="*50)
 
     email, pw = load_creds()
-    http = requests.Session()
-    http.headers.update(HEADERS)
 
     print("A fazer login no myfxbook...")
     try:
-        r = http.get(f"{API_BASE}/login.json", params={"email":email,"password":pw}, timeout=20)
+        # Sem Session() — login puro, guardar cookies da resposta
+        r = requests.get(
+            f"{API_BASE}/login.json",
+            params={"email": email, "password": pw},
+            headers=HEADERS,
+            timeout=20,
+        )
         r.raise_for_status()
         d = r.json()
+        login_cookies = r.cookies  # cookies de sessao retornados pelo servidor
     except Exception as e:
         print(f"ERRO login: {e}"); sys.exit(1)
 
@@ -83,17 +88,29 @@ def main():
 
     token = d["session"]
     print(f"Login OK. Token: {token[:8]}...")
-    time.sleep(0.8)
+    print(f"Cookies recebidos: {dict(login_cookies)}")
 
     print("A buscar contas...")
     try:
-        r2 = http.get(f"{API_BASE}/get-my-accounts.json", params={"session":token}, timeout=20)
+        # Passar token E cookies do login — myfxbook valida os dois
+        r2 = requests.get(
+            f"{API_BASE}/get-my-accounts.json",
+            params={"session": token},
+            headers=HEADERS,
+            cookies=login_cookies,  # reenviar cookies da sessao de login
+            timeout=20,
+        )
         r2.raise_for_status()
         adata = r2.json()
+        print(f"Resposta: {adata.get('error')} | {adata.get('message','')}")
     except Exception as e:
         print(f"ERRO contas: {e}"); sys.exit(1)
     finally:
-        try: http.get(f"{API_BASE}/logout.json", params={"session":token}, timeout=5)
+        try:
+            requests.get(f"{API_BASE}/logout.json",
+                         params={"session": token},
+                         cookies=login_cookies,
+                         headers=HEADERS, timeout=5)
         except: pass
 
     if adata.get("error"):
@@ -117,18 +134,4 @@ def main():
         "winrate":       fmt_wr(won, won+lost),
         "drawdown":      fmt_dd(acc.get("drawdown",0)),
         "trades":        str(won+lost) if (won+lost)>0 else "--",
-        "profit_factor": f"{float(acc.get('profitFactor',0)):.2f}" if acc.get("profitFactor") else "--",
-        "balance":       f"${float(acc.get('balance',0)):,.2f}",
-        "profit":        f"${float(acc.get('profit',0)):,.2f}",
-        "last_updated":  datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "account_name":  acc.get("name","RICX"),
-        "currency":      acc.get("currency","USD"),
-    }
-
-    json.dump(stats, open(OUTPUT,"w",encoding="utf-8"), indent=2, ensure_ascii=False)
-    print("\nstats.json atualizado!")
-    print(json.dumps(stats, indent=2, ensure_ascii=False))
-    print("\nConcluido!")
-
-if __name__=="__main__":
-    main()
+        "profit_fac
