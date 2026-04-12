@@ -88,16 +88,24 @@ def main():
 
     token = d["session"]
     print(f"Login OK. Token: {token[:8]}...")
-    print(f"Cookies recebidos: {dict(login_cookies)}")
+    print(f"Cookies recebidos: {list(login_cookies.keys())}")
+
+    # XSRF-TOKEN: o myfxbook usa Angular que exige este cookie como header
+    # O browser faz isso automaticamente; nos temos de fazer manualmente
+    xsrf = login_cookies.get("XSRF-TOKEN", "")
+    request_headers = {**HEADERS}
+    if xsrf:
+        request_headers["X-XSRF-TOKEN"] = xsrf
+        print(f"XSRF-TOKEN encontrado, a adicionar como header.")
 
     print("A buscar contas...")
     try:
-        # Passar token E cookies do login — myfxbook valida os dois
+        # Passar token + cookies + header XSRF — myfxbook valida os tres
         r2 = requests.get(
             f"{API_BASE}/get-my-accounts.json",
             params={"session": token},
-            headers=HEADERS,
-            cookies=login_cookies,  # reenviar cookies da sessao de login
+            headers=request_headers,
+            cookies=login_cookies,
             timeout=20,
         )
         r2.raise_for_status()
@@ -110,7 +118,7 @@ def main():
             requests.get(f"{API_BASE}/logout.json",
                          params={"session": token},
                          cookies=login_cookies,
-                         headers=HEADERS, timeout=5)
+                         headers=request_headers, timeout=5)
         except: pass
 
     if adata.get("error"):
@@ -126,12 +134,4 @@ def main():
 
     acc = next((a for a in accounts if str(a.get("id"))==str(ACCOUNT_ID)), accounts[0])
     won  = int(acc.get("wonTrades",0) or 0)
-    lost = int(acc.get("lostTrades",0) or 0)
-
-    stats = {
-        "gain":          fmt_gain(acc.get("gain",0)),
-        "months":        months_since(acc.get("firstTradeDate","")),
-        "winrate":       fmt_wr(won, won+lost),
-        "drawdown":      fmt_dd(acc.get("drawdown",0)),
-        "trades":        str(won+lost) if (won+lost)>0 else "--",
-        "profit_fac
+    lost = int(acc.get("los
