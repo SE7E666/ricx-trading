@@ -10,11 +10,15 @@ ACCOUNT_ID = 11746315
 SCRIPT_DIR = Path(__file__).parent
 ENV_FILE   = SCRIPT_DIR / ".env"
 OUTPUT     = SCRIPT_DIR / "stats.json"
+LOG_FILE   = SCRIPT_DIR / "ricx_update.log"
 API_BASE   = "https://www.myfxbook.com/api"
 HEADERS    = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/124.0.0.0 Safari/537.36",
     "Referer": "https://www.myfxbook.com/",
 }
+
+PT_MONTHS = {1:"Jan",2:"Fev",3:"Mar",4:"Abr",5:"Mai",6:"Jun",
+             7:"Jul",8:"Ago",9:"Set",10:"Out",11:"Nov",12:"Dez"}
 
 def load_creds():
     email = os.environ.get("MYFXBOOK_EMAIL","").strip()
@@ -55,7 +59,6 @@ def fmt_wr(won, total):
         return "--"
 
 def fmt_wr_pct(pct):
-    """Format winrate from a direct percentage value (e.g. 65.5 -> '65.5%')"""
     try:
         v = float(pct)
         return f"{v:.1f}%" if v > 0 else "--"
@@ -63,7 +66,6 @@ def fmt_wr_pct(pct):
         return "--"
 
 def months_since(d):
-    """Parse multiple date formats myfxbook might return."""
     if not d:
         return "--"
     for fmt in ("%m/%d/%Y %H:%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%m/%d/%Y"):
@@ -72,7 +74,6 @@ def months_since(d):
             return str(max(1, (datetime.now()-dt).days // 30))
         except:
             pass
-    # Try just first 10 chars
     for fmt in ("%m/%d/%Y", "%Y-%m-%d"):
         try:
             dt = datetime.strptime(str(d).strip()[:10], fmt)
@@ -81,149 +82,152 @@ def months_since(d):
             pass
     return "--"
 
-def main():
-    print("="*50)
-    print("  RICX Stats Fetcher")
-    print(f"  {datetime.now():%Y-%m-%d %H:%M:%S}")
-    print("="*50)
+def do_logout(token, cookies, headers):
+    try:
+        requests.get(
+            f"{API_BASE}/logout.json",
+            params={"session": token},
+            cookies=cookies,
+            headers=headers,
+            timeout=5
+        )
+    except:
+        pass
 
-    email, pw = load_creds()
+def get_monthly_chart(token, cookies, headers):
+    """Fetch daily gain data and aggregate into monthly chart points."""
+    end   = datetime.now()
+    # Use a wide window -- myfxbook will return data from account start
+    start = end.replace(year=end.year - 2)
 
-    print("A fazer login no myfxbook...")
     try:
         r = requests.get(
-            f"{API_BASE}/login.json",
-            params={"email": email, "password": pw},
-            headers=HEADERS,
+            f"{API_BASE}/get-daily-gain.json",
+            params={
+                "session": session_token_for_chart(token),
+                "id":      ACCOUNT_ID,
+                "start":   start.strftime("%Y-%m-%d"),
+                "end":     end.strftime("%Y-%m-%d"),
+            },
+            headers=headers,
+            cookies=cookies,
             timeout=20,
         )
         r.raise_for_status()
-        d = r.json()
-        login_cookies = r.cookies
+        data = r.json()
+
+        if data.get("error"):
+            print(f"  Chart API: {data.get('message','erro desconhecido')}")
+            return None
+
+        daily = data.get("dailyGain", [])
+        if not daily:
+            print("  Chart API: sem dados diários")
+            return None
+
+        print(f"  Chart API: {len(daily)} entradas diárias recebidas")
+        if daily:
+            print(f"  Amostra: {daily[0]}")
+
+        # Each entry: [date_str, cumulative_gain_pct]
+        # myfxbook returns dates as MM/DD/YYYY — handle multiple formats
+        DATE_FMTS = ["%m/%d/%Y", "%Y-%m-%d", "%d/%m/%Y"]
+        def parse_date(s):
+            s = str(s).strip()[:10]
+            for fmt in DATE_FMTS:
+                try:
+                    return datetime.strptime(s, fmt)
+                except ValueError:
+                    continue
+            return None
+
+        # Group by month — keep last value of each month (= cumulative at month end)
+        # API can return: list-of-dicts, list of [dict], or list of [date, value]
+        monthly = {}
+        skipped = 0
+        for entry in daily:
+            try:
+                # Case 1: [[{date:.., value:..}], ...] — list containing one dict
+                if isinstance(entry, list) and len(entry) > 0 and isinstance(entry[0], dict):
+                    e = entry[0]
+                    date_str = e.get("date", "")
+                    gain_pct = float(e.get("value", 0))
+                # Case 2: [{date:.., value:..}, ...] — direct dict
+                elif isinstance(entry, dict):
+                    date_str = entry.get("date", "")
+                    gain_pct = float(entry.get("value", 0))
+                # Case 3: [[date, value], ...] — plain list
+                elif isinstance(entry, list) and len(entry) >= 2:
+                    date_str = str(entry[0])
+                    gain_pct = float(entry[1])
+                else:
+                    skipped += 1
+                    continue
+                dt = parse_date(date_str)
+                if dt is None:
+                    skipped += 1
+                    continue
+                monthly[(dt.year, dt.month)] = round(gain_pct, 2)
+            except Exception:
+                skipped += 1
+                continue
+        if skipped:
+            print(f"  Aviso: {skipped} entradas ignoradas")
+
+        if not monthly:
+            return None
+
+        chart_data = []
+        for (y, m) in sorted(monthly.keys()):
+            label = f"{PT_MONTHS[m]}/{str(y)[2:]}"
+            chart_data.append({"date": label, "value": monthly[(y, m)]})
+
+        print(f"  Chart data: {len(chart_data)} meses ({chart_data[0]['date']} → {chart_data[-1]['date']})")
+        return chart_data if len(chart_data) >= 2 else None
+
     except Exception as e:
-        print(f"ERRO login: {e}")
-        sys.exit(1)
+        print(f"  Erro ao buscar chart data: {e}")
+        return None
 
-    if d.get("error"):
-        print(f"Login falhou: {d.get('message')}")
-        sys.exit(1)
+def session_token_for_chart(token):
+    """Return token as-is (helper for clarity)."""
+    return token
 
-    from urllib.parse import unquote
-    token = unquote(d["session"])
-    print(f"Login OK. Token: {token[:8]}...")
-    print(f"Cookies recebidos: {list(login_cookies.keys())}")
-
-    xsrf = login_cookies.get("XSRF-TOKEN", "")
-    request_headers = dict(HEADERS)
-    if xsrf:
-        request_headers["X-XSRF-TOKEN"] = xsrf
-        print("XSRF-TOKEN encontrado, a adicionar como header.")
-
-    print("A buscar contas...")
-    adata = None
+def get_winrate(token, cookies, headers):
+    """Calculate winrate from closed trade history."""
     try:
-        r2 = requests.get(
-            f"{API_BASE}/get-my-accounts.json",
-            params={"session": token},
-            headers=request_headers,
-            cookies=login_cookies,
+        r = requests.get(
+            f"{API_BASE}/get-history.json",
+            params={"session": token, "id": ACCOUNT_ID},
+            headers=headers,
+            cookies=cookies,
             timeout=20,
         )
-        r2.raise_for_status()
-        adata = r2.json()
-        print(f"Resposta: {adata.get('error')} | {adata.get('message','')}")
+        r.raise_for_status()
+        data = r.json()
+        if data.get("error"):
+            print(f"  Winrate API: {data.get('message','')}")
+            return "--"
+        history = data.get("history", [])
+        if not history:
+            print("  Winrate API: sem histórico")
+            return "--"
+        won  = sum(1 for t in history if float(t.get("profit", 0)) > 0)
+        lost = sum(1 for t in history if float(t.get("profit", 0)) <= 0)
+        total = won + lost
+        if total == 0:
+            return "--"
+        wr = won / total * 100
+        print(f"  Winrate: {won}W / {lost}L de {total} trades = {wr:.1f}%")
+        return f"{wr:.1f}%"
     except Exception as e:
-        print(f"ERRO contas: {e}")
-        sys.exit(1)
-    finally:
-        try:
-            requests.get(
-                f"{API_BASE}/logout.json",
-                params={"session": token},
-                cookies=login_cookies,
-                headers=request_headers,
-                timeout=5
-            )
-        except:
-            pass
+        print(f"  Erro winrate: {e}")
+        return "--"
 
-    if adata.get("error"):
-        print(f"ERRO: {adata.get('message')}")
-        sys.exit(1)
-
-    accounts = adata.get("accounts", [])
-    if not accounts:
-        print("Nenhuma conta encontrada.")
-        sys.exit(1)
-
-    print(f"Contas: {len(accounts)}")
-    for a in accounts:
-        print(f"  ID={a.get('id')} | {a.get('name')} | gain={a.get('gain')}")
-
-    acc = next((a for a in accounts if str(a.get("id")) == str(ACCOUNT_ID)), accounts[0])
-
-    # DEBUG: print all fields so we know what's available
-    print("\n--- Campos disponíveis para a conta RYCX AXI ---")
-    for k, v in acc.items():
-        print(f"  {k}: {v}")
-    print("---")
-
-    # Trades: try wonTrades+lostTrades, then longTrades+shortTrades
-    won  = int(acc.get("wonTrades", 0) or 0)
-    lost = int(acc.get("lostTrades", 0) or 0)
-    total_trades = won + lost
-    if total_trades == 0:
-        long_t  = int(acc.get("longTrades", 0) or 0)
-        short_t = int(acc.get("shortTrades", 0) or 0)
-        total_trades = long_t + short_t
-        won = long_t  # use as proxy if no won/lost split
-
-    # Winrate: try direct percentage field first
-    wr_pct = acc.get("wonTradesPercent") or acc.get("profitableTradesPercent")
-    if wr_pct and float(wr_pct) > 0:
-        winrate = fmt_wr_pct(wr_pct)
-    elif won + lost > 0:
-        winrate = fmt_wr(won, won + lost)
-    else:
-        # Try to get from public stats endpoint
-        winrate = "--"
-
-    # Months: try firstTradeDate then creationDate then tracking
-    date_field = (acc.get("firstTradeDate") or
-                  acc.get("creationDate") or
-                  acc.get("tracking") or "")
-    months = months_since(date_field)
-
-    # Monthly gain (myfxbook field: "monthly")
-    monthly_raw = acc.get("monthly") or acc.get("avgMonthlyGain") or acc.get("monthlyGain")
-    if monthly_raw:
-        try:
-            monthly = f"+{abs(float(monthly_raw)):.2f}%"
-        except:
-            monthly = "--"
-    else:
-        monthly = "--"
-
-    # Winrate: try multiple field names
-    wr_direct = (acc.get("wonTradesPercent") or acc.get("profitableTradesPercent") or
-                 acc.get("winRate") or acc.get("winrate"))
-    if wr_direct and float(str(wr_direct).replace('%','')) > 0:
-        try:
-            winrate = f"{float(str(wr_direct).replace('%','')):.1f}%"
-        except:
-            pass  # keep winrate from earlier calculation
-
-    stats = {
-        "gain":         fmt_gain(acc.get("gain", 0)),
-        "monthly":      monthly,
-        "months":       months,
-        "winrate":      winrate,
-        "drawdown":     fmt_dd(acc.get("drawdown", 0)),
-        "balance":      f"${float(acc.get('balance', 0)):,.2f}",
-        "profit":       f"${float(acc.get('profit', 0)):,.2f}",
-        "last_updated": datetime.now().strftime("%Y-%m-%d %H:%M"),
-        "account_name": acc.get("name", "RICX"),
-        "currency":     acc.get("currency", "USD"),
-    }
-
-    # Escrita atómica: escreve em ficheiro temporário e 
+def write_log(stats, error_msg=""):
+    """Write (overwrite) a single log file with last run results."""
+    success = not error_msg
+    lines = [
+        "=" * 52,
+        "  RICX Stats Update Log",
+        f"  {
