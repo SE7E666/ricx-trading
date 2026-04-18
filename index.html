@@ -383,6 +383,45 @@
     .how-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
     .how-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
 
+    /* ─── DIFERENCIAIS ─── */
+    #diferenciais {
+      padding: 5rem 2rem;
+      background: var(--bg2);
+    }
+    .dif-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem; max-width: 1100px; margin: 2.5rem auto 0;
+    }
+    .dif-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; padding: 2rem 1.5rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .dif-card:hover { border-color: rgba(0,245,196,0.35); transform: translateY(-3px); }
+    .dif-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent2));
+    }
+    .dif-icon { font-size: 2rem; margin-bottom: 1rem; }
+    .dif-badge {
+      display: inline-block;
+      background: rgba(0,245,196,0.1); border: 1px solid rgba(0,245,196,0.25);
+      color: var(--primary); font-size: 0.7rem; font-weight: 700;
+      padding: 0.2rem 0.6rem; border-radius: 20px;
+      margin-bottom: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .dif-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
+    .dif-desc { font-size: 0.84rem; color: var(--text-dim); line-height: 1.65; }
+    .dif-highlight {
+      margin-top: 1rem; padding: 0.5rem 0.75rem;
+      background: rgba(0,245,196,0.06); border-left: 2px solid var(--primary);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.8rem; color: var(--primary); font-weight: 600;
+    }
+
     /* ─── TUTORIAL ─── */
     #tutorial {
       padding: 5rem 2rem;
@@ -750,6 +789,44 @@
       <div class="how-icon">📈</div>
       <div class="how-title" data-i18n="how3_title">O Robot Trabalha</div>
       <div class="how-desc" data-i18n="how3_desc">O algoritmo opera automaticamente 24/5. Acompanhe seus resultados em tempo real pela app.</div>
+    </div>
+  </div>
+</section>
+
+<!-- DIFERENCIAIS TÉCNICOS -->
+<section id="diferenciais">
+  <div class="section-label fade-in">
+    <div class="section-tag" data-i18n="dif_tag">POR QUE O RICX É DIFERENTE</div>
+    <h2 data-i18n="dif_title">4 camadas de <span>proteção real</span></h2>
+  </div>
+  <div class="dif-grid">
+    <div class="dif-card fade-in">
+      <div class="dif-icon">🎯</div>
+      <div class="dif-badge" data-i18n="dif1_badge">Execução</div>
+      <div class="dif-title" data-i18n="dif1_title">Ordens Pendentes + SL + TP</div>
+      <div class="dif-desc" data-i18n="dif1_desc">Nunca entramos a mercado diretamente. Cada operação usa ordens pendentes com stop-loss e take-profit definidos antes de executar — controlo total, sem surpresas.</div>
+      <div class="dif-highlight" data-i18n="dif1_hl">100% das operações com SL e TP obrigatório</div>
+    </div>
+    <div class="dif-card fade-in">
+      <div class="dif-icon">🛡️</div>
+      <div class="dif-badge" data-i18n="dif2_badge">Gestão de Risco</div>
+      <div class="dif-title" data-i18n="dif2_title">Máx. 2,5% de Exposição por Trade</div>
+      <div class="dif-desc" data-i18n="dif2_desc">Nenhuma operação arrisca mais de 2,5% do capital. Uma gestão conservadora e profissional que protege o portfólio contra drawdowns severos.</div>
+      <div class="dif-highlight" data-i18n="dif2_hl">Capital protegido em cada operação individual</div>
+    </div>
+    <div class="dif-card fade-in">
+      <div class="dif-icon">📈</div>
+      <div class="dif-badge" data-i18n="dif3_badge">Maximizar Lucros</div>
+      <div class="dif-title" data-i18n="dif3_title">Trailing Profit Automático</div>
+      <div class="dif-desc" data-i18n="dif3_desc">Para além do take-profit fixo, as operações usam trailing profit: os ganhos são protegidos e ajustados automaticamente à medida que o mercado evolui a nosso favor.</div>
+      <div class="dif-highlight" data-i18n="dif3_hl">Lucros protegidos mesmo antes de fechar a operação</div>
+    </div>
+    <div class="dif-card fade-in">
+      <div class="dif-icon">🔬</div>
+      <div class="dif-badge" data-i18n="dif4_badge">Validação Científica</div>
+      <div class="dif-title" data-i18n="dif4_title">10 Anos de Backtest + Monte Carlo</div>
+      <div class="dif-desc" data-i18n="dif4_desc">Todas as estratégias foram testadas com 10 anos de dados históricos, stress tests com eventos extremos e simulação de Monte Carlo — milhares de cenários futuros para garantir robustez real.</div>
+      <div class="dif-highlight" data-i18n="dif4_hl">Validado com milhares de simulações estatísticas</div>
     </div>
   </div>
 </section>
@@ -1236,6 +1313,188 @@
   <p style="margin-top:0.5rem;"><a href="mailto:info@ricxcopytrade.com" style="color:var(--primary);text-decoration:none;">info@ricxcopytrade.com</a></p>
 </footer>
 
+<!-- ═══════════════════════════════════════════════════════
+     TELEGRAM SUPPORT WIDGET
+════════════════════════════════════════════════════════ -->
+<style>
+  /* ── floating container ── */
+  #tg-widget {
+    position: fixed;
+    bottom: 28px;
+    right: 28px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    font-family: 'Inter', 'Segoe UI', sans-serif;
+  }
+
+  /* ── chat bubble popup ── */
+  #tg-bubble {
+    background: var(--card, #0e1826);
+    border: 1px solid rgba(0,245,196,0.25);
+    border-radius: 16px 16px 4px 16px;
+    padding: 12px 16px;
+    max-width: 230px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+  }
+  #tg-bubble.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+  #tg-bubble p {
+    margin: 0 0 4px;
+    font-size: 0.82rem;
+    color: #e2e8f0;
+    line-height: 1.5;
+  }
+  #tg-bubble strong {
+    color: #00c8cc;
+  }
+  #tg-bubble-close {
+    position: absolute;
+    top: 8px; right: 10px;
+    background: none; border: none;
+    color: #666; font-size: 1rem;
+    cursor: pointer; line-height: 1;
+    padding: 0;
+  }
+  #tg-bubble { position: relative; }
+
+  /* ── main button ── */
+  #tg-btn {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2AABEE, #1a8fd1);
+    box-shadow: 0 4px 20px rgba(42,171,238,0.45);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    position: relative;
+  }
+  #tg-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(42,171,238,0.6);
+  }
+  #tg-btn svg { width: 30px; height: 30px; }
+
+  /* ── pulse ring ── */
+  #tg-btn::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 2px solid rgba(42,171,238,0.5);
+    animation: tg-pulse 2.5s ease-out infinite;
+  }
+  @keyframes tg-pulse {
+    0%   { transform: scale(1);   opacity: 0.7; }
+    70%  { transform: scale(1.4); opacity: 0; }
+    100% { transform: scale(1.4); opacity: 0; }
+  }
+
+  /* ── notification dot ── */
+  #tg-dot {
+    position: absolute;
+    top: 2px; right: 2px;
+    width: 14px; height: 14px;
+    background: #00C8CC;
+    border-radius: 50%;
+    border: 2px solid #060b14;
+    animation: tg-bounce 1.8s ease-in-out infinite;
+  }
+  @keyframes tg-bounce {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.25); }
+  }
+
+  /* ── label badge ── */
+  #tg-label {
+    position: absolute;
+    right: 65px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.75);
+    color: #fff;
+    font-size: 0.72rem;
+    padding: 4px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  #tg-btn:hover #tg-label { opacity: 1; }
+
+  @media (max-width: 480px) {
+    #tg-widget { bottom: 18px; right: 16px; }
+    #tg-bubble { max-width: 200px; }
+  }
+</style>
+
+<div id="tg-widget">
+  <!-- popup bubble -->
+  <div id="tg-bubble">
+    <button id="tg-bubble-close" aria-label="Fechar">✕</button>
+    <p>👋 <strong>Olá!</strong> Tens dúvidas sobre o RICX?</p>
+    <p>O nosso <strong>bot de suporte</strong> responde em segundos — disponível 24/7.</p>
+  </div>
+
+  <!-- main button -->
+  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener"
+     aria-label="Suporte via Telegram">
+    <span id="tg-dot"></span>
+    <span id="tg-label">Suporte 24/7</span>
+    <!-- Telegram logo SVG -->
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M21.944 2.862a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.164-.31z"
+            fill="white" opacity="0.15"/>
+      <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.094-.622z"
+            fill="white"/>
+      <path d="M10 14.5l-1.5 4.5L7 13l11-7-8 8.5z" fill="rgba(42,171,238,0.4)"/>
+    </svg>
+  </a>
+</div>
+
+<script>
+(function() {
+  var widget  = document.getElementById('tg-widget');
+  var bubble  = document.getElementById('tg-bubble');
+  var closeBtn = document.getElementById('tg-bubble-close');
+
+  // Show bubble after 4 seconds (first visit only)
+  var dismissed = sessionStorage.getItem('tg-bubble-dismissed');
+  if (!dismissed) {
+    setTimeout(function() { bubble.classList.add('show'); }, 4000);
+  }
+
+  // Close bubble
+  closeBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    bubble.classList.remove('show');
+    sessionStorage.setItem('tg-bubble-dismissed', '1');
+  });
+
+  // Toggle bubble on button click (if not navigating)
+  var btn = document.getElementById('tg-btn');
+  btn.addEventListener('click', function() {
+    sessionStorage.setItem('tg-bubble-dismissed', '1');
+  });
+})();
+</script>
+<!-- ═══════════════════════════════════════════════════════ -->
+
 <script>
 // ─── TRANSLATIONS ───
 const T = {
@@ -1310,6 +1569,20 @@ const T = {
     how1_title:"Voce Deposita", how1_desc:"Abre conta na Axi e deposita o capital.",
     how2_title:"Voce Copia", how2_desc:"Liga o RICX na app e define o risco.",
     how3_title:"RICX Opera", how3_desc:"O robot opera 24/7. Voce acompanha os lucros.",
+    dif_tag:"POR QUE O RICX É DIFERENTE",
+    dif_title:"4 camadas de <span>proteção real</span>",
+    dif1_badge:"Execucao", dif1_title:"Ordens Pendentes + SL + TP",
+    dif1_desc:"Nunca entramos a mercado diretamente. Cada operacao usa ordens pendentes com stop-loss e take-profit definidos antes de executar — controle total, sem surpresas.",
+    dif1_hl:"100% das operacoes com SL e TP obrigatorio",
+    dif2_badge:"Gestao de Risco", dif2_title:"Max. 2,5% de Exposicao por Trade",
+    dif2_desc:"Nenhuma operacao arrisca mais de 2,5% do capital. Gestao conservadora e profissional que protege contra drawdowns severos.",
+    dif2_hl:"Capital protegido em cada operacao individual",
+    dif3_badge:"Maximizar Lucros", dif3_title:"Trailing Profit Automatico",
+    dif3_desc:"Alem do take-profit fixo, as operacoes usam trailing profit: os ganhos sao protegidos e ajustados automaticamente a medida que o mercado evolui a nosso favor.",
+    dif3_hl:"Lucros protegidos mesmo antes de fechar a operacao",
+    dif4_badge:"Validacao Cientifica", dif4_title:"10 Anos de Backtest + Monte Carlo",
+    dif4_desc:"Todas as estrategias foram testadas com 10 anos de dados historicos, stress tests e simulacao de Monte Carlo — milhares de cenarios futuros para garantir robustez real.",
+    dif4_hl:"Validado com milhares de simulacoes estatisticas",
     tut_tag:"TUTORIAL PASSO A PASSO",
     tut_title:"Como <span>conectar-se</span>",
     tab1:"Criar Conta", tab2:"Vincular Broker", tab3:"Copiar RICX",
@@ -1365,6 +1638,20 @@ const T = {
     how1_title:"Tu Depositas", how1_desc:"Abre cuenta en Axi y deposita tu capital.",
     how2_title:"Tu Copias", how2_desc:"Activa el RICX en la app y define el riesgo.",
     how3_title:"RICX Opera", how3_desc:"El robot opera 24/7. Tu solo miras las ganancias.",
+    dif_tag:"POR QUÉ EL RICX ES DIFERENTE",
+    dif_title:"4 capas de <span>protección real</span>",
+    dif1_badge:"Ejecucion", dif1_title:"Ordenes Pendientes + SL + TP",
+    dif1_desc:"Nunca entramos al mercado directamente. Cada operacion usa ordenes pendientes con stop-loss y take-profit definidos antes de ejecutar — control total, sin sorpresas.",
+    dif1_hl:"100% de las operaciones con SL y TP obligatorio",
+    dif2_badge:"Gestion de Riesgo", dif2_title:"Max. 2,5% de Exposicion por Trade",
+    dif2_desc:"Ninguna operacion arriesga mas del 2,5% del capital. Gestion conservadora y profesional que protege contra drawdowns severos.",
+    dif2_hl:"Capital protegido en cada operacion individual",
+    dif3_badge:"Maximizar Ganancias", dif3_title:"Trailing Profit Automatico",
+    dif3_desc:"Ademas del take-profit fijo, las operaciones usan trailing profit: las ganancias se protegen y ajustan automaticamente a medida que el mercado evoluciona a nuestro favor.",
+    dif3_hl:"Ganancias protegidas incluso antes de cerrar la operacion",
+    dif4_badge:"Validacion Cientifica", dif4_title:"10 Anos de Backtest + Monte Carlo",
+    dif4_desc:"Todas las estrategias fueron probadas con 10 anos de datos historicos, stress tests y simulacion de Monte Carlo — miles de escenarios futuros para garantizar robustez real.",
+    dif4_hl:"Validado con miles de simulaciones estadisticas",
     tut_tag:"TUTORIAL PASO A PASO",
     tut_title:"Como <span>conectarse</span>",
     tab1:"Crear Cuenta", tab2:"Vincular Broker", tab3:"Copiar RICX",
@@ -1469,6 +1756,20 @@ const T = {
     how1_title:"You Deposit", how1_desc:"Open an Axi account and deposit your capital.",
     how2_title:"You Copy", how2_desc:"Enable RICX in the app and set your risk level.",
     how3_title:"RICX Trades", how3_desc:"The robot trades 24/7. You just watch the profits.",
+    dif_tag:"WHY RICX IS DIFFERENT",
+    dif_title:"4 layers of <span>real protection</span>",
+    dif1_badge:"Execution", dif1_title:"Pending Orders + SL + TP",
+    dif1_desc:"We never enter the market directly. Every trade uses pending orders with stop-loss and take-profit defined before execution — full control, no surprises.",
+    dif1_hl:"100% of trades with mandatory SL and TP",
+    dif2_badge:"Risk Management", dif2_title:"Max. 2.5% Exposure per Trade",
+    dif2_desc:"No single trade risks more than 2.5% of capital. Conservative, professional risk management that protects against severe drawdowns.",
+    dif2_hl:"Capital protected on every individual trade",
+    dif3_badge:"Maximise Profits", dif3_title:"Automatic Trailing Profit",
+    dif3_desc:"Beyond a fixed take-profit, trades use trailing profit: gains are automatically protected and adjusted as the market moves in our favour.",
+    dif3_hl:"Profits protected even before closing the trade",
+    dif4_badge:"Scientific Validation", dif4_title:"10-Year Backtest + Monte Carlo",
+    dif4_desc:"All strategies were validated with 10 years of historical data, extreme stress tests, and Monte Carlo simulation — thousands of future scenarios to ensure real robustness.",
+    dif4_hl:"Validated with thousands of statistical simulations",
     tut_tag:"STEP BY STEP TUTORIAL",
     tut_title:"How to <span>connect</span>",
     tab1:"Create Account", tab2:"Link Broker", tab3:"Copy RICX",
