@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=1440" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>RICX Copy Trading: Trading made easy</title>
 <meta name="description" content="Tutorial paso a paso — de cero al robot RICX conectado en 30 minutos. Guía completa con capturas reales." />
 
@@ -161,13 +161,58 @@ img{max-width:100%;display:block}
 footer{background:var(--navy-deep);color:#B3BCD4;padding:48px 0 24px}
 .footer-bot{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6E7A9A;padding-top:12px}
 
-@media(max-width:780px){
-  .slide,.slide.reverse{grid-template-columns:1fr;padding:32px 24px;gap:32px}
-  .slide.reverse .slide-body{order:initial}
-  .phone-frame{width:220px}
-  .slide-body h3{font-size:24px}
-  .hero-tut h1{font-size:36px}
+/* ─────────────── RESPONSIVE ─────────────── */
+@media(max-width:900px){
+  .wrap{padding:0 20px}
+  .nav-inner{height:64px}
   .nav-links{display:none}
+  .btn{padding:10px 18px;font-size:14px}
+  .btn-sm{padding:8px 14px;font-size:13px}
+
+  .hero-tut{padding:40px 0 24px}
+  .hero-tut h1{font-size:34px;line-height:1.1}
+  .hero-tut p{font-size:15px;padding:0 12px}
+
+  .tabs-wrap{padding:0 20px}
+  .tabs{gap:4px;padding:4px}
+  .tab-btn{padding:10px 12px;font-size:12px;letter-spacing:0}
+
+  .warn-banner{margin:20px 16px 0;padding:14px 16px;gap:10px}
+  .warn-banner strong{font-size:14px}
+  .warn-banner p{font-size:13px}
+
+  .carousel-wrap{padding:0 16px 60px;margin-top:24px}
+  .carousel{border-radius:14px}
+  .slide,.slide.reverse{grid-template-columns:1fr;padding:32px 24px 24px;gap:24px;min-height:auto}
+  .slide.reverse .slide-body{order:initial}
+  .phone-frame{width:200px}
+  .slide-body h3{font-size:22px;line-height:1.25;margin-bottom:12px}
+  .slide-body p{font-size:15px;line-height:1.55}
+  .slide-body .step-num{font-size:11px;padding:4px 10px}
+  .slide-body .step-phase{font-size:10px}
+  .slide-tip{font-size:13px;padding:12px 14px}
+  .car-ctrl{padding:14px 16px}
+  .car-arrow{width:40px;height:40px}
+  .car-arrow svg{width:16px;height:16px}
+  .car-counter{font-size:12px}
+
+  .tab-cta{margin:24px 16px;padding:20px}
+  .tab-cta .title{font-size:16px}
+
+  .pwd-box{margin:20px 16px 0;padding:18px 20px}
+  .pwd-box .pg-title{font-size:11px}
+  .pwd-item{padding:12px 14px;font-size:13px}
+}
+
+@media(max-width:480px){
+  .hero-tut h1{font-size:28px}
+  .hero-tut p{font-size:14px}
+  .tab-btn{padding:8px 10px;font-size:11px}
+  .slide,.slide.reverse{padding:24px 18px 18px}
+  .slide-body h3{font-size:19px}
+  .phone-frame{width:170px}
+  .car-arrow{width:36px;height:36px}
+  #ricx-toast{padding:12px 18px;font-size:13px}
 }
 </style>
 </head>
