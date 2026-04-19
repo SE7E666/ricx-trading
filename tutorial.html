@@ -103,6 +103,22 @@ img{max-width:100%;display:block}
 .tab-cta button{background:var(--navy);color:#fff;border:0;padding:12px 24px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer;font-family:inherit}
 .tab-cta button:hover{background:var(--navy-deep)}
 
+/* Finish arrow (on last slide) */
+.car-arrow.car-arrow-finish{background:var(--cyan);border-color:var(--cyan);color:#fff;animation:finish-pulse 1.8s ease-in-out infinite}
+.car-arrow.car-arrow-finish:hover:not(:disabled){background:var(--navy);border-color:var(--navy)}
+@keyframes finish-pulse{0%,100%{box-shadow:0 0 0 0 rgba(0,200,204,.45)} 50%{box-shadow:0 0 0 10px rgba(0,200,204,0)}}
+
+/* Toast */
+#ricx-toast{
+  position:fixed; top:24px; left:50%; transform:translateX(-50%) translateY(-120%);
+  z-index:9999; padding:14px 28px; border-radius:14px; font-weight:600; font-size:15px;
+  box-shadow:0 20px 50px -12px rgba(15,23,41,.35); transition:transform .4s cubic-bezier(.34,1.56,.64,1);
+  max-width:92vw; text-align:center; display:flex; align-items:center; gap:10px;
+}
+#ricx-toast.show{transform:translateX(-50%) translateY(0)}
+#ricx-toast.toast-green{background:linear-gradient(135deg,#10B981,#059669);color:#fff}
+#ricx-toast.toast-green::before{content:"✅"; font-size:22px}
+
 /* Lightbox */
 #lb-overlay{position:fixed;inset:0;background:rgba(15,23,41,.92);display:none;align-items:center;justify-content:center;z-index:9998;padding:40px}
 #lb-overlay.open{display:flex}
@@ -264,7 +280,7 @@ footer{background:var(--navy-deep);color:#B3BCD4;padding:48px 0 24px}
 // ─── SLIDE DATA ─── (i, img, rev?, titleKey, descKey, tipKey?, tipStyle?, phase?)
 const SLIDES = {
   broker: [
-    {img:'PrintScreens/axi/01.png', titleKey:'b01_t', descKey:'b01_d', phase:'b_phase1'},
+    {img:'PrintScreens/axi/01.png', titleKey:'b01_t', descKey:'b01_d', phase:'b_phase1', ctaUrl:'https://www.axi.com/es-mx/open-account', ctaKey:'cta_open_axi'},
     {img:'PrintScreens/axi/02.png', titleKey:'b02_t', descKey:'b02_d', rev:true},
     {img:'PrintScreens/axi/03.png', titleKey:'b03_t', descKey:'b03_d', tipKey:'b03_tip'},
     {img:'PrintScreens/axi/04.png', titleKey:'b04_t', descKey:'b04_d', rev:true},
@@ -386,6 +402,10 @@ const T = {
     tab_cta_broker:"Crea tu cuenta en la app Axi CopyTrading",
     tab_cta_app:"Vincula la cuenta del broker en la app",
     tab_cta_link:"Copia el robot RICX",
+    cta_open_axi:"Abrir cuenta en Axi",
+    tab_done:"¡Fase completada! Continuando al siguiente paso…",
+    all_done:"🎉 ¡Tutorial completo! Ya estás listo para copiar al RICX.",
+    tab_complete_hint:"Completar y continuar",
   },
   pt: {
     nav_results:"Resultados", nav_how:"Como Funciona", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Conectar ao RICX",
@@ -452,6 +472,10 @@ const T = {
     tab_cta_broker:"Crie sua conta na app Axi CopyTrading",
     tab_cta_app:"Vincule a conta do broker na app",
     tab_cta_link:"Copie o robot RICX",
+    cta_open_axi:"Abrir conta na Axi",
+    tab_done:"Fase concluída! Avançando para o próximo passo…",
+    all_done:"🎉 Tutorial concluído! Já está pronto para copiar o RICX.",
+    tab_complete_hint:"Concluir e continuar",
   },
   en: {
     nav_results:"Results", nav_how:"How It Works", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Connect to RICX",
@@ -518,6 +542,10 @@ const T = {
     tab_cta_broker:"Create your account in the Axi CopyTrading app",
     tab_cta_app:"Link the broker account in the app",
     tab_cta_link:"Copy the RICX robot",
+    cta_open_axi:"Open Axi account",
+    tab_done:"Phase completed! Moving to the next step…",
+    all_done:"🎉 Tutorial complete! You're ready to copy RICX.",
+    tab_complete_hint:"Complete and continue",
   }
 };
 
@@ -585,7 +613,12 @@ function render(){
   const prev = document.getElementById('car-prev');
   const next = document.getElementById('car-next');
   prev.disabled = currentIdx === 0;
-  next.disabled = currentIdx === n - 1;
+  // Next arrow ALWAYS active — at last slide it triggers tab completion + auto-advance
+  next.disabled = false;
+  // Visual hint: change appearance on last slide to signal "complete"
+  const isLast = currentIdx === n - 1;
+  next.classList.toggle('car-arrow-finish', isLast);
+  next.setAttribute('title', isLast ? (T[currentLang].tab_complete_hint || 'Completar y continuar') : '');
   // Build slide HTML
   const s = slides[currentIdx];
   if(!s) return;
@@ -599,6 +632,10 @@ function render(){
   const mediaHTML = s.img
     ? `<div class="phone-wrap"><div class="phone-frame" onclick="openLightbox(this)"><img src="${s.img}" alt=""/></div><div class="zoom-hint">${currentLang === 'pt' ? 'Clique para ampliar' : currentLang === 'en' ? 'Click to zoom' : 'Pulsa para ampliar'}</div></div>`
     : `<div class="phone-wrap" style="font-size:120px">${s.emoji || ''}</div>`;
+  const ctaHTML = s.ctaUrl ? `
+    <div style="margin-top:20px">
+      <a href="${s.ctaUrl}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#fff;padding:14px 26px;border-radius:12px;font-weight:700;font-size:15px;text-decoration:none;box-shadow:0 8px 24px -8px rgba(27,45,94,.5);transition:transform .15s">${t[s.ctaKey] || s.ctaKey} <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+    </div>` : '';
   const appDlHTML = s.appDl ? `
     <div class="app-dl">
       <a href="https://apps.apple.com/app/axi-copy-trading/id1539520232" target="_blank" class="ios">
@@ -619,6 +656,7 @@ function render(){
         <h3>${t[s.titleKey] || s.titleKey}</h3>
         <p>${t[s.descKey] || s.descKey}</p>
         ${tipHTML}
+        ${ctaHTML}
         ${appDlHTML}
       </div>
       ${!s.rev ? mediaHTML : ''}
@@ -628,8 +666,43 @@ function render(){
 
 function navigate(dir){
   const n = (SLIDES[currentTab] || []).length;
+  // If at last slide and user clicked next, complete tab and advance
+  if(dir === 1 && currentIdx === n - 1){
+    completeTab();
+    return;
+  }
   currentIdx = Math.max(0, Math.min(n - 1, currentIdx + dir));
   render();
+}
+
+const TAB_ORDER = ['broker','app','link','ricx'];
+function completeTab(){
+  const t = T[currentLang];
+  const idx = TAB_ORDER.indexOf(currentTab);
+  const nextTab = TAB_ORDER[idx + 1];
+  if(nextTab){
+    showToast(t.tab_done || '¡Fase completa!', 'green');
+    setTimeout(() => switchTab(nextTab), 1400);
+  } else {
+    // Last tab completed — celebrate
+    showToast(t.all_done || '🎉 ¡Tutorial completo! Ya estás listo para copiar al RICX.', 'green');
+  }
+}
+
+function showToast(msg, style){
+  let el = document.getElementById('ricx-toast');
+  if(!el){
+    el = document.createElement('div');
+    el.id = 'ricx-toast';
+    document.body.appendChild(el);
+  }
+  el.className = 'toast-' + (style || 'green');
+  el.innerHTML = msg;
+  el.classList.add('show');
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => {
+    el.classList.remove('show');
+  }, 2800);
 }
 
 document.addEventListener('keydown', e => {
