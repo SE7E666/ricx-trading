@@ -58,13 +58,13 @@ img{max-width:100%; display:block}
 .nav-inner{display:flex; align-items:center; justify-content:space-between; height:72px}
 .logo{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:-.02em; font-size:20px; color:var(--navy)}
 .logo-mark{
-  width:32px; height:32px; border-radius:9px;
+  width:36px; height:36px; border-radius:10px;
   background:var(--navy);
   display:grid; place-items:center;
-  color:#fff; font-weight:800; font-size:13px;
   position:relative;
   box-shadow:0 4px 14px rgba(27,45,94,.25);
 }
+.logo-mark svg{width:22px; height:22px; display:block}
 .logo-mark::after{
   content:""; position:absolute; right:-4px; bottom:-4px;
   width:12px; height:12px; border-radius:50%;
@@ -77,7 +77,16 @@ img{max-width:100%; display:block}
   padding:6px 0; position:relative;
 }
 .nav-links a:hover{color:var(--navy)}
-.nav-right{display:flex; align-items:center; gap:16px}
+.nav-right{display:flex; align-items:center; gap:12px}
+.lang-btns{display:inline-flex; background:#F0F2F7; border-radius:10px; padding:3px; gap:2px}
+.lang-btn{
+  border:0; background:transparent; color:var(--muted);
+  font-size:12px; font-weight:700; letter-spacing:.05em;
+  padding:6px 10px; border-radius:8px; cursor:pointer;
+  transition:all .18s;
+}
+.lang-btn.active{background:#fff; color:var(--navy); box-shadow:0 1px 3px rgba(15,23,41,.08)}
+.lang-btn:hover:not(.active){color:var(--navy-ink)}
 .btn{
   display:inline-flex; align-items:center; gap:8px;
   font-weight:600; font-size:15px;
@@ -525,6 +534,117 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
   display:flex; justify-content:space-between; align-items:center;
   font-size:13px; color:#6E7A9A;
 }
+
+/* ——— Tutorial section ——— */
+.tut-section{padding:120px 0 96px; background:var(--bg)}
+.tabs{
+  display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  max-width:900px; margin:0 auto 40px; padding:6px;
+  background:#fff; border:1px solid var(--line); border-radius:14px;
+}
+.tab-btn{
+  border:0; background:transparent; cursor:pointer;
+  padding:12px 18px; border-radius:10px;
+  font-weight:600; font-size:14px; color:var(--muted);
+  transition:all .18s;
+  font-family:inherit;
+}
+.tab-btn:hover{color:var(--navy)}
+.tab-btn.active{background:var(--navy); color:#fff; box-shadow:0 4px 14px -4px rgba(27,45,94,.4)}
+.tab-content{display:none; max-width:1000px; margin:0 auto}
+.tab-content.active{display:block}
+.warn-banner{
+  display:flex; gap:14px; align-items:flex-start;
+  background:#FFFBEB; border:1px solid #FDE68A;
+  border-radius:14px; padding:16px 20px; margin-bottom:32px;
+}
+.warn-banner.red{background:#FEF2F2; border-color:#FECACA}
+.warn-banner .warn-icon{font-size:22px; line-height:1; flex-shrink:0}
+.warn-banner strong{color:var(--navy-ink); display:block; margin-bottom:4px}
+.warn-banner p{margin:0; font-size:14px; color:var(--muted); line-height:1.55}
+.phase-bar{
+  display:flex; align-items:center; gap:16px; margin:40px 0 28px;
+  color:var(--cyan); font-size:12px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+}
+.phase-bar::before,.phase-bar::after{content:""; flex:1; height:1px; background:var(--line)}
+.tut-step-card{
+  display:grid; grid-template-columns:1fr 280px; gap:40px;
+  padding:28px; background:#fff; border:1px solid var(--line);
+  border-radius:16px; margin-bottom:18px;
+  align-items:center;
+  transition:transform .18s, box-shadow .2s;
+}
+.tut-step-card:hover{transform:translateY(-2px); box-shadow:0 12px 32px -8px rgba(15,23,41,.08)}
+.tut-step-card.reverse{grid-template-columns:280px 1fr}
+.tut-step-card.reverse .tut-body{order:2}
+.tut-num{
+  display:inline-block; font-size:11px; letter-spacing:.16em; font-weight:700;
+  color:#008C90; background:var(--cyan-soft); padding:4px 10px; border-radius:99px;
+  margin-bottom:10px;
+}
+.tut-heading{font-size:19px; font-weight:700; letter-spacing:-.01em; color:var(--navy-ink); margin:0 0 10px; line-height:1.35}
+.tut-desc{font-size:14.5px; color:var(--muted); line-height:1.6; margin:0}
+.tut-desc .arrow{color:var(--cyan); font-weight:700}
+.tut-tip{
+  margin-top:12px; padding:10px 14px; background:#FFFBEB;
+  border-left:3px solid #F59E0B; border-radius:8px;
+  font-size:13px; color:#92400E; line-height:1.5;
+}
+.tut-tip b{color:#78350F}
+.phone-frame{
+  justify-self:center;
+  width:240px; aspect-ratio:9/19;
+  border-radius:26px; background:#0F1729;
+  padding:8px; box-shadow:0 14px 40px -12px rgba(15,23,41,.35);
+  cursor:zoom-in;
+  overflow:hidden;
+}
+.phone-frame img{width:100%; height:100%; object-fit:cover; border-radius:20px; display:block}
+.phone-frame:hover img{opacity:.9}
+.tab-next-cta{
+  margin-top:32px; padding:24px; text-align:center;
+  background:#fff; border:1px dashed var(--cyan); border-radius:14px;
+}
+.tab-next-cta .label{font-size:12px; color:var(--muted); margin-bottom:6px; letter-spacing:.05em; text-transform:uppercase}
+.tab-next-cta .title{font-size:16px; font-weight:700; color:var(--navy); margin-bottom:12px}
+.tab-next-cta button{
+  background:var(--navy); color:#fff; border:0;
+  padding:10px 20px; border-radius:10px;
+  font-weight:600; font-size:14px; cursor:pointer;
+  font-family:inherit;
+}
+.password-grid{
+  margin-top:28px; padding:20px 24px;
+  background:linear-gradient(135deg, #F0FDFA, #fff);
+  border:1px solid #99F6E4; border-radius:14px;
+}
+.password-grid .pg-title{font-size:12px; letter-spacing:.1em; color:#0891B2; font-weight:700; text-transform:uppercase; margin-bottom:12px}
+.password-grid .pg-item{
+  background:#fff; border:1px solid var(--line); border-radius:10px;
+  padding:12px 16px; margin-bottom:8px;
+}
+.password-grid .pg-item b{color:var(--navy-ink); display:block; font-size:14px; margin-bottom:2px}
+.password-grid .pg-item span{font-size:13px; color:var(--muted); line-height:1.5}
+/* lightbox */
+#lb-overlay{
+  position:fixed; inset:0; background:rgba(15,23,41,.92);
+  display:none; align-items:center; justify-content:center;
+  z-index:9998; padding:40px;
+}
+#lb-overlay.open{display:flex}
+#lb-overlay img{max-width:90vw; max-height:90vh; border-radius:16px; box-shadow:0 20px 60px rgba(0,0,0,.5)}
+#lb-close{
+  position:absolute; top:24px; right:24px;
+  width:44px; height:44px; border-radius:50%; border:0;
+  background:rgba(255,255,255,.1); color:#fff;
+  font-size:20px; cursor:pointer; backdrop-filter:blur(10px);
+}
+#lb-close:hover{background:rgba(255,255,255,.2)}
+@media(max-width:780px){
+  .tut-step-card,.tut-step-card.reverse{grid-template-columns:1fr}
+  .tut-step-card.reverse .tut-body{order:initial}
+  .phone-frame{width:200px}
+}
 </style>
 </head>
 <body>
@@ -533,17 +653,33 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <header class="nav" id="nav">
   <div class="wrap nav-inner">
     <a href="#" class="logo">
-      <span class="logo-mark">R</span>
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="ricxGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#4FA8FF"/>
+              <stop offset="55%" stop-color="#00D4D4"/>
+              <stop offset="100%" stop-color="#00FFC2"/>
+            </linearGradient>
+          </defs>
+          <path d="M4.5 3.5 L9.5 3.5 L12 7.5 L14.5 3.5 L19.5 3.5 L14 12 L19.5 20.5 L14.5 20.5 L12 16.5 L9.5 20.5 L4.5 20.5 L10 12 Z" fill="url(#ricxGrad)"/>
+        </svg>
+      </span>
       <span>RICX</span>
     </a>
     <nav class="nav-links">
-      <a href="#resultados">Resultados</a>
-      <a href="#como-funciona">Cómo Funciona</a>
-      <a href="#tutorial">Tutorial</a>
-      <a href="#faq">FAQ</a>
+      <a href="#resultados" data-i18n="nav_results">Resultados</a>
+      <a href="#como-funciona" data-i18n="nav_how">Cómo Funciona</a>
+      <a href="#tutorial" data-i18n="nav_tutorial">Tutorial</a>
+      <a href="#faq" data-i18n="nav_faq">FAQ</a>
     </nav>
     <div class="nav-right">
-      <a href="#" class="btn btn-primary btn-sm">Conectar al RICX <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+      <div class="lang-btns" role="group" aria-label="Idioma">
+        <button class="lang-btn active" data-lang="es" onclick="setLang('es')">ES</button>
+        <button class="lang-btn" data-lang="pt" onclick="setLang('pt')">PT</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+      </div>
+      <a href="#" class="btn btn-primary btn-sm" data-i18n="nav_cta">Conectar al RICX <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     </div>
   </div>
 </header>
@@ -552,12 +688,12 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow"><span class="dot"></span> Verificado en Myfxbook ✓</span>
-      <h1 class="hero-h1">Invertí en<br/><em>piloto automático</em></h1>
-      <p class="hero-sub">Conectá tu cuenta Axi al robot RICX y dejá que la automatización genere rendimientos 24/7 — con gestión de riesgo profesional sobre XAU/USD (Oro).</p>
+      <span class="eyebrow"><span class="dot"></span> <span data-i18n="hero_badge">Verificado en Myfxbook ✓</span></span>
+      <h1 class="hero-h1" data-i18n="hero_title">Invertí en<br/><em>piloto automático</em></h1>
+      <p class="hero-sub" data-i18n="hero_sub">Conectá tu cuenta Axi al robot RICX y dejá que la automatización genere rendimientos 24/7 — con gestión de riesgo profesional sobre XAU/USD (Oro).</p>
       <div class="hero-ctas">
-        <a href="#" class="btn btn-primary">Conectar al RICX <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-        <a href="#resultados" class="btn btn-ghost">Ver resultados reales</a>
+        <a href="#" class="btn btn-primary"><span data-i18n="hero_cta">Conectar al RICX</span> <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+        <a href="#resultados" class="btn btn-ghost" data-i18n="hero_cta2">Ver resultados reales</a>
       </div>
       <div class="trust-row">
         <span class="pill">
@@ -691,31 +827,31 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
   <div class="wrap">
     <div class="stats-grid">
       <div class="stat">
-        <div class="stat-label">Ganancia Total</div>
-        <div class="stat-value g num">+65.37<span style="font-size:24px">%</span></div>
+        <div class="stat-label" data-i18n="stat1_label">Ganancia Total</div>
+        <div class="stat-value g num" id="stat-gain">+65.37%</div>
         <svg class="stat-spark" viewBox="0 0 100 24" preserveAspectRatio="none">
           <path d="M0,20 L14,18 L28,17 L42,14 L56,11 L70,8 L84,5 L100,3" fill="none" stroke="#00C8CC" stroke-width="1.5"/>
         </svg>
       </div>
       <div class="stat">
-        <div class="stat-label">Meses Activos</div>
-        <div class="stat-value num">7</div>
-        <div class="stat-sub">Desde sept. 2025</div>
+        <div class="stat-label" data-i18n="stat2_label">Meses Activos</div>
+        <div class="stat-value num" id="stat-months">7</div>
+        <div class="stat-sub" data-i18n="stat2_sub">Desde sept. 2025</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Win Rate</div>
-        <div class="stat-value num">88<span style="font-size:24px">%</span></div>
-        <div class="stat-sub">412 de 468 trades</div>
+        <div class="stat-label" data-i18n="stat3_label">Win Rate</div>
+        <div class="stat-value num" id="stat-winrate">88%</div>
+        <div class="stat-sub" data-i18n="stat3_sub">412 de 468 trades</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Drawdown Máx</div>
-        <div class="stat-value num" style="color:#FCD34D">−8.2<span style="font-size:24px">%</span></div>
-        <div class="stat-sub">Riesgo controlado</div>
+        <div class="stat-label" data-i18n="stat4_label">Drawdown Máx</div>
+        <div class="stat-value num" id="stat-dd" style="color:#FCD34D">−8.2%</div>
+        <div class="stat-sub" data-i18n="stat4_sub">Riesgo controlado</div>
       </div>
       <div class="stat">
-        <div class="stat-label">Promedio Mensual</div>
-        <div class="stat-value g num">+8.49<span style="font-size:24px">%</span></div>
-        <div class="stat-sub">Retorno consistente</div>
+        <div class="stat-label" data-i18n="stat5_label">Promedio Mensual</div>
+        <div class="stat-value g num" id="stat-monthly">+8.49%</div>
+        <div class="stat-sub" data-i18n="stat5_sub">Retorno consistente</div>
       </div>
     </div>
   </div>
@@ -725,9 +861,9 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <section class="section how" id="como-funciona">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Cómo funciona</div>
-      <h2 class="sec-title">Tres pasos. Cero<br/>conocimientos técnicos.</h2>
-      <p class="sec-sub">Configurá tu conexión en menos de 10 minutos. El robot hace el resto.</p>
+      <div class="kicker" data-i18n="how_kicker">Cómo funciona</div>
+      <h2 class="sec-title" data-i18n="how_title">Tres pasos. Cero<br/>conocimientos técnicos.</h2>
+      <p class="sec-sub" data-i18n="how_sub">Configurá tu conexión en menos de 10 minutos. El robot hace el resto.</p>
     </div>
 
     <div class="how-grid">
@@ -737,27 +873,27 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
         <div class="step-icon">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
         </div>
-        <div class="step-num">PASO 01</div>
-        <h3>Abrí tu cuenta Axi</h3>
-        <p>Registrate en Axi (broker regulado) en 5 minutos. Depósito mínimo desde USD 200. Tus fondos quedan siempre en tu nombre.</p>
+        <div class="step-num" data-i18n="step1_num">PASO 01</div>
+        <h3 data-i18n="step1_title">Abrí tu cuenta Axi</h3>
+        <p data-i18n="step1_desc">Registrate en Axi (broker regulado) en 5 minutos. Depósito mínimo desde USD 200. Tus fondos quedan siempre en tu nombre.</p>
       </div>
 
       <div class="step">
         <div class="step-icon">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
         </div>
-        <div class="step-num">PASO 02</div>
-        <h3>Conectá al RICX</h3>
-        <p>Desde la app Axi Copy buscá <b>RICX Gold Strategy</b> y tocá "Copiar". Elegís tu tamaño de riesgo y listo.</p>
+        <div class="step-num" data-i18n="step2_num">PASO 02</div>
+        <h3 data-i18n="step2_title">Conectá al RICX</h3>
+        <p data-i18n="step2_desc">Desde la app Axi Copy buscá <b>RICX Gold Strategy</b> y tocá "Copiar". Elegís tu tamaño de riesgo y listo.</p>
       </div>
 
       <div class="step">
         <div class="step-icon">
           <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/><line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/></svg>
         </div>
-        <div class="step-num">PASO 03</div>
-        <h3>El robot opera 24/7</h3>
-        <p>RICX ejecuta trades en XAU/USD con gestión de riesgo profesional. Vos solo mirás cómo crece tu cuenta.</p>
+        <div class="step-num" data-i18n="step3_num">PASO 03</div>
+        <h3 data-i18n="step3_title">El robot opera 24/7</h3>
+        <p data-i18n="step3_desc">RICX ejecuta trades en XAU/USD con gestión de riesgo profesional. Vos solo mirás cómo crece tu cuenta.</p>
       </div>
     </div>
   </div>
@@ -767,9 +903,9 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <section class="section" style="background:var(--bg)">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Por qué RICX es diferente</div>
-      <h2 class="sec-title">Gestión de riesgo<br/>antes que ganancias.</h2>
-      <p class="sec-sub">La mayoría de los bots explotan cuentas por codicia. RICX está construido al revés: primero no perder, después ganar.</p>
+      <div class="kicker" data-i18n="dif_kicker">Por qué RICX es diferente</div>
+      <h2 class="sec-title" data-i18n="dif_title">Gestión de riesgo<br/>antes que ganancias.</h2>
+      <p class="sec-sub" data-i18n="dif_sub">La mayoría de los bots explotan cuentas por codicia. RICX está construido al revés: primero no perder, después ganar.</p>
     </div>
 
     <div class="feat-grid">
@@ -777,36 +913,36 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
         <div class="feat-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H5a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2h-4"/><polyline points="8 11 12 7 16 11"/><line x1="12" y1="15" x2="12" y2="4"/></svg>
         </div>
-        <h3>Órdenes pendientes con SL + TP</h3>
-        <p>Nunca opera a mercado. Cada trade tiene Stop Loss y Take Profit pre-definidos. Si el mercado se mueve en contra, la pérdida está acotada.</p>
-        <span class="mini">SL obligatorio en el 100% de las operaciones</span>
+        <h3 data-i18n="feat1_title">Órdenes pendientes con SL + TP</h3>
+        <p data-i18n="feat1_desc">Nunca opera a mercado. Cada trade tiene Stop Loss y Take Profit pre-definidos. Si el mercado se mueve en contra, la pérdida está acotada.</p>
+        <span class="mini" data-i18n="feat1_mini">SL obligatorio en el 100% de las operaciones</span>
       </div>
 
       <div class="feat-card">
         <div class="feat-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         </div>
-        <h3>Máx 2.5% exposición por trade</h3>
-        <p>El robot jamás arriesga más del 2.5% del equity en una sola operación. Incluso en el peor escenario, tu capital sigue intacto.</p>
-        <span class="mini">Riesgo máx / trade = equity × 0.025</span>
+        <h3 data-i18n="feat2_title">Máx 2.5% exposición por trade</h3>
+        <p data-i18n="feat2_desc">El robot jamás arriesga más del 2.5% del equity en una sola operación. Incluso en el peor escenario, tu capital sigue intacto.</p>
+        <span class="mini" data-i18n="feat2_mini">Riesgo máx / trade = equity × 0.025</span>
       </div>
 
       <div class="feat-card">
         <div class="feat-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
         </div>
-        <h3>Trailing Profit automático</h3>
-        <p>Cuando un trade está en ganancia, RICX mueve el Stop Loss para asegurar el beneficio. Dejás correr las ganadoras sin riesgo.</p>
-        <span class="mini">Activación automática desde +15 pips</span>
+        <h3 data-i18n="feat3_title">Trailing Profit automático</h3>
+        <p data-i18n="feat3_desc">Cuando un trade está en ganancia, RICX mueve el Stop Loss para asegurar el beneficio. Dejás correr las ganadoras sin riesgo.</p>
+        <span class="mini" data-i18n="feat3_mini">Activación automática desde +15 pips</span>
       </div>
 
       <div class="feat-card">
         <div class="feat-icon">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 12l4-4 4 4 5-5"/><circle cx="20" cy="7" r="1.5" fill="currentColor"/></svg>
         </div>
-        <h3>10 años backtest + Monte Carlo</h3>
-        <p>Validado con datos históricos de 10 años y 10.000 simulaciones Monte Carlo. La estrategia sobrevive a cualquier escenario de mercado.</p>
-        <span class="mini">10.000 simulaciones · 0 quiebras</span>
+        <h3 data-i18n="feat4_title">10 años backtest + Monte Carlo</h3>
+        <p data-i18n="feat4_desc">Validado con datos históricos de 10 años y 10.000 simulaciones Monte Carlo. La estrategia sobrevive a cualquier escenario de mercado.</p>
+        <span class="mini" data-i18n="feat4_mini">10.000 simulaciones · 0 quiebras</span>
       </div>
     </div>
   </div>
@@ -823,8 +959,8 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
     <div class="equity-wrap">
       <div class="equity-head">
         <div>
-          <h3 class="equity-title">Curva de crecimiento — Cuenta real</h3>
-          <p class="equity-sub">Cuenta USD 10,000 · Septiembre 2025 → Abril 2026</p>
+          <h3 class="equity-title" data-i18n="equity_title">Curva de crecimiento — Cuenta real</h3>
+          <p class="equity-sub" data-i18n="equity_sub">Cuenta USD 10,000 · Septiembre 2025 → Abril 2026</p>
         </div>
         <span class="verified-badge">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
@@ -926,8 +1062,8 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <section class="section testimonials">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Testimonios reales</div>
-      <h2 class="sec-title">Lo que dicen los<br/>seguidores del RICX.</h2>
+      <div class="kicker" data-i18n="test_kicker">Testimonios reales</div>
+      <h2 class="sec-title" data-i18n="test_title">Lo que dicen los<br/>seguidores del RICX.</h2>
     </div>
     <div class="test-grid">
       <div class="test-card">
@@ -973,18 +1109,18 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <section class="section">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Simulá tu crecimiento</div>
-      <h2 class="sec-title">¿Cuánto podrías<br/>tener en 5 años?</h2>
-      <p class="sec-sub">Basado en el rendimiento histórico promedio de +8.49% mensual. Los resultados pasados no garantizan rendimientos futuros.</p>
+      <div class="kicker" data-i18n="calc_kicker">Simulá tu crecimiento</div>
+      <h2 class="sec-title" data-i18n="calc_title">¿Cuánto podrías<br/>tener en 5 años?</h2>
+      <p class="sec-sub" data-i18n="calc_sub">Basado en el rendimiento histórico promedio de +8.49% mensual. Los resultados pasados no garantizan rendimientos futuros.</p>
     </div>
 
     <div class="calc-wrap">
       <div class="calc-inputs">
-        <h3>Calculadora de rendimiento</h3>
-        <p class="sub">Ajustá los valores y descubrí tu potencial.</p>
+        <h3 data-i18n="calc_box_title">Calculadora de rendimiento</h3>
+        <p class="sub" data-i18n="calc_box_sub">Ajustá los valores y descubrí tu potencial.</p>
 
         <div class="calc-field">
-          <label for="capital">Capital inicial</label>
+          <label for="capital" data-i18n="calc_capital">Capital inicial</label>
           <div class="calc-input-wrap">
             <span class="prefix">$</span>
             <input class="calc-input num" type="number" id="capital" value="5000" min="200" step="100" />
@@ -992,7 +1128,7 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
         </div>
 
         <div class="calc-field">
-          <label for="aporte">Aporte mensual</label>
+          <label for="aporte" data-i18n="calc_monthly">Aporte mensual</label>
           <div class="calc-input-wrap">
             <span class="prefix">$</span>
             <input class="calc-input num" type="number" id="aporte" value="200" min="0" step="50" />
@@ -1000,12 +1136,12 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
         </div>
 
         <div class="calc-field no-prefix">
-          <label for="anios">Años de inversión: <span id="anios-val" class="num" style="color:#008C90">5</span></label>
+          <label for="anios"><span data-i18n="calc_years">Años de inversión</span>: <span id="anios-val" class="num" style="color:#008C90">5</span></label>
           <input class="calc-slider" type="range" id="anios" value="5" min="1" max="10" step="1" />
         </div>
 
         <button class="btn btn-primary calc-btn" id="calc-btn">
-          Recalcular
+          <span data-i18n="calc_btn">Recalcular</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
         </button>
 
@@ -1016,7 +1152,7 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
       </div>
 
       <div class="calc-result">
-        <div class="calc-result-label">Valor estimado en <span id="r-anios">5</span> años</div>
+        <div class="calc-result-label"><span data-i18n="calc_value_est">Valor estimado en</span> <span id="r-anios">5</span> <span data-i18n="calc_years_word">años</span></div>
         <div class="calc-result-value"><span class="curr">USD</span><span id="r-total" class="num">—</span></div>
         <div class="calc-result-delta">▲ <span id="r-delta" class="num">—</span> vs. capital invertido</div>
 
@@ -1050,61 +1186,556 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
   </div>
 </section>
 
+<!-- ============ TUTORIAL ============ -->
+<section class="tut-section" id="tutorial">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="kicker" data-i18n="tut_kicker">Tutorial paso a paso</div>
+      <h2 class="sec-title" data-i18n="tut_title">De cero al robot<br/>conectado en 30 min.</h2>
+      <p class="sec-sub" data-i18n="tut_sub">Guía completa con capturas reales. Seguí los pasos en orden.</p>
+    </div>
+
+    <div class="tabs" role="tablist">
+      <button class="tab-btn active" onclick="showTab('tab-broker', this)" data-i18n="tut_tab1">① Cuenta Broker Axi</button>
+      <button class="tab-btn" onclick="showTab('tab-app', this)" data-i18n="tut_tab2">② Cuenta App CopyTrading</button>
+      <button class="tab-btn" onclick="showTab('tab-link', this)" data-i18n="tut_tab3">③ Vincular Broker</button>
+      <button class="tab-btn" onclick="showTab('tab-ricx', this)" data-i18n="tut_tab4">④ Copiar RICX</button>
+    </div>
+
+    <!-- TAB 1: Cuenta Broker Axi -->
+    <div id="tab-broker" class="tab-content active">
+      <div class="warn-banner">
+        <div class="warn-icon">⚠️</div>
+        <div>
+          <strong data-i18n="warn_broker_title">Atención — Dos cuentas distintas</strong>
+          <p data-i18n="warn_broker_body">En esta pestaña creás la cuenta del <b>broker Axi</b> (portal web). En la siguiente creás una cuenta <b>distinta</b> en la app Axi CopyTrading. Son dos registros separados con email y contraseña diferentes — cada uno con su propia confirmación por correo.</p>
+        </div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="b_phase1">Fase 1 — Registro Inicial</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 1</span>
+          <h4 class="tut-heading" data-i18n="b01_title">Pulsá en "Open Account"</h4>
+          <p class="tut-desc" data-i18n="b01_desc">Entrá al sitio de Axi y pulsá el botón <b>Open Account</b> para iniciar el registro del broker.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/01.png" alt="Open Account" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/02.png" alt="País de residencia" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 2</span>
+          <h4 class="tut-heading" data-i18n="b02_title">Seleccioná tu país de residencia</h4>
+          <p class="tut-desc" data-i18n="b02_desc">Esto determina la entidad legal y los documentos que te pedirán para el KYC.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 3</span>
+          <h4 class="tut-heading" data-i18n="b03_title">Email + contraseña del broker</h4>
+          <p class="tut-desc" data-i18n="b03_desc">Introducí un email, creá una contraseña, aceptá los términos y continuá.</p>
+          <div class="tut-tip"><b>⚠️ Importante:</b> <span data-i18n="b03_tip">Esta contraseña es <b>solo para el portal del broker</b>. <b>NO es la misma</b> que vas a usar en la app Axi CopyTrading.</span></div>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/03.png" alt="Email y contraseña" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/04.png" alt="SMS" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 4</span>
+          <h4 class="tut-heading" data-i18n="b04_title">Código de seguridad por SMS</h4>
+          <p class="tut-desc" data-i18n="b04_desc">Elegí la opción SMS para recibir el código de verificación en tu móvil.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 5</span>
+          <h4 class="tut-heading" data-i18n="b05_title">Introducí tu número de teléfono</h4>
+          <p class="tut-desc" data-i18n="b05_desc">Escribí tu número con el prefijo internacional correcto.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/05.png" alt="Teléfono" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/06.png" alt="Código WhatsApp/SMS" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 6</span>
+          <h4 class="tut-heading" data-i18n="b06_title">Confirmá el código recibido</h4>
+          <p class="tut-desc" data-i18n="b06_desc">Te va a llegar un código por WhatsApp o SMS. Escribílo para confirmar y la cuenta queda creada.</p>
+        </div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="b_phase2">Fase 2 — Configuración de la Cuenta</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 7</span>
+          <h4 class="tut-heading" data-i18n="b07_title">¡Cuenta creada!</h4>
+          <p class="tut-desc" data-i18n="b07_desc">Aparece una pantalla de bienvenida. Pulsá continuar para empezar a rellenar tus datos.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/07.png" alt="Cuenta creada" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/08.png" alt="Opciones" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 8</span>
+          <h4 class="tut-heading" data-i18n="b08_title">Cualquier opción sirve</h4>
+          <p class="tut-desc" data-i18n="b08_desc">Te van a preguntar sobre experiencia o preferencias. Podés elegir cualquier opción — no afecta al robot RICX.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 9</span>
+          <h4 class="tut-heading" data-i18n="b09_title">Saltar este paso</h4>
+          <p class="tut-desc" data-i18n="b09_desc">En esta pantalla pulsá <b>Saltar</b> para avanzar directamente a la configuración MT4.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/09.png" alt="Saltar" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/10.png" alt="MT4 Standard" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 10</span>
+          <h4 class="tut-heading" data-i18n="b10_title">Seleccioná MT4 + cuenta Standard</h4>
+          <p class="tut-desc" data-i18n="b10_desc"><span class="arrow">▸</span> Plataforma: <b>MetaTrader 4 (MT4)</b><br/><span class="arrow">▸</span> Tipo de cuenta: <b>Standard</b></p>
+          <div class="tut-tip"><b>⚠️ Importante:</b> <span data-i18n="b10_tip">Si elegís MT5 o cuenta Pro, el robot RICX no va a poder copiar las operaciones.</span></div>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 11</span>
+          <h4 class="tut-heading" data-i18n="b11_title">Desmarcá "Axi Select" y creá la cuenta</h4>
+          <p class="tut-desc" data-i18n="b11_desc">Bajá la página hasta ver la opción <b>Axi Select</b>. <b>Desmarcala</b> y pulsá <b>Crear cuenta</b>.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/11.png" alt="Desmarcar Axi Select" loading="lazy"/></div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="b_phase3">Fase 3 — Datos Personales + KYC</span></div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/12.png" alt="Datos personales" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 12</span>
+          <h4 class="tut-heading" data-i18n="b12_title">Rellená tus datos personales</h4>
+          <p class="tut-desc" data-i18n="b12_desc">Axi te va a pedir dirección, ocupación, ingresos, experiencia. Rellená con información real — el broker verifica estos datos.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 13</span>
+          <h4 class="tut-heading" data-i18n="b13_title">Verificación KYC — documento</h4>
+          <p class="tut-desc" data-i18n="b13_desc">Iniciá la verificación KYC. Necesitás tu pasaporte o DNI y hacerte un selfie. La aprobación tarda 1-48 horas.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/kyc/13.png" alt="KYC inicio" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/kyc/14.png" alt="Tipo documento" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 14</span>
+          <h4 class="tut-heading" data-i18n="b14_title">Escogé el tipo de documento</h4>
+          <p class="tut-desc" data-i18n="b14_desc">Pasaporte, DNI o carnet de conducir según tu país.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 15</span>
+          <h4 class="tut-heading" data-i18n="b15_title">Escaneá el anverso</h4>
+          <p class="tut-desc" data-i18n="b15_desc">Capturá la cara frontal del documento con buena iluminación y foco.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/kyc/15.png" alt="Anverso documento" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/kyc/16.png" alt="Reverso documento" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 16</span>
+          <h4 class="tut-heading" data-i18n="b16_title">Escaneá el reverso</h4>
+          <p class="tut-desc" data-i18n="b16_desc">Capturá también la parte trasera del documento (si aplica).</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 17</span>
+          <h4 class="tut-heading" data-i18n="b17_title">Hacete un selfie</h4>
+          <p class="tut-desc" data-i18n="b17_desc">Por último, un selfie para confirmar que sos vos quien abre la cuenta.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/kyc/17.png" alt="Selfie KYC" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/kyc/18.png" alt="KYC enviado" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 18</span>
+          <h4 class="tut-heading" data-i18n="b18_title">KYC enviado — esperá confirmación</h4>
+          <p class="tut-desc" data-i18n="b18_desc">Vas a recibir un correo cuando la verificación esté aprobada (normalmente entre 1 y 48 horas).</p>
+        </div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="b_phase4">Fase 4 — Configuración Final MT4</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 19</span>
+          <h4 class="tut-heading" data-i18n="b19_title">Bajá hasta el pie de página</h4>
+          <p class="tut-desc" data-i18n="b19_desc">En la pantalla de configuración, desplazate al final para encontrar el campo de texto a completar.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/19.png" alt="Pie de página" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/20.png" alt="Copiar y pegar" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 20</span>
+          <h4 class="tut-heading" data-i18n="b20_title">Copiá, pegá, aceptá términos</h4>
+          <p class="tut-desc" data-i18n="b20_desc">① Pulsá en <b>Copiar</b>. ② Pegá el texto dentro del rectángulo. ③ Marcá la aceptación y continuá.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 21</span>
+          <h4 class="tut-heading" data-i18n="b21_title">Divisa + Apalancamiento 1:1000</h4>
+          <p class="tut-desc" data-i18n="b21_desc"><span class="arrow">▸</span> Divisa: la que prefieras<br/><span class="arrow">▸</span> Apalancamiento: <b>1:1000</b> (requerido por RICX)</p>
+          <div class="tut-tip"><b>⚠️ Importante:</b> <span data-i18n="b21_tip">El 1:1000 es obligatorio para que la gestión de riesgo del robot funcione.</span></div>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/21.png" alt="Divisa leverage" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/22.png" alt="Contraseña MT4" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 22</span>
+          <h4 class="tut-heading" data-i18n="b22_title">Creá la contraseña MT4</h4>
+          <p class="tut-desc" data-i18n="b22_desc">Creá una contraseña específica para la cuenta MT4.</p>
+          <div class="tut-tip"><b>⚠️ Importante:</b> <span data-i18n="b22_tip">Esta es <b>distinta</b> de la del portal del broker (paso 3). Guardala — la vas a usar en la pestaña "Vincular Broker" (paso 3).</span></div>
+        </div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="b_phase5">Fase 5 — Depósito y Credenciales</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 23</span>
+          <h4 class="tut-heading" data-i18n="b23_title">Cuenta "pendiente" — esperá unos minutos</h4>
+          <p class="tut-desc" data-i18n="b23_desc">La cuenta de trading aparece con estado <b style="color:#F59E0B">Pendiente</b>. Es normal — tarda unos minutos en activarse.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/23.png" alt="Pendiente" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/24.png" alt="Depositar" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 24</span>
+          <h4 class="tut-heading" data-i18n="b24_title">Cuenta activa — ya podés depositar</h4>
+          <p class="tut-desc" data-i18n="b24_desc">Cuando el estado cambia a activa, pulsá <b>Depositar</b> para ingresar fondos.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 25</span>
+          <h4 class="tut-heading" data-i18n="b25_title">Depósito mín. USD 1.500 + guardá tus credenciales</h4>
+          <p class="tut-desc" data-i18n="b25_desc">Depósito mínimo recomendado: <b>USD 1.500</b>. Pulsá <b>Cambiar contraseña</b> y guardá estos 3 datos:<br/><span class="arrow">▸</span> Iniciar sesión (nº MT4)<br/><span class="arrow">▸</span> Servidor<br/><span class="arrow">▸</span> Contraseña MT4</p>
+          <div class="tut-tip" style="background:#ECFDF5; border-left-color:#10B981; color:#065F46"><b>✅ ¡Cuenta del broker lista!</b> <span data-i18n="b25_tip">Guardá estos 3 datos — los vas a necesitar en la pestaña "Vincular Broker" (paso 3).</span></div>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/axi/25.png" alt="Credenciales MT4" loading="lazy"/></div>
+      </div>
+
+      <div class="tab-next-cta">
+        <div class="label" data-i18n="next_step">Siguiente paso</div>
+        <div class="title" data-i18n="b_next_title">Creá tu cuenta en la app Axi CopyTrading</div>
+        <button onclick="document.querySelectorAll('.tab-btn')[1].click();document.getElementById('tutorial').scrollIntoView({behavior:'smooth',block:'start'})" data-i18n="go_tab2">IR A PESTAÑA ②</button>
+      </div>
+    </div>
+
+    <!-- TAB 2: Cuenta App CopyTrading -->
+    <div id="tab-app" class="tab-content">
+      <div class="warn-banner red">
+        <div class="warn-icon">🚨</div>
+        <div>
+          <strong data-i18n="warn_app_title">La app Axi CopyTrading NO usa la cuenta del broker</strong>
+          <p data-i18n="warn_app_body">Muchos usuarios intentan iniciar sesión en la app con el email/contraseña del broker Axi — <b>no funciona</b>. La app requiere un <b>registro nuevo</b>, con confirmación por correo. Podés usar el mismo email, pero tenés que <b>crear la cuenta desde cero aquí</b>.</p>
+        </div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="phase_app">Registro en la app Axi CopyTrading</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 1</span>
+          <h4 class="tut-heading" data-i18n="a1_title">Descargá la app Axi CopyTrading</h4>
+          <p class="tut-desc" data-i18n="a1_desc">Instalala gratis en tu smartphone. Disponible para iOS y Android. Desarrollada por Pelican Trading.</p>
+          <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap">
+            <a href="https://apps.apple.com/app/axi-copy-trading/id1539520232" target="_blank" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px; background:#000; color:#fff; font-size:12px; font-weight:600; text-decoration:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+              App Store
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.axi.pelican" target="_blank" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border-radius:8px; background:#01875f; color:#fff; font-size:12px; font-weight:600; text-decoration:none">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white"><path d="M3.18 23.76c.35.2.74.24 1.12.12l12.44-7.19-2.82-2.82-10.74 9.89zm-1.6-20.1A2 2 0 0 0 1.5 5v14a2 2 0 0 0 .08 1.34l.07.07L14.1 12v-.27L1.65 3.6l-.07.06zm19.03 8.79-2.89-1.67-3.15 3.15 3.15 3.15 2.91-1.68a2 2 0 0 0 0-2.95zM4.3.12C3.91-.01 3.53.04 3.18.24L14.1 11.73 16.92 8.9 4.3.12z"/></svg>
+              Google Play
+            </a>
+          </div>
+        </div>
+        <div style="justify-self:center; font-size:56px;">📱</div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div style="justify-self:center; font-size:56px;">📝</div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 2</span>
+          <h4 class="tut-heading" data-i18n="a2_title_new">Creá una cuenta NUEVA en la app</h4>
+          <p class="tut-desc" data-i18n="a2_desc_new">Abrí la app y pulsá <b>Crear cuenta</b> (no "Iniciar sesión"). Introducí un email y creá una contraseña nueva. Aceptá los términos.</p>
+          <div class="tut-tip" style="background:#FEF2F2; border-left-color:#EF4444; color:#991B1B"><b>🚨 Importante:</b> <span data-i18n="a2_tip_new">Aunque uses el mismo email que en el broker, <b>la contraseña del broker NO sirve aquí</b>. Es un registro nuevo, independiente, con su propia confirmación por correo.</span></div>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 3</span>
+          <h4 class="tut-heading" data-i18n="a3_title_new">Confirmá tu correo electrónico</h4>
+          <p class="tut-desc" data-i18n="a3_desc_new">Después de registrarte, la app te envía un correo de verificación. Abrí tu bandeja de entrada (y spam si no aparece), pulsá el enlace y la cuenta queda activada.</p>
+        </div>
+        <div style="justify-self:center; font-size:56px;">📧</div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div style="justify-self:center; font-size:56px;">🔓</div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 4</span>
+          <h4 class="tut-heading" data-i18n="a4_title_new">Iniciá sesión con las credenciales nuevas</h4>
+          <p class="tut-desc" data-i18n="a4_desc_new">Volvé a la app y entrá con el email y contraseña que acabás de crear. Ya estás dentro — listo para vincular tu cuenta del broker en la siguiente pestaña.</p>
+        </div>
+      </div>
+
+      <div class="password-grid">
+        <div class="pg-title" data-i18n="passwords_title">🔑 Resumen — las 3 contraseñas que necesitás</div>
+        <div class="pg-item"><b data-i18n="pwd1_t">1. Contraseña del portal del broker Axi</b><span data-i18n="pwd1_d">Creada en el PASO 3 de la pestaña ①. Solo para iniciar sesión en la web del broker.</span></div>
+        <div class="pg-item"><b data-i18n="pwd2_t">2. Contraseña MT4</b><span data-i18n="pwd2_d">Creada en el PASO 22 de la pestaña ①. Se usa al vincular la cuenta en la app (pestaña ③).</span></div>
+        <div class="pg-item"><b data-i18n="pwd3_t">3. Contraseña de la app Axi CopyTrading</b><span data-i18n="pwd3_d">Creada aquí (paso 2 de esta pestaña). Solo para iniciar sesión en la app.</span></div>
+      </div>
+
+      <div class="tab-next-cta">
+        <div class="label" data-i18n="next_step">Siguiente paso</div>
+        <div class="title" data-i18n="a_next_title">Vinculá la cuenta del broker en la app</div>
+        <button onclick="document.querySelectorAll('.tab-btn')[2].click();document.getElementById('tutorial').scrollIntoView({behavior:'smooth',block:'start'})" data-i18n="go_tab3">IR A PESTAÑA ③</button>
+      </div>
+    </div>
+
+    <!-- TAB 3: Vincular Broker -->
+    <div id="tab-link" class="tab-content">
+      <div class="phase-bar"><span data-i18n="phase_link">Vincular cuenta del broker</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 1</span>
+          <h4 class="tut-heading" data-i18n="s01_title">Pestaña "Cuenta" → "Conectar una cuenta"</h4>
+          <p class="tut-desc" data-i18n="s01_desc">En la app Axi CopyTrading, andá a la pestaña <b>Cuenta</b> (ícono abajo a la derecha). La app va a pedir vincular una cuenta de trading. Tocá el botón amarillo <b>Conectar una cuenta</b>.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/01.jpg" alt="Conectar cuenta" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/02.jpg" alt="Copiar operaciones" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 2</span>
+          <h4 class="tut-heading" data-i18n="s02_title">"Copiar operaciones de proveedores de señales"</h4>
+          <p class="tut-desc" data-i18n="s02_desc">Aparece un menú con dos opciones. Seleccioná la primera: <b>Copiar operaciones de proveedores de señales</b>. Esta es la correcta para seguir al robot RICX.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 3</span>
+          <h4 class="tut-heading" data-i18n="s03_title">Ingresá los datos MT4 del broker Axi</h4>
+          <p class="tut-desc" data-i18n="s03_desc"><span class="arrow">▸</span> Servidor: seleccioná el servidor Axi<br/><span class="arrow">▸</span> Nº de cuenta: el número MT4 (paso 25 de la pestaña ①)<br/><span class="arrow">▸</span> Contraseña: la contraseña MT4 (paso 22 de la pestaña ①)</p>
+          <div class="tut-tip"><b>⚠️ Importante:</b> <span data-i18n="s03_tip">Esta es la contraseña de la cuenta MT4, NO la de la app Axi.</span></div>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/03.jpg" alt="Datos broker" loading="lazy"/></div>
+      </div>
+
+      <div class="phase-bar"><span data-i18n="phase_risk">Evaluación de Riesgo — obligatoria</span></div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/04.jpg" alt="Completar evaluación" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 4</span>
+          <h4 class="tut-heading" data-i18n="s04_title">"Completar la evaluación" en Descubrir</h4>
+          <p class="tut-desc" data-i18n="s04_desc">En la pestaña <b>Descubrir</b>, la app va a requerir que completes una evaluación de riesgo antes de ver las estrategias. Tocá <b>Completar la evaluación</b>.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 5</span>
+          <h4 class="tut-heading" data-i18n="s05_title">Completá el perfil de riesgo</h4>
+          <p class="tut-desc" data-i18n="s05_desc">Respondé las preguntas de forma honesta. Ejemplos típicos:<br/><span class="arrow">▸</span> Expectativas pérdida/ganancia: 70% / 30%<br/><span class="arrow">▸</span> ¿Usaste robots antes? No (o Sí si aplica)<br/><span class="arrow">▸</span> Sector de actividad: el tuyo real</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/05.jpg" alt="Perfil de riesgo" loading="lazy"/></div>
+      </div>
+
+      <div class="tab-next-cta">
+        <div class="label" data-i18n="next_step">Siguiente paso</div>
+        <div class="title" data-i18n="link_next_title">Copiá el robot RICX y listo</div>
+        <button onclick="document.querySelectorAll('.tab-btn')[3].click();document.getElementById('tutorial').scrollIntoView({behavior:'smooth',block:'start'})" data-i18n="go_tab4">IR A PESTAÑA ④</button>
+      </div>
+    </div>
+
+    <!-- TAB 4: Copiar RICX -->
+    <div id="tab-ricx" class="tab-content">
+      <div class="phase-bar"><span data-i18n="phase_ricx">Conectar al Robot RICX</span></div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 6</span>
+          <h4 class="tut-heading" data-i18n="s06_title">Buscá "RICX" en Descubrir</h4>
+          <p class="tut-desc" data-i18n="s06_desc">En la pestaña <b>Descubrir</b>, tocá la barra de búsqueda y escribí <b style="color:var(--cyan)">RICX</b>. El robot aparece como primer resultado. Tocalo.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/06.jpg" alt="Buscar RICX" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/07.jpg" alt="Resultados RICX" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 7</span>
+          <h4 class="tut-heading" data-i18n="s07_title">Mirá los resultados y tocá "Copiar"</h4>
+          <p class="tut-desc" data-i18n="s07_desc">La página de RICX muestra los resultados reales: retorno acumulado, gráfico de crecimiento y P/L. Confirmá y tocá el botón amarillo <b>Copiar</b>.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 8</span>
+          <h4 class="tut-heading" data-i18n="s08_title">Tocá "Tamaño de la operación"</h4>
+          <p class="tut-desc" data-i18n="s08_desc">La comisión de rentabilidad es del <b>25%</b> (solo sobre ganancias). Tocá <b>Tamaño de la operación</b> para abrir las opciones.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/08.jpg" alt="Tamaño operación" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/09.jpg" alt="Proporcional balance" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 9</span>
+          <h4 class="tut-heading" data-i18n="s09_title">"Proporcional a Balance" — Proporción 1</h4>
+          <p class="tut-desc" data-i18n="s09_desc">Elegí <b>Proporcional a Balance</b> y mantené la proporción en <b>1</b>. Es el modo más seguro — ajusta el tamaño al capital.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 10</span>
+          <h4 class="tut-heading" data-i18n="s10_title">Bajá y tocá "Aceptar y Copiar"</h4>
+          <p class="tut-desc" data-i18n="s10_desc">Bajá la pantalla para ver el botón final. Cuando estés listo, tocá <b>Aceptar y Copiar</b>.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/10.jpg" alt="Aceptar copiar" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/11.jpg" alt="Autorización" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 11</span>
+          <h4 class="tut-heading" data-i18n="s11_title">Confirmá la autorización — "Ok"</h4>
+          <p class="tut-desc" data-i18n="s11_desc">La app muestra el contrato de autorización del Social Trading. Las casillas ya están marcadas. Tocá <b>Ok</b> para continuar.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 12</span>
+          <h4 class="tut-heading" data-i18n="s12_title">Aviso de riesgo — "Sí"</h4>
+          <p class="tut-desc" data-i18n="s12_desc">Aviso final de compliance. Confirmá que entendés los riesgos y tocá <b>Sí</b>.</p>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/12.jpg" alt="Aviso de riesgo" loading="lazy"/></div>
+      </div>
+
+      <div class="tut-step-card reverse">
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/13.jpg" alt="Éxito" loading="lazy"/></div>
+        <div class="tut-body">
+          <span class="tut-num">PASO 13</span>
+          <h4 class="tut-heading" data-i18n="s13_title">✅ ¡Éxito!</h4>
+          <p class="tut-desc" data-i18n="s13_desc">El mensaje <b style="color:#10B981">Éxito</b> confirma que tu solicitud para copiar automáticamente las operaciones de RICX fue aceptada. Tocá <b>Ok</b>.</p>
+        </div>
+      </div>
+
+      <div class="tut-step-card">
+        <div class="tut-body">
+          <span class="tut-num">PASO 14</span>
+          <h4 class="tut-heading" data-i18n="s14_title">Cuenta conectada — Estado: CONECTADO</h4>
+          <p class="tut-desc" data-i18n="s14_desc">La cuenta aparece con estado <b style="color:#10B981">Conectado</b> y la señal RICX asociada. A partir de ahora el robot copia automáticamente todas las operaciones. Seguí los resultados en la pestaña <b>Copias</b>.</p>
+          <div class="tut-tip" style="background:#ECFDF5; border-left-color:#10B981; color:#065F46"><b>🎉 ¡Listo!</b> <span data-i18n="done_msg">Ya estás copiando al RICX. Podés monitorear ganancias y desconectarte cuando quieras, sin penalizaciones.</span></div>
+        </div>
+        <div class="phone-frame" onclick="openLightbox(this)"><img src="PrintScreens/14.jpg" alt="Conectado" loading="lazy"/></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- ============ FAQ ============ -->
 <section class="section" id="faq" style="background:var(--bg)">
   <div class="wrap">
     <div class="sec-head">
-      <div class="kicker">Preguntas frecuentes</div>
-      <h2 class="sec-title">Todo lo que querés<br/>saber antes de empezar.</h2>
+      <div class="kicker" data-i18n="faq_kicker">Preguntas frecuentes</div>
+      <h2 class="sec-title" data-i18n="faq_title">Todo lo que querés<br/>saber antes de empezar.</h2>
     </div>
 
     <div class="faq-wrap">
       <div class="faq-item open">
         <div class="faq-q">
-          <span>¿Necesito experiencia en trading?</span>
+          <span data-i18n="faq1_q">¿Necesito experiencia en trading?</span>
           <svg class="faq-chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="faq-a">No. RICX hace todo el trabajo técnico por vos. Solo necesitás abrir tu cuenta Axi, depositar y tocar "Copy". No tenés que analizar gráficos, abrir trades ni entender terminología.</div>
+        <div class="faq-a" data-i18n="faq1_a">No. RICX hace todo el trabajo técnico por vos. Solo necesitás abrir tu cuenta Axi, depositar y tocar "Copy". No tenés que analizar gráficos, abrir trades ni entender terminología.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">
-          <span>¿Cuál es el depósito mínimo?</span>
+          <span data-i18n="faq2_q">¿Cuál es el depósito mínimo?</span>
           <svg class="faq-chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="faq-a">El mínimo técnico es USD 200, pero recomendamos empezar con USD 500+ para que el dimensionamiento de lotes funcione correctamente y el riesgo se distribuya bien.</div>
+        <div class="faq-a" data-i18n="faq2_a">El mínimo técnico es USD 200, pero recomendamos empezar con USD 500+ para que el dimensionamiento de lotes funcione correctamente y el riesgo se distribuya bien.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">
-          <span>¿Mis fondos son seguros?</span>
+          <span data-i18n="faq3_q">¿Mis fondos son seguros?</span>
           <svg class="faq-chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="faq-a">Sí. Tu dinero está siempre en <b>tu cuenta personal de Axi</b>, un broker regulado internacionalmente. Nosotros nunca tocamos tus fondos. Podés desconectar el robot y retirar en cualquier momento.</div>
+        <div class="faq-a" data-i18n="faq3_a">Sí. Tu dinero está siempre en <b>tu cuenta personal de Axi</b>, un broker regulado internacionalmente. Nosotros nunca tocamos tus fondos. Podés desconectar el robot y retirar en cualquier momento.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">
-          <span>¿Qué comisión cobra RICX?</span>
+          <span data-i18n="faq4_q">¿Qué comisión cobra RICX?</span>
           <svg class="faq-chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="faq-a">RICX cobra una performance fee del 25% sobre las ganancias reales. Si no ganás, no pagás. Sin cuotas mensuales, sin costos ocultos.</div>
+        <div class="faq-a" data-i18n="faq4_a">RICX cobra una performance fee del 25% sobre las ganancias reales. Si no ganás, no pagás. Sin cuotas mensuales, sin costos ocultos.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">
-          <span>¿Puedo retirar en cualquier momento?</span>
+          <span data-i18n="faq5_q">¿Puedo retirar en cualquier momento?</span>
           <svg class="faq-chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="faq-a">Totalmente. No hay permanencia mínima. Tu cuenta Axi te permite retirar en cualquier momento por transferencia, tarjeta o billeteras virtuales.</div>
+        <div class="faq-a" data-i18n="faq5_a">Totalmente. No hay permanencia mínima. Tu cuenta Axi te permite retirar en cualquier momento por transferencia, tarjeta o billeteras virtuales.</div>
       </div>
 
       <div class="faq-item">
         <div class="faq-q">
-          <span>¿Qué pasa si el mercado cae bruscamente?</span>
+          <span data-i18n="faq6_q">¿Qué pasa si el mercado cae bruscamente?</span>
           <svg class="faq-chev" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
-        <div class="faq-a">Cada operación tiene Stop Loss pre-definido. En el peor escenario histórico (backtest de 10 años), el drawdown máximo fue de −12%. Tu capital nunca está expuesto más del 2.5% por trade.</div>
+        <div class="faq-a" data-i18n="faq6_a">Cada operación tiene Stop Loss pre-definido. En el peor escenario histórico (backtest de 10 años), el drawdown máximo fue de −12%. Tu capital nunca está expuesto más del 2.5% por trade.</div>
       </div>
     </div>
   </div>
@@ -1113,13 +1744,13 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 <!-- ============ FINAL CTA ============ -->
 <section class="final-cta">
   <div class="wrap final-cta-inner">
-    <h2>¿Listo para<br/>automatizar?</h2>
-    <p>Sin permanencia. Sin comisiones fijas. Tus fondos siempre en tu cuenta Axi.</p>
-    <a href="#" class="btn btn-cyan btn-big">Conectar ahora <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+    <h2 data-i18n="cta_title">¿Listo para<br/>automatizar?</h2>
+    <p data-i18n="cta_sub">Sin permanencia. Sin comisiones fijas. Tus fondos siempre en tu cuenta Axi.</p>
+    <a href="#" class="btn btn-cyan btn-big"><span data-i18n="cta_btn">Conectar ahora</span> <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
     <div style="margin-top:32px; display:flex; gap:24px; justify-content:center; font-size:13px; opacity:.85; flex-wrap:wrap">
-      <span>✓ Setup en 10 minutos</span>
-      <span>✓ Depósito mínimo USD 200</span>
-      <span>✓ Cancelá cuando quieras</span>
+      <span data-i18n="cta_b1">✓ Setup en 10 minutos</span>
+      <span data-i18n="cta_b2">✓ Depósito mínimo USD 200</span>
+      <span data-i18n="cta_b3">✓ Cancelá cuando quieras</span>
     </div>
   </div>
 </section>
@@ -1130,7 +1761,11 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
     <div class="footer-grid">
       <div class="footer-col">
         <div class="footer-logo">
-          <span class="logo-mark">R</span>
+          <span class="logo-mark">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M4.5 3.5 L9.5 3.5 L12 7.5 L14.5 3.5 L19.5 3.5 L14 12 L19.5 20.5 L14.5 20.5 L12 16.5 L9.5 20.5 L4.5 20.5 L10 12 Z" fill="url(#ricxGrad)"/>
+            </svg>
+          </span>
           RICX
         </div>
         <p class="footer-tag">Automatización profesional de trading en oro. Conectada al broker regulado Axi, verificada en myfxbook.</p>
@@ -1235,6 +1870,335 @@ document.querySelectorAll('.faq-item').forEach(item => {
   $('calc-btn').addEventListener('click', build);
   build();
 })();
+
+// ─── TAB SWITCHING + LIGHTBOX ───
+function showTab(tabId, btn){
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(tabId).classList.add('active');
+  btn.classList.add('active');
+}
+function openLightbox(frame){
+  const img = frame.querySelector('img');
+  if(!img) return;
+  const lb = document.getElementById('lb-img');
+  lb.src = img.src; lb.alt = img.alt;
+  document.getElementById('lb-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox(){
+  document.getElementById('lb-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeLightbox(); });
+
+// ─── STATS.JSON FETCH ───
+async function loadStats(){
+  try{
+    const r = await fetch('stats.json?t=' + Date.now());
+    if(!r.ok) return;
+    const s = await r.json();
+    const map = {
+      'stat-gain':    s.gain,
+      'stat-monthly': s.monthly,
+      'stat-winrate': s.winrate,
+      'stat-dd':      s.drawdown,
+      'stat-months':  s.months,
+    };
+    Object.entries(map).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if(el && val && val !== '--') el.textContent = val;
+    });
+  } catch(e){ /* silently ignore — keeps hardcoded fallback */ }
+}
+loadStats();
+
+// ─── I18N ───
+const T = {
+  es: {
+    nav_results:"Resultados", nav_how:"Cómo Funciona", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Conectar al RICX",
+    hero_badge:"Verificado en Myfxbook ✓",
+    hero_title:"Invertí en<br/><em>piloto automático</em>",
+    hero_sub:"Conectá tu cuenta Axi al robot RICX y dejá que la automatización genere rendimientos 24/7 — con gestión de riesgo profesional sobre XAU/USD (Oro).",
+    hero_cta:"Conectar al RICX", hero_cta2:"Ver resultados reales",
+    stat1_label:"Ganancia Total", stat2_label:"Meses Activos", stat2_sub:"Desde sept. 2025",
+    stat3_label:"Win Rate", stat3_sub:"412 de 468 trades", stat4_label:"Drawdown Máx", stat4_sub:"Riesgo controlado",
+    stat5_label:"Promedio Mensual", stat5_sub:"Retorno consistente",
+    how_kicker:"Cómo funciona", how_title:"Tres pasos. Cero<br/>conocimientos técnicos.",
+    how_sub:"Configurá tu conexión en menos de 10 minutos. El robot hace el resto.",
+    step1_num:"PASO 01", step1_title:"Abrí tu cuenta Axi",
+    step1_desc:"Registrate en Axi (broker regulado) en 5 minutos. Depósito mínimo desde USD 200. Tus fondos quedan siempre en tu nombre.",
+    step2_num:"PASO 02", step2_title:"Conectá al RICX",
+    step2_desc:"Desde la app Axi Copy buscá <b>RICX Gold Strategy</b> y tocá \"Copiar\". Elegís tu tamaño de riesgo y listo.",
+    step3_num:"PASO 03", step3_title:"El robot opera 24/7",
+    step3_desc:"RICX ejecuta trades en XAU/USD con gestión de riesgo profesional. Vos solo mirás cómo crece tu cuenta.",
+    dif_kicker:"Por qué RICX es diferente", dif_title:"Gestión de riesgo<br/>antes que ganancias.",
+    dif_sub:"La mayoría de los bots explotan cuentas por codicia. RICX está construido al revés: primero no perder, después ganar.",
+    feat1_title:"Órdenes pendientes con SL + TP",
+    feat1_desc:"Nunca opera a mercado. Cada trade tiene Stop Loss y Take Profit pre-definidos. Si el mercado se mueve en contra, la pérdida está acotada.",
+    feat1_mini:"SL obligatorio en el 100% de las operaciones",
+    feat2_title:"Máx 2.5% exposición por trade",
+    feat2_desc:"El robot jamás arriesga más del 2.5% del equity en una sola operación. Incluso en el peor escenario, tu capital sigue intacto.",
+    feat2_mini:"Riesgo máx / trade = equity × 0.025",
+    feat3_title:"Trailing Profit automático",
+    feat3_desc:"Cuando un trade está en ganancia, RICX mueve el Stop Loss para asegurar el beneficio. Dejás correr las ganadoras sin riesgo.",
+    feat3_mini:"Activación automática desde +15 pips",
+    feat4_title:"10 años backtest + Monte Carlo",
+    feat4_desc:"Validado con datos históricos de 10 años y 10.000 simulaciones Monte Carlo. La estrategia sobrevive a cualquier escenario de mercado.",
+    feat4_mini:"10.000 simulaciones · 0 quiebras",
+    equity_title:"Curva de crecimiento — Cuenta real", equity_sub:"Cuenta USD 10,000 · Septiembre 2025 → Abril 2026",
+    test_kicker:"Testimonios reales", test_title:"Lo que dicen los<br/>seguidores del RICX.",
+    calc_kicker:"Simulá tu crecimiento", calc_title:"¿Cuánto podrías<br/>tener en 5 años?",
+    calc_sub:"Basado en el rendimiento histórico promedio de +8.49% mensual. Los resultados pasados no garantizan rendimientos futuros.",
+    calc_box_title:"Calculadora de rendimiento", calc_box_sub:"Ajustá los valores y descubrí tu potencial.",
+    calc_capital:"Capital inicial", calc_monthly:"Aporte mensual", calc_years:"Años de inversión", calc_btn:"Recalcular",
+    calc_value_est:"Valor estimado en", calc_years_word:"años",
+    tut_kicker:"Tutorial paso a paso", tut_title:"De cero al robot<br/>conectado en 30 min.",
+    tut_sub:"Guía completa con capturas reales. Seguí los pasos en orden.",
+    tut_tab1:"① Cuenta Broker Axi", tut_tab2:"② Cuenta App CopyTrading", tut_tab3:"③ Vincular Broker", tut_tab4:"④ Copiar RICX",
+    faq_kicker:"Preguntas frecuentes", faq_title:"Todo lo que querés<br/>saber antes de empezar.",
+    faq1_q:"¿Necesito experiencia en trading?",
+    faq1_a:"No. RICX hace todo el trabajo técnico por vos. Solo necesitás abrir tu cuenta Axi, depositar y tocar \"Copy\". No tenés que analizar gráficos, abrir trades ni entender terminología.",
+    faq2_q:"¿Cuál es el depósito mínimo?",
+    faq2_a:"El mínimo técnico es USD 200, pero recomendamos empezar con USD 500+ para que el dimensionamiento de lotes funcione correctamente y el riesgo se distribuya bien.",
+    faq3_q:"¿Mis fondos son seguros?",
+    faq3_a:"Sí. Tu dinero está siempre en <b>tu cuenta personal de Axi</b>, un broker regulado internacionalmente. Nosotros nunca tocamos tus fondos. Podés desconectar el robot y retirar en cualquier momento.",
+    faq4_q:"¿Qué comisión cobra RICX?",
+    faq4_a:"RICX cobra una performance fee del 25% sobre las ganancias reales. Si no ganás, no pagás. Sin cuotas mensuales, sin costos ocultos.",
+    faq5_q:"¿Puedo retirar en cualquier momento?",
+    faq5_a:"Totalmente. No hay permanencia mínima. Tu cuenta Axi te permite retirar en cualquier momento por transferencia, tarjeta o billeteras virtuales.",
+    faq6_q:"¿Qué pasa si el mercado cae bruscamente?",
+    faq6_a:"Cada operación tiene Stop Loss pre-definido. En el peor escenario histórico (backtest de 10 años), el drawdown máximo fue de −12%. Tu capital nunca está expuesto más del 2.5% por trade.",
+    cta_title:"¿Listo para<br/>automatizar?",
+    cta_sub:"Sin permanencia. Sin comisiones fijas. Tus fondos siempre en tu cuenta Axi.",
+    cta_btn:"Conectar ahora", cta_b1:"✓ Setup en 10 minutos", cta_b2:"✓ Depósito mínimo USD 200", cta_b3:"✓ Cancelá cuando quieras",
+    next_step:"Siguiente paso", go_tab2:"IR A PESTAÑA ②", go_tab3:"IR A PESTAÑA ③", go_tab4:"IR A PESTAÑA ④",
+  },
+  pt: {
+    nav_results:"Resultados", nav_how:"Como Funciona", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Conectar ao RICX",
+    hero_badge:"Verificado no Myfxbook ✓",
+    hero_title:"Invista no<br/><em>piloto automático</em>",
+    hero_sub:"Conecte sua conta Axi ao robot RICX e deixe a automação gerar rendimentos 24/7 — com gestão de risco profissional em XAU/USD (Ouro).",
+    hero_cta:"Conectar ao RICX", hero_cta2:"Ver resultados reais",
+    stat1_label:"Ganho Total", stat2_label:"Meses Ativos", stat2_sub:"Desde set. 2025",
+    stat3_label:"Win Rate", stat3_sub:"412 de 468 trades", stat4_label:"Drawdown Máx", stat4_sub:"Risco controlado",
+    stat5_label:"Média Mensal", stat5_sub:"Retorno consistente",
+    how_kicker:"Como funciona", how_title:"Três passos. Zero<br/>conhecimento técnico.",
+    how_sub:"Configure sua conexão em menos de 10 minutos. O robot faz o resto.",
+    step1_num:"PASSO 01", step1_title:"Abra sua conta Axi",
+    step1_desc:"Registe-se na Axi (broker regulado) em 5 minutos. Depósito mínimo a partir de USD 200. Seus fundos ficam sempre em seu nome.",
+    step2_num:"PASSO 02", step2_title:"Conecte ao RICX",
+    step2_desc:"Na app Axi Copy busque <b>RICX Gold Strategy</b> e toque \"Copiar\". Escolha o tamanho do risco e pronto.",
+    step3_num:"PASSO 03", step3_title:"O robot opera 24/7",
+    step3_desc:"O RICX executa trades em XAU/USD com gestão de risco profissional. Você só acompanha sua conta a crescer.",
+    dif_kicker:"Por que o RICX é diferente", dif_title:"Gestão de risco<br/>antes dos lucros.",
+    dif_sub:"A maioria dos bots explode contas por cobiça. O RICX é construído ao contrário: primeiro não perder, depois ganhar.",
+    feat1_title:"Ordens pendentes com SL + TP",
+    feat1_desc:"Nunca opera a mercado. Cada trade tem Stop Loss e Take Profit pré-definidos. Se o mercado se move contra, a perda está limitada.",
+    feat1_mini:"SL obrigatório em 100% das operações",
+    feat2_title:"Máx 2.5% de exposição por trade",
+    feat2_desc:"O robot nunca arrisca mais de 2.5% do equity numa única operação. Mesmo no pior cenário, seu capital continua intacto.",
+    feat2_mini:"Risco máx / trade = equity × 0.025",
+    feat3_title:"Trailing Profit automático",
+    feat3_desc:"Quando um trade está em ganho, o RICX move o Stop Loss para garantir o lucro. Deixa correr as vencedoras sem risco.",
+    feat3_mini:"Ativação automática a partir de +15 pips",
+    feat4_title:"10 anos de backtest + Monte Carlo",
+    feat4_desc:"Validado com dados históricos de 10 anos e 10.000 simulações Monte Carlo. A estratégia sobrevive a qualquer cenário de mercado.",
+    feat4_mini:"10.000 simulações · 0 quebras",
+    equity_title:"Curva de crescimento — Conta real", equity_sub:"Conta USD 10,000 · Setembro 2025 → Abril 2026",
+    test_kicker:"Depoimentos reais", test_title:"O que dizem os<br/>seguidores do RICX.",
+    calc_kicker:"Simule seu crescimento", calc_title:"Quanto poderia ter<br/>em 5 anos?",
+    calc_sub:"Baseado no desempenho histórico médio de +8.49% mensal. Resultados passados não garantem rendimentos futuros.",
+    calc_box_title:"Calculadora de rendimento", calc_box_sub:"Ajuste os valores e descubra seu potencial.",
+    calc_capital:"Capital inicial", calc_monthly:"Aporte mensal", calc_years:"Anos de investimento", calc_btn:"Recalcular",
+    calc_value_est:"Valor estimado em", calc_years_word:"anos",
+    tut_kicker:"Tutorial passo a passo", tut_title:"Do zero ao robot<br/>conectado em 30 min.",
+    tut_sub:"Guia completa com capturas reais. Siga os passos em ordem.",
+    tut_tab1:"① Conta Broker Axi", tut_tab2:"② Conta App CopyTrading", tut_tab3:"③ Vincular Broker", tut_tab4:"④ Copiar RICX",
+    faq_kicker:"Perguntas frequentes", faq_title:"Tudo o que precisa<br/>saber antes de começar.",
+    faq1_q:"Preciso de experiência em trading?",
+    faq1_a:"Não. O RICX faz todo o trabalho técnico por você. Só precisa abrir sua conta Axi, depositar e tocar \"Copy\". Não precisa analisar gráficos, abrir trades ou entender terminologia.",
+    faq2_q:"Qual é o depósito mínimo?",
+    faq2_a:"O mínimo técnico é USD 200, mas recomendamos começar com USD 500+ para que o dimensionamento dos lotes funcione corretamente e o risco se distribua bem.",
+    faq3_q:"Meus fundos estão seguros?",
+    faq3_a:"Sim. Seu dinheiro está sempre na <b>sua conta pessoal Axi</b>, um broker regulado internacionalmente. Nós nunca tocamos nos seus fundos. Pode desconectar o robot e sacar a qualquer momento.",
+    faq4_q:"Qual comissão o RICX cobra?",
+    faq4_a:"O RICX cobra uma performance fee de 25% sobre os ganhos reais. Se não ganhar, não paga. Sem mensalidades, sem custos ocultos.",
+    faq5_q:"Posso sacar a qualquer momento?",
+    faq5_a:"Totalmente. Não há permanência mínima. Sua conta Axi permite sacar a qualquer momento por transferência, cartão ou carteiras virtuais.",
+    faq6_q:"E se o mercado cair abruptamente?",
+    faq6_a:"Cada operação tem Stop Loss pré-definido. No pior cenário histórico (backtest de 10 anos), o drawdown máximo foi de −12%. Seu capital nunca fica exposto a mais de 2.5% por trade.",
+    cta_title:"Pronto para<br/>automatizar?",
+    cta_sub:"Sem permanência. Sem comissões fixas. Seus fundos sempre na sua conta Axi.",
+    cta_btn:"Conectar agora", cta_b1:"✓ Setup em 10 minutos", cta_b2:"✓ Depósito mínimo USD 200", cta_b3:"✓ Cancele quando quiser",
+    next_step:"Próximo passo", go_tab2:"IR PARA ABA ②", go_tab3:"IR PARA ABA ③", go_tab4:"IR PARA ABA ④",
+  },
+  en: {
+    nav_results:"Results", nav_how:"How It Works", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Connect to RICX",
+    hero_badge:"Verified on Myfxbook ✓",
+    hero_title:"Invest on<br/><em>autopilot</em>",
+    hero_sub:"Connect your Axi account to the RICX robot and let automation generate returns 24/7 — with professional risk management on XAU/USD (Gold).",
+    hero_cta:"Connect to RICX", hero_cta2:"See real results",
+    stat1_label:"Total Gain", stat2_label:"Months Active", stat2_sub:"Since Sept. 2025",
+    stat3_label:"Win Rate", stat3_sub:"412 of 468 trades", stat4_label:"Max Drawdown", stat4_sub:"Controlled risk",
+    stat5_label:"Monthly Average", stat5_sub:"Consistent return",
+    how_kicker:"How it works", how_title:"Three steps. Zero<br/>technical knowledge.",
+    how_sub:"Set up your connection in under 10 minutes. The robot does the rest.",
+    step1_num:"STEP 01", step1_title:"Open your Axi account",
+    step1_desc:"Register with Axi (regulated broker) in 5 minutes. Minimum deposit from USD 200. Your funds always stay in your name.",
+    step2_num:"STEP 02", step2_title:"Connect to RICX",
+    step2_desc:"In the Axi Copy app search for <b>RICX Gold Strategy</b> and tap \"Copy\". Choose your risk size and done.",
+    step3_num:"STEP 03", step3_title:"The robot trades 24/7",
+    step3_desc:"RICX executes trades on XAU/USD with professional risk management. You just watch your account grow.",
+    dif_kicker:"Why RICX is different", dif_title:"Risk management<br/>before profits.",
+    dif_sub:"Most bots blow accounts from greed. RICX is built the other way: first don't lose, then win.",
+    feat1_title:"Pending orders with SL + TP",
+    feat1_desc:"Never trades at market. Every trade has pre-defined Stop Loss and Take Profit. If the market moves against, losses are capped.",
+    feat1_mini:"SL mandatory on 100% of trades",
+    feat2_title:"Max 2.5% exposure per trade",
+    feat2_desc:"The robot never risks more than 2.5% of equity on a single trade. Even in the worst case, your capital stays intact.",
+    feat2_mini:"Max risk / trade = equity × 0.025",
+    feat3_title:"Automatic Trailing Profit",
+    feat3_desc:"When a trade is in profit, RICX moves the Stop Loss to lock in gains. Let winners run risk-free.",
+    feat3_mini:"Auto activation from +15 pips",
+    feat4_title:"10-year backtest + Monte Carlo",
+    feat4_desc:"Validated with 10 years of historical data and 10,000 Monte Carlo simulations. The strategy survives any market scenario.",
+    feat4_mini:"10,000 simulations · 0 blowups",
+    equity_title:"Growth curve — Real account", equity_sub:"USD 10,000 account · September 2025 → April 2026",
+    test_kicker:"Real testimonials", test_title:"What RICX<br/>followers say.",
+    calc_kicker:"Simulate your growth", calc_title:"How much could you<br/>have in 5 years?",
+    calc_sub:"Based on historical average return of +8.49% monthly. Past results don't guarantee future returns.",
+    calc_box_title:"Return calculator", calc_box_sub:"Adjust the values and discover your potential.",
+    calc_capital:"Initial capital", calc_monthly:"Monthly contribution", calc_years:"Investment years", calc_btn:"Recalculate",
+    calc_value_est:"Estimated value in", calc_years_word:"years",
+    tut_kicker:"Step by step tutorial", tut_title:"From zero to connected<br/>robot in 30 min.",
+    tut_sub:"Complete guide with real screenshots. Follow the steps in order.",
+    tut_tab1:"① Axi Broker Account", tut_tab2:"② CopyTrading App Account", tut_tab3:"③ Link Broker", tut_tab4:"④ Copy RICX",
+    faq_kicker:"Frequently asked questions", faq_title:"Everything you need<br/>to know before starting.",
+    faq1_q:"Do I need trading experience?",
+    faq1_a:"No. RICX does all the technical work for you. You just need to open your Axi account, deposit and tap \"Copy\". No need to analyze charts, open trades or understand terminology.",
+    faq2_q:"What's the minimum deposit?",
+    faq2_a:"The technical minimum is USD 200, but we recommend starting with USD 500+ so that lot sizing works correctly and risk is distributed well.",
+    faq3_q:"Are my funds safe?",
+    faq3_a:"Yes. Your money is always in <b>your personal Axi account</b>, an internationally regulated broker. We never touch your funds. You can disconnect the robot and withdraw at any time.",
+    faq4_q:"What fee does RICX charge?",
+    faq4_a:"RICX charges a 25% performance fee on real profits. If you don't earn, you don't pay. No monthly fees, no hidden costs.",
+    faq5_q:"Can I withdraw anytime?",
+    faq5_a:"Totally. No minimum commitment. Your Axi account lets you withdraw anytime via transfer, card or e-wallets.",
+    faq6_q:"What if the market crashes?",
+    faq6_a:"Every trade has a pre-defined Stop Loss. In the worst historical scenario (10-year backtest), max drawdown was −12%. Your capital is never exposed to more than 2.5% per trade.",
+    cta_title:"Ready to<br/>automate?",
+    cta_sub:"No commitment. No fixed fees. Your funds always in your Axi account.",
+    cta_btn:"Connect now", cta_b1:"✓ 10-minute setup", cta_b2:"✓ USD 200 minimum", cta_b3:"✓ Cancel anytime",
+    next_step:"Next step", go_tab2:"GO TO TAB ②", go_tab3:"GO TO TAB ③", go_tab4:"GO TO TAB ④",
+  }
+};
+
+function setLang(lang){
+  if(!T[lang]) lang = 'es';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(T[lang][key] != null) el.innerHTML = T[lang][key];
+  });
+  document.querySelectorAll('.lang-btn').forEach(b => {
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = lang;
+  try{ localStorage.setItem('ricx_lang', lang); } catch(e){}
+}
+try{
+  const saved = localStorage.getItem('ricx_lang');
+  if(saved && T[saved]) setLang(saved);
+} catch(e){}
+
+// ─── TELEGRAM WIDGET INIT ───
+(function(){
+  const bubble = document.getElementById('tg-bubble');
+  const closeBtn = document.getElementById('tg-bubble-close');
+  const btn = document.getElementById('tg-btn');
+  if(!bubble || !closeBtn || !btn) return;
+  try{
+    if(!sessionStorage.getItem('tg-bubble-dismissed')){
+      setTimeout(() => bubble.classList.add('show'), 4000);
+    }
+  } catch(e){}
+  closeBtn.addEventListener('click', e => {
+    e.preventDefault();
+    bubble.classList.remove('show');
+    try{ sessionStorage.setItem('tg-bubble-dismissed','1'); } catch(err){}
+  });
+  btn.addEventListener('click', () => {
+    try{ sessionStorage.setItem('tg-bubble-dismissed','1'); } catch(err){}
+  });
+})();
 </script>
+
+<!-- ============ LIGHTBOX ============ -->
+<div id="lb-overlay" onclick="closeLightbox()">
+  <button id="lb-close" aria-label="Cerrar">✕</button>
+  <img id="lb-img" src="" alt=""/>
+</div>
+
+<!-- ============ TELEGRAM WIDGET ============ -->
+<style>
+  #tg-widget{position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; align-items:flex-end; gap:10px; font-family:inherit}
+  #tg-bubble{
+    position:relative;
+    background:#fff; border:1px solid var(--line); color:var(--navy-ink);
+    border-radius:16px 16px 4px 16px; padding:14px 18px 14px 16px; max-width:240px;
+    box-shadow:0 12px 36px -8px rgba(15,23,41,.18);
+    opacity:0; transform:translateY(10px) scale(.95); transition:opacity .3s, transform .3s;
+    pointer-events:none;
+  }
+  #tg-bubble.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto}
+  #tg-bubble p{margin:0 0 4px; font-size:13px; line-height:1.5; color:var(--muted-2)}
+  #tg-bubble strong{color:var(--navy); font-weight:700}
+  #tg-bubble-close{
+    position:absolute; top:6px; right:8px;
+    background:none; border:0; color:#B3BCD4;
+    font-size:14px; cursor:pointer; line-height:1; padding:4px 6px; border-radius:6px;
+  }
+  #tg-bubble-close:hover{background:#F0F2F7; color:var(--navy)}
+  #tg-btn{
+    width:58px; height:58px; border-radius:50%;
+    background:linear-gradient(135deg, #2AABEE, #1a8fd1);
+    box-shadow:0 8px 24px rgba(42,171,238,.45);
+    border:0; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:transform .2s, box-shadow .2s; text-decoration:none; position:relative;
+  }
+  #tg-btn:hover{transform:scale(1.08); box-shadow:0 10px 32px rgba(42,171,238,.6)}
+  #tg-btn svg{width:30px; height:30px}
+  #tg-btn::before{
+    content:''; position:absolute; inset:-5px; border-radius:50%;
+    border:2px solid rgba(42,171,238,.5);
+    animation:tg-pulse 2.5s ease-out infinite;
+  }
+  @keyframes tg-pulse{
+    0%{transform:scale(1); opacity:.7}
+    70%{transform:scale(1.4); opacity:0}
+    100%{transform:scale(1.4); opacity:0}
+  }
+  #tg-dot{position:absolute; top:2px; right:2px; width:12px; height:12px; background:var(--cyan); border-radius:50%; border:2px solid #fff; animation:tg-bounce 1.8s ease-in-out infinite}
+  @keyframes tg-bounce{0%,100%{transform:scale(1)} 50%{transform:scale(1.25)}}
+  @media(max-width:480px){
+    #tg-widget{bottom:16px; right:16px}
+    #tg-bubble{max-width:200px}
+  }
+</style>
+<div id="tg-widget">
+  <div id="tg-bubble">
+    <button id="tg-bubble-close" aria-label="Cerrar">✕</button>
+    <p>👋 <strong>¡Hola!</strong> ¿Tenés dudas sobre RICX?</p>
+    <p>Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.</p>
+  </div>
+  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" aria-label="Soporte vía Telegram">
+    <span id="tg-dot"></span>
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.094-.622z" fill="white"/>
+      <path d="M10 14.5l-1.5 4.5L7 13l11-7-8 8.5z" fill="rgba(42,171,238,0.4)"/>
+    </svg>
+  </a>
+</div>
+
 </body>
 </html>
