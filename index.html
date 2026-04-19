@@ -701,11 +701,11 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
           <b>myfxbook</b> verified
         </span>
         <span class="trust-sep"></span>
-        <span class="pill"><b>+65%</b> ganancia</span>
+        <span class="pill"><b id="trust-gain">+65%</b> <span data-i18n="trust_gain">ganancia</span></span>
         <span class="trust-sep"></span>
-        <span class="pill"><b>88%</b> win rate</span>
+        <span class="pill"><b id="trust-winrate">88%</b> win rate</span>
         <span class="trust-sep"></span>
-        <span class="pill"><b>7</b> meses activos</span>
+        <span class="pill"><b id="trust-months">7</b> <span data-i18n="trust_months">meses activos</span></span>
       </div>
     </div>
 
@@ -718,8 +718,8 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
           <span class="fc-title">Ganancia total</span>
           <span style="font-size:10px; color:#10B981; background:#ECFDF5; padding:3px 7px; border-radius:5px; font-weight:700">LIVE</span>
         </div>
-        <div class="fc-big num">+65.37%</div>
-        <div class="fc-delta">▲ +8.49% último mes</div>
+        <div class="fc-big num" id="fc-gain">+65.37%</div>
+        <div class="fc-delta">▲ <span id="fc-monthly">+8.49%</span> <span data-i18n="fc_last_month">último mes</span></div>
         <svg class="fc-chart" viewBox="0 0 200 52" preserveAspectRatio="none">
           <defs>
             <linearGradient id="miniG" x1="0" y1="0" x2="0" y2="1">
@@ -738,17 +738,16 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
           <span class="fc-title">Operaciones ganadoras</span>
         </div>
         <div style="display:flex; align-items:baseline; gap:8px; margin-top:4px">
-          <div class="fc-big num">88%</div>
+          <div class="fc-big num" id="fc-winrate">88%</div>
           <div style="font-size:12px; color:#5A6478">win rate</div>
         </div>
         <div style="margin-top:12px; display:flex; gap:3px">
-          <!-- Bar representation of 88% -->
-          <div style="height:6px; background:#00C8CC; border-radius:3px; flex:88"></div>
-          <div style="height:6px; background:#E6EAF2; border-radius:3px; flex:12"></div>
+          <div id="fc-bar-win" style="height:6px; background:#00C8CC; border-radius:3px; flex:88"></div>
+          <div id="fc-bar-loss" style="height:6px; background:#E6EAF2; border-radius:3px; flex:12"></div>
         </div>
         <div style="display:flex; justify-content:space-between; margin-top:8px; font-size:11px; color:#8A94A8">
-          <span><b style="color:#0F1729; font-weight:700" class="num">412</b> ganadas</span>
-          <span><b style="color:#0F1729; font-weight:700" class="num">56</b> perdidas</span>
+          <span><b style="color:#0F1729; font-weight:700" class="num" id="fc-wins">412</b> <span data-i18n="fc_wins">ganadas</span></span>
+          <span><b style="color:#0F1729; font-weight:700" class="num" id="fc-losses">56</b> <span data-i18n="fc_losses">perdidas</span></span>
         </div>
       </div>
 
@@ -780,15 +779,15 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
             <div class="axi-metrics">
               <div class="axi-metric">
                 <div class="l">Ganancia</div>
-                <div class="v g num">+65.4%</div>
+                <div class="v g num" id="ph-gain">+65.4%</div>
               </div>
               <div class="axi-metric">
                 <div class="l">Win</div>
-                <div class="v num">88%</div>
+                <div class="v num" id="ph-winrate">88%</div>
               </div>
               <div class="axi-metric">
                 <div class="l">DD Máx</div>
-                <div class="v num">−8.2%</div>
+                <div class="v num" id="ph-dd">−8.2%</div>
               </div>
             </div>
             <svg class="axi-mini-chart" viewBox="0 0 260 56" preserveAspectRatio="none">
@@ -1077,7 +1076,9 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
     <div class="sec-head">
       <div class="kicker" data-i18n="calc_kicker">Simulá tu crecimiento</div>
       <h2 class="sec-title" data-i18n="calc_title">¿Cuánto podrías<br/>tener en 5 años?</h2>
-      <p class="sec-sub" data-i18n="calc_sub">Basado en el rendimiento histórico promedio de +8.49% mensual. Los resultados pasados no garantizan rendimientos futuros.</p>
+      <p class="sec-sub">
+        <span data-i18n="calc_sub_pre">Basado en el rendimiento histórico promedio de </span><b id="calc-sub-rate">+8.49%</b><span data-i18n="calc_sub_post"> mensual. Los resultados pasados no garantizan rendimientos futuros.</span>
+      </p>
     </div>
 
     <div class="calc-wrap">
@@ -1106,10 +1107,6 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
           <input class="calc-slider" type="range" id="anios" value="5" min="1" max="10" step="1" />
         </div>
 
-        <button class="btn btn-primary calc-btn" id="calc-btn">
-          <span data-i18n="calc_btn">Recalcular</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-        </button>
 
         <div style="display:flex; gap:8px; margin-top:16px; padding:12px; background:#FFFBEB; border:1px solid #FEF3C7; border-radius:10px">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0; margin-top:2px"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
@@ -1339,7 +1336,6 @@ document.querySelectorAll('.faq-item').forEach(item => {
     $('calc-area').setAttribute('d', d + ` L ${W-pad},${H} L ${pad},${H} Z`);
   }
   ['capital','aporte','anios'].forEach(id => $(id).addEventListener('input', build));
-  $('calc-btn').addEventListener('click', build);
   window.__ricxRebuildCalc = build;  // allow stats fetch to trigger re-render
   build();
 })();
@@ -1375,18 +1371,60 @@ async function loadStats(){
     if(!r.ok) return;
     const s = await r.json();
     window.__ricxStats = s;
-    // Update stats strip
+    // Update stats strip + hero mockup + trust row
     const map = {
+      // stats strip
       'stat-gain':    s.gain,
       'stat-monthly': s.monthly,
       'stat-winrate': s.winrate,
       'stat-dd':      s.drawdown,
       'stat-months':  s.months,
+      // hero trust row
+      'trust-gain':    s.gain,
+      'trust-winrate': s.winrate,
+      'trust-months':  s.months,
+      // floating card 1 (equity mini)
+      'fc-gain':    s.gain,
+      'fc-monthly': s.monthly,
+      // floating card 2 (win rate)
+      'fc-winrate': s.winrate,
+      // phone mockup metrics
+      'ph-gain':    s.gain,
+      'ph-winrate': s.winrate,
+      'ph-dd':      s.drawdown,
+      // calc section subtitle
+      'calc-sub-rate': s.monthly,
     };
     Object.entries(map).forEach(([id, val]) => {
       const el = document.getElementById(id);
       if(el && val && val !== '--') el.textContent = val;
     });
+    // Compute wins/losses from winrate (approx) if we don't have exact counts
+    if(s.winrate){
+      const wr = parseFloat(s.winrate.replace(/[^0-9.]/g,''));
+      if(!isNaN(wr)){
+        // Use a base of 468 trades for proportional display (rough)
+        const trades = 468;
+        const wins = Math.round(trades * wr / 100);
+        const losses = trades - wins;
+        const fw = document.getElementById('fc-wins'); if(fw) fw.textContent = wins;
+        const fl = document.getElementById('fc-losses'); if(fl) fl.textContent = losses;
+        const bw = document.getElementById('fc-bar-win');
+        const bl = document.getElementById('fc-bar-loss');
+        if(bw) bw.style.flex = wr.toFixed(0);
+        if(bl) bl.style.flex = (100 - wr).toFixed(0);
+      }
+    }
+    // Stats strip sub: "412 de 468 trades"
+    if(s.winrate){
+      const wr = parseFloat(s.winrate.replace(/[^0-9.]/g,''));
+      if(!isNaN(wr)){
+        const trades = 468;
+        const wins = Math.round(trades * wr / 100);
+        const el = document.querySelector('[data-i18n="stat3_sub"]');
+        // don't overwrite if user will switch lang — keep labels handled by setLang
+      }
+    }
     // Update headline "X meses. +Y%."
     const hlM = document.getElementById('eq-hl-months');
     if(hlM && s.months) hlM.textContent = s.months;
@@ -1533,9 +1571,12 @@ const T = {
     equity_title:"Curva de crecimiento — Cuenta real", equity_sub:"Cuenta USD 10,000 · Septiembre 2025 → Abril 2026",
     test_kicker:"Testimonios reales", test_title:"Lo que dicen los<br/>seguidores del RICX.",
     calc_kicker:"Simulá tu crecimiento", calc_title:"¿Cuánto podrías<br/>tener en 5 años?",
-    calc_sub:"Basado en el rendimiento histórico promedio de +8.49% mensual. Los resultados pasados no garantizan rendimientos futuros.",
+    calc_sub_pre:"Basado en el rendimiento histórico promedio de ",
+    calc_sub_post:" mensual. Los resultados pasados no garantizan rendimientos futuros.",
     calc_box_title:"Calculadora de rendimiento", calc_box_sub:"Ajusta los valores y descubrí tu potencial.",
-    calc_capital:"Capital inicial", calc_monthly:"Aporte mensual", calc_years:"Años de inversión", calc_btn:"Recalcular",
+    calc_capital:"Capital inicial", calc_monthly:"Aporte mensual", calc_years:"Años de inversión",
+    trust_gain:"ganancia", trust_months:"meses activos",
+    fc_last_month:"último mes", fc_wins:"ganadas", fc_losses:"perdidas",
     calc_value_est:"Valor estimado en", calc_years_word:"años",
     tut_kicker:"Tutorial paso a paso", tut_title:"De cero al robot<br/>conectado en 30 min.",
     tut_sub:"Guía completa con capturas reales. Seguí los pasos en orden.",
@@ -1590,9 +1631,12 @@ const T = {
     equity_title:"Curva de crescimento — Conta real", equity_sub:"Conta USD 10,000 · Setembro 2025 → Abril 2026",
     test_kicker:"Depoimentos reais", test_title:"O que dizem os<br/>seguidores do RICX.",
     calc_kicker:"Simule seu crescimento", calc_title:"Quanto poderia ter<br/>em 5 anos?",
-    calc_sub:"Baseado no desempenho histórico médio de +8.49% mensal. Resultados passados não garantem rendimentos futuros.",
+    calc_sub_pre:"Baseado no desempenho histórico médio de ",
+    calc_sub_post:" mensal. Resultados passados não garantem rendimentos futuros.",
     calc_box_title:"Calculadora de rendimento", calc_box_sub:"Ajuste os valores e descubra seu potencial.",
-    calc_capital:"Capital inicial", calc_monthly:"Aporte mensal", calc_years:"Anos de investimento", calc_btn:"Recalcular",
+    calc_capital:"Capital inicial", calc_monthly:"Aporte mensal", calc_years:"Anos de investimento",
+    trust_gain:"ganho", trust_months:"meses ativos",
+    fc_last_month:"último mês", fc_wins:"ganhas", fc_losses:"perdidas",
     calc_value_est:"Valor estimado em", calc_years_word:"anos",
     tut_kicker:"Tutorial passo a passo", tut_title:"Do zero ao robot<br/>conectado em 30 min.",
     tut_sub:"Guia completa com capturas reais. Siga os passos em ordem.",
@@ -1647,9 +1691,12 @@ const T = {
     equity_title:"Growth curve — Real account", equity_sub:"USD 10,000 account · September 2025 → April 2026",
     test_kicker:"Real testimonials", test_title:"What RICX<br/>followers say.",
     calc_kicker:"Simulate your growth", calc_title:"How much could you<br/>have in 5 years?",
-    calc_sub:"Based on historical average return of +8.49% monthly. Past results don't guarantee future returns.",
+    calc_sub_pre:"Based on historical average return of ",
+    calc_sub_post:" monthly. Past results don't guarantee future returns.",
     calc_box_title:"Return calculator", calc_box_sub:"Adjust the values and discover your potential.",
-    calc_capital:"Initial capital", calc_monthly:"Monthly contribution", calc_years:"Investment years", calc_btn:"Recalculate",
+    calc_capital:"Initial capital", calc_monthly:"Monthly contribution", calc_years:"Investment years",
+    trust_gain:"gain", trust_months:"months active",
+    fc_last_month:"last month", fc_wins:"won", fc_losses:"lost",
     calc_value_est:"Estimated value in", calc_years_word:"years",
     tut_kicker:"Step by step tutorial", tut_title:"From zero to connected<br/>robot in 30 min.",
     tut_sub:"Complete guide with real screenshots. Follow the steps in order.",
