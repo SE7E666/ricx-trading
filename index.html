@@ -1408,7 +1408,10 @@ document.querySelectorAll('.faq-item').forEach(item => {
 
 // Calculator
 (function(){
-  const fmt = n => n.toLocaleString('en-US', {maximumFractionDigits:0});
+  // Formato unificado para PT/ES/EN: '.' milhares, ',' decimais (es-ES)
+  const fmtMoney = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
+  const fmtInt   = n => Math.round(n).toLocaleString('es-ES', {maximumFractionDigits:0});
+  const fmtPct   = n => n.toLocaleString('es-ES', {minimumFractionDigits:2, maximumFractionDigits:2});
   const $ = id => document.getElementById(id);
 
   function build(){
@@ -1416,8 +1419,8 @@ document.querySelectorAll('.faq-item').forEach(item => {
     const aporte  = Math.max(0, +$('aporte').value || 0);
     const anios   = Math.max(1, Math.min(10, +$('anios').value || 5));
     const months  = anios * 12;
-    // Usa a taxa histórica real (lida do stats.json) — fallback 8.49%/mês
-    const monthlyReturn = (window.__ricxMonthlyRate != null) ? window.__ricxMonthlyRate : 0.0849;
+    // Usa a taxa histórica real (lida do stats.json) — fallback 9.17%/mês (média)
+    const monthlyReturn = (window.__ricxMonthlyRate != null) ? window.__ricxMonthlyRate : 0.0917;
 
     let balance = capital;
     const pts = [balance];
@@ -1430,11 +1433,11 @@ document.querySelectorAll('.faq-item').forEach(item => {
     const growth = invested > 0 ? (gain/invested)*100 : 0;
 
     $('r-anios').textContent = anios;
-    $('r-total').textContent = fmt(balance);
-    $('r-delta').textContent = '+$' + fmt(gain);
-    $('r-invested').textContent = '$' + fmt(invested);
-    $('r-gain').textContent = '+$' + fmt(gain);
-    $('r-growth').textContent = '+' + fmt(growth) + '%';
+    $('r-total').textContent = fmtMoney(balance);
+    $('r-delta').textContent = '+$' + fmtMoney(gain);
+    $('r-invested').textContent = '$' + fmtInt(invested);
+    $('r-gain').textContent = '+$' + fmtMoney(gain);
+    $('r-growth').textContent = '+' + fmtPct(growth) + '%';
     $('anios-val').textContent = anios;
 
     // Show monthly rate used (in the calc header)
