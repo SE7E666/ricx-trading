@@ -14,33 +14,12 @@
   "account_name": "RYCX AXI",
   "currency": "USD",
   "chart_data": [
-    {
-      "date": "Out/25",
-      "value": -1.92
-    },
-    {
-      "date": "Nov/25",
-      "value": -8.92
-    },
-    {
-      "date": "Dez/25",
-      "value": 11.59
-    },
-    {
-      "date": "Jan/26",
-      "value": 33.38
-    },
-    {
-      "date": "Fev/26",
-      "value": 33.62
-    },
-    {
-      "date": "Mar/26",
-      "value": 47.42
-    },
-    {
-      "date": "Abr/26",
-      "value": 77.36
-    }
+    {"date": "Out/25", "value": -1.92},
+    {"date": "Nov/25", "value": -8.92},
+    {"date": "Dez/25", "value": 11.59},
+    {"date": "Jan/26", "value": 33.38},
+    {"date": "Fev/26", "value": 33.62},
+    {"date": "Mar/26", "value": 47.42},
+    {"date": "Abr/26", "value": 77.36}
   ]
 }
