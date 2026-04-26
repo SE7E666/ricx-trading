@@ -44,7 +44,6 @@
 <link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/" />
 <link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/" />
 <link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/" />
-
 <!-- ═══ Favicon ═══ -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
 <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
@@ -904,8 +903,8 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
       <!-- Floating card top-right: equity mini -->
       <div class="float-card float-card-1">
         <div class="fc-head">
-          <span class="fc-title">Ganancia total</span>
-          <span style="font-size:10px; color:#10B981; background:#ECFDF5; padding:3px 7px; border-radius:5px; font-weight:700">LIVE</span>
+          <span class="fc-title" data-i18n="mock_total_gain">Lucro total</span>
+          <span data-i18n="mock_live" style="font-size:10px; color:#10B981; background:#ECFDF5; padding:3px 7px; border-radius:5px; font-weight:700">LIVE</span>
         </div>
         <div class="fc-big num" id="fc-gain">+65.37%</div>
         <div class="fc-delta">▲ <span id="fc-monthly">+20.31%</span> <span data-i18n="fc_last_month">último mês</span></div>
@@ -924,7 +923,7 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
       <!-- Floating card bottom-left: win rate gauge -->
       <div class="float-card float-card-2">
         <div class="fc-head">
-          <span class="fc-title">Operaciones ganadoras</span>
+          <span class="fc-title" data-i18n="mock_winning_ops">Operações vencedoras</span>
         </div>
         <div style="display:flex; align-items:baseline; gap:8px; margin-top:4px">
           <div class="fc-big num" id="fc-winrate">65.2%</div>
@@ -961,21 +960,21 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
           <div class="axi-card">
             <div class="axi-card-head">
               <span class="axi-tag">PROVIDER</span>
-              <span class="axi-status"><span class="d"></span> Conectado</span>
+              <span class="axi-status"><span class="d"></span> <span data-i18n="mock_connected">Conectado</span></span>
             </div>
             <div class="axi-strat">RICX</div>
             <div class="axi-strat-sub">Oro · Forex · Cripto</div>
             <div class="axi-metrics">
               <div class="axi-metric">
-                <div class="l">Ganancia</div>
+                <div class="l" data-i18n="m_gain">Lucro</div>
                 <div class="v g num" id="ph-gain">+65.4%</div>
               </div>
               <div class="axi-metric">
-                <div class="l">Win</div>
+                <div class="l" data-i18n="m_win">Win</div>
                 <div class="v num" id="ph-winrate">65.2%</div>
               </div>
               <div class="axi-metric">
-                <div class="l">DD Máx</div>
+                <div class="l" data-i18n="m_dd">DD Máx</div>
                 <div class="v num" id="ph-dd">−8.2%</div>
               </div>
             </div>
@@ -1312,15 +1311,15 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
 
         <div class="calc-breakdown">
           <div class="calc-break">
-            <div class="l">Invertido</div>
+            <div class="l" data-i18n="m_invested">Investido</div>
             <div class="v num" id="r-invested">—</div>
           </div>
           <div class="calc-break">
-            <div class="l">Ganancia</div>
+            <div class="l" data-i18n="m_gain">Lucro</div>
             <div class="v g num" id="r-gain">—</div>
           </div>
           <div class="calc-break">
-            <div class="l">Crecimiento</div>
+            <div class="l" data-i18n="m_growth">Crescimento</div>
             <div class="v g num" id="r-growth">—</div>
           </div>
         </div>
@@ -2021,11 +2020,4 @@ function setLang(lang){
   <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" aria-label="Soporte vía Telegram">
     <span id="tg-dot"></span>
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.094-.622z" fill="white"/>
-      <path d="M10 14.5l-1.5 4.5L7 13l11-7-8 8.5z" fill="rgba(42,171,238,0.4)"/>
-    </svg>
-  </a>
-</div>
-
-</body>
-</html>
+      <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 
