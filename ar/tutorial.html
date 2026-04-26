@@ -882,10 +882,7 @@ function closeLightbox(){
 }
 
 // ─── INIT ───
-try{
-  const saved = localStorage.getItem('ricx_lang');
-  if(saved && T[saved]) setLang(saved); else setLang('es');
-} catch(e){ setLang('es'); }
+setLang('ar'); /* static lang baked at build time */
 switchTab('broker');
 </script>
 </body>
