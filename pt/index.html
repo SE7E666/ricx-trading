@@ -855,13 +855,13 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
   <div class="wrap nav-inner">
     <a href="#" class="logo">
       <span class="logo-mark">
-        <img src="logos/RICX_icon.svg" alt="RICX" />
+        <img src="/logos/RICX_icon.svg" alt="RICX" />
       </span>
       <span>RICX</span>
     </a>
     <nav class="nav-links">
       <a href="#resultados" data-i18n="nav_results">Resultados</a>
-      <a href="resultados/" data-i18n="nav_history">Histórico</a>
+      <a href="/resultados/" data-i18n="nav_history">Histórico</a>
       <a href="#como-funciona" data-i18n="nav_how">Como Funciona</a>
       <a href="/pt/tutorial.html" data-i18n="nav_tutorial">Tutorial</a>
       <a href="#faq" data-i18n="nav_faq">FAQ</a>
@@ -1415,7 +1415,7 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
       <div class="footer-col">
         <div class="footer-logo">
           <span class="logo-mark">
-            <img src="logos/RICX_icon.svg" alt="RICX" />
+            <img src="/logos/RICX_icon.svg" alt="RICX" />
           </span>
           RICX
         </div>
@@ -1557,7 +1557,7 @@ window.__ricxMonthlyRate = 0.0917;  // default fallback (~ +9.17%/mo avg)
 
 async function loadStats(){
   try{
-    const r = await fetch('stats.json?t=' + Date.now());
+    const r = await fetch('/stats.json?t=' + Date.now());
     if(!r.ok) return;
     const s = await r.json();
     window.__ricxStats = s;
