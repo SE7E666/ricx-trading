@@ -874,13 +874,13 @@ html[dir="rtl"] body{font-family:'Tajawal','Cairo','Inter',system-ui,sans-serif}
   <div class="wrap nav-inner">
     <a href="#" class="logo">
       <span class="logo-mark">
-        <img src="logos/RICX_icon.svg" alt="RICX" />
+        <img src="/logos/RICX_icon.svg" alt="RICX" />
       </span>
       <span>RICX</span>
     </a>
     <nav class="nav-links">
       <a href="#resultados" data-i18n="nav_results">النتائج</a>
-      <a href="resultados/" data-i18n="nav_history">السجل</a>
+      <a href="/resultados/" data-i18n="nav_history">السجل</a>
       <a href="#como-funciona" data-i18n="nav_how">كيف يعمل</a>
       <a href="/ar/tutorial.html" data-i18n="nav_tutorial">الدليل</a>
       <a href="#faq" data-i18n="nav_faq">الأسئلة الشائعة</a>
@@ -1434,7 +1434,7 @@ html[dir="rtl"] body{font-family:'Tajawal','Cairo','Inter',system-ui,sans-serif}
       <div class="footer-col">
         <div class="footer-logo">
           <span class="logo-mark">
-            <img src="logos/RICX_icon.svg" alt="RICX" />
+            <img src="/logos/RICX_icon.svg" alt="RICX" />
           </span>
           RICX
         </div>
@@ -1576,7 +1576,7 @@ window.__ricxMonthlyRate = 0.0917;  // default fallback (~ +9.17%/mo avg)
 
 async function loadStats(){
   try{
-    const r = await fetch('stats.json?t=' + Date.now());
+    const r = await fetch('/stats.json?t=' + Date.now());
     if(!r.ok) return;
     const s = await r.json();
     window.__ricxStats = s;
