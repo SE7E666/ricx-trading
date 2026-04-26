@@ -1,16 +1,93 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://ricxcopytrade.com/</loc>
     <lastmod>2026-04-26</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/" />
+  </url>
+  <url>
+    <loc>https://ricxcopytrade.com/pt/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/" />
+  </url>
+  <url>
+    <loc>https://ricxcopytrade.com/en/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/" />
+  </url>
+  <url>
+    <loc>https://ricxcopytrade.com/ar/</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/" />
   </url>
   <url>
     <loc>https://ricxcopytrade.com/tutorial.html</loc>
     <lastmod>2026-04-26</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/tutorial.html" />
+  </url>
+  <url>
+    <loc>https://ricxcopytrade.com/pt/tutorial.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/tutorial.html" />
+  </url>
+  <url>
+    <loc>https://ricxcopytrade.com/en/tutorial.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/tutorial.html" />
+  </url>
+  <url>
+    <loc>https://ricxcopytrade.com/ar/tutorial.html</loc>
+    <lastmod>2026-04-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="es" href="https://ricxcopytrade.com/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="pt" href="https://ricxcopytrade.com/pt/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://ricxcopytrade.com/en/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="ar" href="https://ricxcopytrade.com/ar/tutorial.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://ricxcopytrade.com/tutorial.html" />
   </url>
   <url>
     <loc>https://ricxcopytrade.com/resultados/</loc>
