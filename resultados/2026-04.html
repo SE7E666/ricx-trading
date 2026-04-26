@@ -73,12 +73,16 @@ h2{font-size:24px;font-weight:700;margin:48px 0 16px;color:#1B2D5E}
 .equity-card{background:#fff;border:1px solid #E6EAF2;border-radius:14px;padding:24px;margin:24px 0}
 .equity{width:100%;height:auto;display:block}
 .equity .grid{stroke:#E6EAF2;stroke-width:1;stroke-dasharray:3,3}
-.equity .zero{stroke:#8A94A8;stroke-width:1;stroke-dasharray:4,4}
-.equity .pt{fill:#1B2D5E}
-.equity .pt-hl{fill:#00C8CC;stroke:#fff;stroke-width:2}
+.equity .zero{stroke:#8A94A8;stroke-width:1.5}
+.equity .bar-pos{fill:#10B981;opacity:.85}
+.equity .bar-neg{fill:#EF4444;opacity:.85}
+.equity .bar-hl-pos{fill:#059669;stroke:#fff;stroke-width:1.5}
+.equity .bar-hl-neg{fill:#DC2626;stroke:#fff;stroke-width:1.5}
 .equity .tick{font-family:'Inter',sans-serif;font-size:11px;fill:#8A94A8}
 .equity .tick-hl{font-family:'Inter',sans-serif;font-size:11px;fill:#1B2D5E;font-weight:700}
 .equity .ytick{font-family:'Inter',sans-serif;font-size:10px;fill:#8A94A8}
+.equity .vlabel{font-family:'Inter',sans-serif;font-size:10px;fill:#5A6478;font-weight:600}
+.equity .vlabel-hl{font-family:'Inter',sans-serif;font-size:11px;fill:#1B2D5E;font-weight:800}
 .history-table{width:100%;border-collapse:collapse;margin-top:16px;font-size:14px}
 .history-table th,.history-table td{padding:12px 16px;border-bottom:1px solid #E6EAF2;text-align:left}
 .history-table th{font-size:11px;color:#8A94A8;text-transform:uppercase;letter-spacing:1px;font-weight:600}
@@ -137,40 +141,44 @@ footer a:hover{color:#00C8CC}
       <div class="kpi"><span class="kpi-label">Mes activo</span><b class="kpi-value">7</b></div>
     </div>
 
-    <h2>Curva de crecimiento</h2>
+    <h2>Retornos mensuales</h2>
     <div class="equity-card">
       <svg viewBox="0 0 700 240" class="equity" preserveAspectRatio="xMidYMid meet">
-<defs>
-  <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#00C8CC" stop-opacity=".25"/>
-    <stop offset="100%" stop-color="#00C8CC" stop-opacity="0"/>
-  </linearGradient>
-</defs>
 <line x1="50" y1="20.0" x2="680" y2="20.0" class="grid"/>
-<text x="42" y="24.0" text-anchor="end" class="ytick">77%</text>
+<text x="42" y="24.0" text-anchor="end" class="ytick">25.5%</text>
+<line x1="50" y1="65.0" x2="680" y2="65.0" class="grid"/>
+<text x="42" y="69.0" text-anchor="end" class="ytick">16.6%</text>
 <line x1="50" y1="110.0" x2="680" y2="110.0" class="grid"/>
-<text x="42" y="114.0" text-anchor="end" class="ytick">34%</text>
+<text x="42" y="114.0" text-anchor="end" class="ytick">7.7%</text>
+<line x1="50" y1="155.0" x2="680" y2="155.0" class="grid"/>
+<text x="42" y="159.0" text-anchor="end" class="ytick">-1.2%</text>
 <line x1="50" y1="200.0" x2="680" y2="200.0" class="grid"/>
-<text x="42" y="204.0" text-anchor="end" class="ytick">-9%</text>
+<text x="42" y="204.0" text-anchor="end" class="ytick">-10.1%</text>
 
-<line x1="50" y1="181.4" x2="680" y2="181.4" class="zero"/>
-<path d="M 50.0,185.4 L 155.0,200.0 L 260.0,157.2 L 365.0,111.8 L 470.0,111.3 L 575.0,82.5 L 680.0,20.0 L 680.0,181.4 L 50.0,181.4 Z" fill="url(#ag)" stroke="none"/>
-<path d="M 50.0,185.4 L 155.0,200.0 L 260.0,157.2 L 365.0,111.8 L 470.0,111.3 L 575.0,82.5 L 680.0,20.0" fill="none" stroke="#1B2D5E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="50.0" cy="185.4" r="3" class="pt"/>
-<circle cx="155.0" cy="200.0" r="3" class="pt"/>
-<circle cx="260.0" cy="157.2" r="3" class="pt"/>
-<circle cx="365.0" cy="111.8" r="3" class="pt"/>
-<circle cx="470.0" cy="111.3" r="3" class="pt"/>
-<circle cx="575.0" cy="82.5" r="3" class="pt"/>
-<circle cx="680.0" cy="20.0" r="5" class="pt-hl"/>
+<line x1="50" y1="148.9" x2="680" y2="148.9" class="zero"/>
+<rect x="65.8" y="148.9" width="58.5" height="9.7" rx="3" ry="3" class="bar-neg"/>
+<rect x="155.8" y="148.9" width="58.5" height="36.1" rx="3" ry="3" class="bar-neg"/>
+<rect x="245.8" y="35.0" width="58.5" height="113.9" rx="3" ry="3" class="bar-pos"/>
+<rect x="335.8" y="50.1" width="58.5" height="98.8" rx="3" ry="3" class="bar-pos"/>
+<rect x="425.8" y="148.0" width="58.5" height="1.5" rx="3" ry="3" class="bar-pos"/>
+<rect x="515.8" y="96.7" width="58.5" height="52.2" rx="3" ry="3" class="bar-pos"/>
+<rect x="605.8" y="46.2" width="58.5" height="102.7" rx="3" ry="3" class="bar-hl-pos"/>
 
-<text x="50.0" y="218" text-anchor="middle" class="tick">Out/25</text>
-<text x="155.0" y="218" text-anchor="middle" class="tick">Nov/25</text>
-<text x="260.0" y="218" text-anchor="middle" class="tick">Dez/25</text>
+<text x="95.0" y="172.6" text-anchor="middle" class="vlabel">-1.9%</text>
+<text x="185.0" y="199.0" text-anchor="middle" class="vlabel">-7.1%</text>
+<text x="275.0" y="29.0" text-anchor="middle" class="vlabel">+22.5%</text>
+<text x="365.0" y="44.1" text-anchor="middle" class="vlabel">+19.5%</text>
+<text x="455.0" y="142.0" text-anchor="middle" class="vlabel">+0.2%</text>
+<text x="545.0" y="90.7" text-anchor="middle" class="vlabel">+10.3%</text>
+<text x="635.0" y="40.2" text-anchor="middle" class="vlabel-hl">+20.3%</text>
+
+<text x="95.0" y="218" text-anchor="middle" class="tick">Out/25</text>
+<text x="185.0" y="218" text-anchor="middle" class="tick">Nov/25</text>
+<text x="275.0" y="218" text-anchor="middle" class="tick">Dez/25</text>
 <text x="365.0" y="218" text-anchor="middle" class="tick">Jan/26</text>
-<text x="470.0" y="218" text-anchor="middle" class="tick">Fev/26</text>
-<text x="575.0" y="218" text-anchor="middle" class="tick">Mar/26</text>
-<text x="680.0" y="218" text-anchor="middle" class="tick-hl">Abr/26</text>
+<text x="455.0" y="218" text-anchor="middle" class="tick">Fev/26</text>
+<text x="545.0" y="218" text-anchor="middle" class="tick">Mar/26</text>
+<text x="635.0" y="218" text-anchor="middle" class="tick-hl">Abr/26</text>
 
 </svg>
     </div>
