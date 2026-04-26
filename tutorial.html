@@ -22,6 +22,10 @@
 <meta name="twitter:description" content="Tutorial paso a paso — de cero al robot RICX conectado en 30 minutos." />
 <meta name="twitter:image" content="https://ricxcopytrade.com/og-image.png" />
 
+<!-- ═══ Favicon ═══ -->
+<link rel="icon" type="image/svg+xml" href="logos/RICX_icon.svg" />
+<link rel="apple-touch-icon" href="logos/RICX_icon.svg" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
@@ -45,9 +49,8 @@ img{max-width:100%;display:block}
 .nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .nav-inner{display:flex;align-items:center;justify-content:space-between;height:72px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;font-size:20px;color:var(--navy)}
-.logo-mark{width:36px;height:36px;border-radius:10px;background:var(--navy);display:grid;place-items:center;position:relative;box-shadow:0 4px 14px rgba(27,45,94,.25)}
-.logo-mark svg{width:22px;height:22px;display:block}
-.logo-mark::after{content:"";position:absolute;right:-4px;bottom:-4px;width:12px;height:12px;border-radius:50%;background:var(--cyan);border:2px solid #fff}
+.logo-mark{width:36px;height:36px;border-radius:10px;background:#fff;display:grid;place-items:center;position:relative;box-shadow:0 4px 14px rgba(27,45,94,.18);border:1px solid var(--line)}
+.logo-mark svg, .logo-mark img{width:30px;height:30px;display:block}
 .nav-links{display:flex;gap:36px}
 .nav-links a{font-size:14px;font-weight:500;color:var(--navy-ink);padding:6px 0}
 .nav-links a:hover{color:var(--navy)}
@@ -223,16 +226,7 @@ footer{background:var(--navy-deep);color:#B3BCD4;padding:48px 0 24px}
   <div class="wrap nav-inner">
     <a href="index.html" class="logo">
       <span class="logo-mark">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <linearGradient id="ricxGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-              <stop offset="0%" stop-color="#4FA8FF"/>
-              <stop offset="55%" stop-color="#00D4D4"/>
-              <stop offset="100%" stop-color="#00FFC2"/>
-            </linearGradient>
-          </defs>
-          <path d="M4.5 3.5 L9.5 3.5 L12 7.5 L14.5 3.5 L19.5 3.5 L14 12 L19.5 20.5 L14.5 20.5 L12 16.5 L9.5 20.5 L4.5 20.5 L10 12 Z" fill="url(#ricxGrad)"/>
-        </svg>
+        <img src="logos/RICX_icon.svg" alt="RICX" />
       </span>
       <span>RICX</span>
     </a>
