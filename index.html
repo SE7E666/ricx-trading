@@ -1557,7 +1557,7 @@ window.__ricxMonthlyRate = 0.0917;  // default fallback (~ +9.17%/mo avg)
 
 async function loadStats(){
   try{
-    const r = await fetch('stats.json?t=' + Date.now());
+    const r = await fetch('/stats.json?t=' + Date.now());
     if(!r.ok) return;
     const s = await r.json();
     window.__ricxStats = s;
