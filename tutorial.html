@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RICX Copy Trading: Trading made easy</title>
-<meta name="description" content="Tutorial paso a paso — de cero al robot RICX conectado en 30 minutos. Guía completa con capturas reales." />
+<title>Cómo Conectar al Robot RICX en Axi — Tutorial Paso a Paso</title>
+<meta name="description" content="Tutorial paso a paso para conectar el robot RICX al copy trading de Axi en 30 minutos. Capturas reales, sin tarjeta de crédito, verificado en myfxbook." />
 
 <!-- ═══ Open Graph / Social preview ═══ -->
 <meta property="og:title" content="RICX Copy Trading: Trading made easy" />
@@ -22,9 +22,49 @@
 <meta name="twitter:description" content="Tutorial paso a paso — de cero al robot RICX conectado en 30 minutos." />
 <meta name="twitter:image" content="https://ricxcopytrade.com/og-image.png" />
 
+<!-- ═══ Canonical ═══ -->
+<link rel="canonical" href="https://ricxcopytrade.com/tutorial.html" />
+
 <!-- ═══ Favicon ═══ -->
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2" />
 <link rel="apple-touch-icon" href="/favicon.svg?v=2" />
+
+<!-- ═══ Structured data ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Cómo conectar el robot RICX a Axi en 30 minutos",
+  "description": "Tutorial paso a paso para abrir cuenta en Axi, hacer KYC, depositar fondos y conectar tu cuenta al robot RICX de copy trading.",
+  "totalTime": "PT30M",
+  "image": "https://ricxcopytrade.com/og-image.png",
+  "supply": [
+    {"@type": "HowToSupply", "name": "Documento de identidad"},
+    {"@type": "HowToSupply", "name": "Comprobante de domicilio"},
+    {"@type": "HowToSupply", "name": "USD 1500 de depósito mínimo"}
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Abrir cuenta en Axi",
+      "text": "Abre una cuenta gratuita en el broker regulado Axi y completa el proceso KYC con tus datos personales y un comprobante de identidad.",
+      "url": "https://ricxcopytrade.com/tutorial.html#step-1"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Verificación y depósito",
+      "text": "Verifica tu cuenta y realiza un depósito mínimo de USD 1500 mediante transferencia bancaria, tarjeta o monedero digital.",
+      "url": "https://ricxcopytrade.com/tutorial.html#step-2"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Conectar al robot RICX",
+      "text": "Descarga la app de Axi Copy Trading, selecciona el estratega RICX y conecta tu cuenta para empezar a copiar las operaciones automáticamente 24/7.",
+      "url": "https://ricxcopytrade.com/tutorial.html#step-3"
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -251,7 +291,7 @@ footer{background:var(--navy-deep);color:#B3BCD4;padding:48px 0 24px}
 <section class="hero-tut">
   <div class="wrap">
     <span class="eyebrow" data-i18n="tut_kicker">Tutorial paso a paso</span>
-    <h1 data-i18n="tut_h1">De cero al robot conectado<br/>en 30 minutos</h1>
+    <h1 data-i18n="tut_h1">Conecta el robot RICX a Axi<br/>en 30 minutos</h1>
     <p data-i18n="tut_sub">Guía completa con capturas reales. Navega los pasos con las flechas del teclado o pulsa sobre cualquier captura para ampliarla.</p>
   </div>
 </section>
@@ -330,7 +370,7 @@ footer{background:var(--navy-deep);color:#B3BCD4;padding:48px 0 24px}
 <!-- LIGHTBOX -->
 <div id="lb-overlay" onclick="closeLightbox()">
   <button id="lb-close" aria-label="Cerrar">✕</button>
-  <img id="lb-img" src="" alt=""/>
+  <img id="lb-img" src="" alt="Captura ampliada del tutorial RICX en Axi"/>
 </div>
 
 <script>
@@ -687,7 +727,7 @@ function render(){
     `<span class="step-num">${currentLang === 'pt' ? 'PASSO' : currentLang === 'en' ? 'STEP' : 'PASO'} ${currentIdx+1}</span>`;
   const tipHTML = s.tipKey ? `<div class="slide-tip ${s.tipStyle || ''}"><b>${s.tipStyle === 'green' ? '✅' : s.tipStyle === 'red' ? '🚨' : '⚠️'} </b>${t[s.tipKey] || ''}</div>` : '';
   const mediaHTML = s.img
-    ? `<div class="phone-wrap"><div class="phone-frame" onclick="openLightbox(this)"><img src="${s.img}" alt=""/></div><div class="zoom-hint">${currentLang === 'pt' ? 'Clique para ampliar' : currentLang === 'en' ? 'Click to zoom' : 'Pulsa para ampliar'}</div></div>`
+    ? `<div class="phone-wrap"><div class="phone-frame" onclick="openLightbox(this)"><img src="${s.img}" alt="${(t[s.titleKey] || 'Paso ' + (currentIdx+1)).replace(/"/g, '&quot;')} — Tutorial RICX Axi"/></div><div class="zoom-hint">${currentLang === 'pt' ? 'Clique para ampliar' : currentLang === 'en' ? 'Click to zoom' : 'Pulsa para ampliar'}</div></div>`
     : `<div class="phone-wrap" style="font-size:120px">${s.emoji || ''}</div>`;
   const ctaHTML = s.ctaUrl ? `
     <div style="margin-top:20px">
