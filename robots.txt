@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /archive/
+Disallow: /marketing/
+Disallow: /docs/
+Disallow: /buffer-automation/
+Disallow: /telegram-bot/
+
+Sitemap: https://ricxcopytrade.com/sitemap.xml
