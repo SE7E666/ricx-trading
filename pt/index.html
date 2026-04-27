@@ -476,7 +476,7 @@ h2.sec-title{
   padding:10px 14px; border-radius:10px;
   border:1px solid rgba(0,200,204,.3);
 }
-.equity-stats{display:flex; gap:48px; margin-bottom:28px}
+.equity-stats{display:flex; flex-wrap:wrap; gap:28px 40px; margin-bottom:28px}
 .eq-stat .l{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:600}
 .eq-stat .v{font-size:28px; font-weight:800; color:var(--navy); font-variant-numeric:tabular-nums; letter-spacing:-.015em; margin-top:4px}
 .eq-stat .v.g{color:var(--green)}
@@ -1171,6 +1171,10 @@ footer{background:var(--navy-deep); color:#B3BCD4; padding:80px 0 32px}
           <div class="l" data-i18n="eq_roi">ROI</div>
           <div class="v g num" id="eq-roi">+65.37%</div>
         </div>
+        <div class="eq-stat">
+          <div class="l" data-i18n="eq_monthly">Média mensal</div>
+          <div class="v g num" id="eq-monthly">+9.69%</div>
+        </div>
       </div>
 
       <svg class="equity-chart" id="eq-chart" viewBox="0 0 1200 340" preserveAspectRatio="none">
@@ -1631,10 +1635,12 @@ async function loadStats(){
       const roi = document.getElementById('eq-roi');
       if(roi) roi.textContent = s.gain;
     }
-    // Update monthly rate for calc
+    // Update monthly rate for calc + display
     if(s.monthly){
       const pct = parseFloat(s.monthly.replace(/[^0-9.\-]/g,''));
       if(!isNaN(pct) && pct > 0) window.__ricxMonthlyRate = pct / 100;
+      const mEl = document.getElementById('eq-monthly');
+      if(mEl) mEl.textContent = s.monthly;
     }
     // Rebuild equity chart from chart_data
     if(Array.isArray(s.chart_data) && s.chart_data.length > 1){
