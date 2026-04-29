@@ -1789,8 +1789,8 @@ const T = {
     cta_sub:"Sin permanencia, sin costes ocultos, ¡sin miedo al éxito!",
     cta_btn:"Conectar ahora", cta_b1:"✓ Setup en 10 minutos", cta_b2:"✓ Depósito mínimo USD 1.500", cta_b3:"✓ Cancelá cuando quieras",
     next_step:"Siguiente paso", go_tab2:"IR A PESTAÑA ②", go_tab3:"IR A PESTAÑA ③", go_tab4:"IR A PESTAÑA ④",
-    tg_bubble_p1:"👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX?",
-    tg_bubble_p2:"Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.",
+    tg_bubble_msg:"👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX? Respondemos en segundos.",
+    tg_now:"ahora",
     tg_aria:"Soporte vía Telegram", tg_close_aria:"Cerrar",
   },
   pt: {
@@ -1858,8 +1858,8 @@ const T = {
     cta_sub:"Sem permanência, sem custos ocultos, sem medo do sucesso!",
     cta_btn:"Conectar agora", cta_b1:"✓ Setup em 10 minutos", cta_b2:"✓ Depósito mínimo USD 1.500", cta_b3:"✓ Cancele quando quiser",
     next_step:"Próximo passo", go_tab2:"IR PARA ABA ②", go_tab3:"IR PARA ABA ③", go_tab4:"IR PARA ABA ④",
-    tg_bubble_p1:"👋 <strong>Olá!</strong> Tens dúvidas sobre o RICX?",
-    tg_bubble_p2:"O nosso <strong>bot de suporte</strong> responde em segundos — disponível 24/7.",
+    tg_bubble_msg:"👋 <strong>Olá!</strong> Tens dúvidas sobre o RICX? Respondemos em segundos.",
+    tg_now:"agora",
     tg_aria:"Suporte via Telegram", tg_close_aria:"Fechar",
   },
   en: {
@@ -1927,8 +1927,8 @@ const T = {
     cta_sub:"No commitment, no hidden costs, no fear of success!",
     cta_btn:"Connect now", cta_b1:"✓ 10-minute setup", cta_b2:"✓ USD 1,500 minimum", cta_b3:"✓ Cancel anytime",
     next_step:"Next step", go_tab2:"GO TO TAB ②", go_tab3:"GO TO TAB ③", go_tab4:"GO TO TAB ④",
-    tg_bubble_p1:"👋 <strong>Hi there!</strong> Got questions about RICX?",
-    tg_bubble_p2:"Our <strong>support bot</strong> replies in seconds — available 24/7.",
+    tg_bubble_msg:"👋 <strong>Hi there!</strong> Got questions about RICX? We reply in seconds.",
+    tg_now:"now",
     tg_aria:"Telegram support", tg_close_aria:"Close",
   }
 };
@@ -1952,11 +1952,14 @@ function setLang(lang){
 /* lang autoload removed */
 
 // ─── TELEGRAM WIDGET INIT — show after user has scrolled for a few seconds ───
-(function(){
+function ricxTgInit(){
   const bubble = document.getElementById('tg-bubble');
   const closeBtn = document.getElementById('tg-bubble-close');
   const btn = document.getElementById('tg-btn');
-  if(!bubble || !closeBtn || !btn) return;
+  if(!bubble || !closeBtn || !btn){
+    // widget not in DOM yet — retry shortly
+    return setTimeout(ricxTgInit, 100);
+  }
 
   let firstScrollAt = 0, shown = false;
   const SCROLL_DELAY_MS = 5000;   // wait this long after first scroll
@@ -1998,7 +2001,12 @@ function setLang(lang){
   btn.addEventListener('click', () => {
     try{ sessionStorage.setItem('tg-bubble-dismissed','1'); } catch(err){}
   });
-})();
+}
+if(document.readyState === 'loading'){
+  document.addEventListener('DOMContentLoaded', ricxTgInit);
+} else {
+  ricxTgInit();
+}
 </script>
 
 <!-- ============ LIGHTBOX ============ -->
@@ -2009,24 +2017,31 @@ function setLang(lang){
 
 <!-- ============ TELEGRAM WIDGET ============ -->
 <style>
-  #tg-widget{position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; align-items:flex-end; gap:10px; font-family:inherit}
+  #tg-widget{position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; align-items:flex-end; gap:6px; font-family:inherit}
   #tg-bubble{
     position:relative;
-    background:#fff; border:1px solid var(--line); color:var(--navy-ink);
-    border-radius:16px 16px 4px 16px; padding:14px 18px 14px 16px; max-width:240px;
-    box-shadow:0 12px 36px -8px rgba(15,23,41,.18);
-    opacity:0; transform:translateY(10px) scale(.95); transition:opacity .3s, transform .3s;
+    background:#2AC8DC; color:#fff;
+    border-radius:16px 16px 4px 16px; padding:12px 32px 10px 14px; max-width:240px;
+    box-shadow:0 10px 28px -6px rgba(42,200,220,.55);
+    opacity:0; transform:translateY(8px) scale(.96); transition:opacity .25s, transform .25s;
     pointer-events:none;
   }
   #tg-bubble.show{opacity:1; transform:translateY(0) scale(1); pointer-events:auto}
-  #tg-bubble p{margin:0 0 4px; font-size:13px; line-height:1.5; color:var(--muted-2)}
-  #tg-bubble strong{color:var(--navy); font-weight:700}
+  #tg-bubble::after{
+    content:''; position:absolute; right:18px; bottom:-7px;
+    width:14px; height:14px; background:#2AC8DC; transform:rotate(45deg);
+    border-radius:0 0 3px 0;
+  }
+  #tg-bubble p{margin:0; font-size:13px; line-height:1.45; color:#fff}
+  #tg-bubble strong{color:#fff; font-weight:600}
+  #tg-bubble .tg-time{display:block; font-size:10px; opacity:.85; margin-top:4px; text-align:right; color:#fff}
   #tg-bubble-close{
     position:absolute; top:6px; right:8px;
-    background:none; border:0; color:#B3BCD4;
-    font-size:14px; cursor:pointer; line-height:1; padding:4px 6px; border-radius:6px;
+    background:rgba(255,255,255,.18); border:0; color:#fff;
+    font-size:12px; cursor:pointer; line-height:1; padding:3px 6px; border-radius:6px;
+    transition:background .15s;
   }
-  #tg-bubble-close:hover{background:#F0F2F7; color:var(--navy)}
+  #tg-bubble-close:hover{background:rgba(255,255,255,.32)}
   #tg-btn{
     width:58px; height:58px; border-radius:50%;
     background:linear-gradient(135deg, #2AABEE, #1a8fd1);
@@ -2056,8 +2071,8 @@ function setLang(lang){
 <div id="tg-widget">
   <div id="tg-bubble">
     <button id="tg-bubble-close" data-i18n-aria="tg_close_aria" aria-label="Cerrar">✕</button>
-    <p data-i18n="tg_bubble_p1">👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX?</p>
-    <p data-i18n="tg_bubble_p2">Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.</p>
+    <p data-i18n="tg_bubble_msg">👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX? Respondemos en segundos.</p>
+    <span class="tg-time" data-i18n="tg_now">ahora</span>
   </div>
   <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" data-i18n-aria="tg_aria" aria-label="Soporte vía Telegram">
     <span id="tg-dot"></span>
