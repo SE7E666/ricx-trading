@@ -19,21 +19,21 @@
 <meta name="description" content="Robot de copy trading automatizado en oro, forex y cripto sobre Axi. Verificado en myfxbook, +65% en 7 meses con gestión de riesgo profesional." />
 
 <!-- ═══ Open Graph / Social preview ═══ -->
-<meta property="og:title" content="RICX Copy Trading — Robot Automatizado Verificado en Axi" />
+<meta property="og:title" content="RICX Copy Trading: Trading made easy" />
 <meta property="og:description" content="Robot de copy trading automatizado en oro, forex y cripto sobre Axi. Verificado en myfxbook, +65% en 7 meses con gestión de riesgo profesional." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ricxcopytrade.com/" />
 <meta property="og:site_name" content="RICX Copy Trading" />
 <meta property="og:image" content="https://ricxcopytrade.com/og-image.png" />
-<meta property="og:image:width" content="2000" />
-<meta property="og:image:height" content="2000" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="RICX Automated Trading" />
 <meta property="og:locale" content="es_ES" />
 <meta property="og:locale:alternate" content="pt_BR" />
 <meta property="og:locale:alternate" content="en_US" />
 <meta property="og:locale:alternate" content="ar_AE" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="RICX Copy Trading — Robot Automatizado Verificado en Axi" />
+<meta name="twitter:title" content="RICX Copy Trading: Trading made easy" />
 <meta name="twitter:description" content="Robot de copy trading automatizado en oro, forex y cripto sobre Axi. Verificado en myfxbook, +65% en 7 meses con gestión de riesgo profesional." />
 <meta name="twitter:image" content="https://ricxcopytrade.com/og-image.png" />
 
@@ -1789,6 +1789,9 @@ const T = {
     cta_sub:"Sin permanencia, sin costes ocultos, ¡sin miedo al éxito!",
     cta_btn:"Conectar ahora", cta_b1:"✓ Setup en 10 minutos", cta_b2:"✓ Depósito mínimo USD 1.500", cta_b3:"✓ Cancelá cuando quieras",
     next_step:"Siguiente paso", go_tab2:"IR A PESTAÑA ②", go_tab3:"IR A PESTAÑA ③", go_tab4:"IR A PESTAÑA ④",
+    tg_bubble_p1:"👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX?",
+    tg_bubble_p2:"Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.",
+    tg_aria:"Soporte vía Telegram", tg_close_aria:"Cerrar",
   },
   pt: {
     nav_results:"Resultados", nav_how:"Como Funciona", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Conectar ao RICX",
@@ -1855,6 +1858,9 @@ const T = {
     cta_sub:"Sem permanência, sem custos ocultos, sem medo do sucesso!",
     cta_btn:"Conectar agora", cta_b1:"✓ Setup em 10 minutos", cta_b2:"✓ Depósito mínimo USD 1.500", cta_b3:"✓ Cancele quando quiser",
     next_step:"Próximo passo", go_tab2:"IR PARA ABA ②", go_tab3:"IR PARA ABA ③", go_tab4:"IR PARA ABA ④",
+    tg_bubble_p1:"👋 <strong>Olá!</strong> Tens dúvidas sobre o RICX?",
+    tg_bubble_p2:"O nosso <strong>bot de suporte</strong> responde em segundos — disponível 24/7.",
+    tg_aria:"Suporte via Telegram", tg_close_aria:"Fechar",
   },
   en: {
     nav_results:"Results", nav_how:"How It Works", nav_tutorial:"Tutorial", nav_faq:"FAQ", nav_cta:"Connect to RICX",
@@ -1921,6 +1927,9 @@ const T = {
     cta_sub:"No commitment, no hidden costs, no fear of success!",
     cta_btn:"Connect now", cta_b1:"✓ 10-minute setup", cta_b2:"✓ USD 1,500 minimum", cta_b3:"✓ Cancel anytime",
     next_step:"Next step", go_tab2:"GO TO TAB ②", go_tab3:"GO TO TAB ③", go_tab4:"GO TO TAB ④",
+    tg_bubble_p1:"👋 <strong>Hi there!</strong> Got questions about RICX?",
+    tg_bubble_p2:"Our <strong>support bot</strong> replies in seconds — available 24/7.",
+    tg_aria:"Telegram support", tg_close_aria:"Close",
   }
 };
 
@@ -1930,6 +1939,10 @@ function setLang(lang){
     const key = el.getAttribute('data-i18n');
     if(T[lang][key] != null) el.innerHTML = T[lang][key];
   });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if(T[lang][key] != null) el.setAttribute('aria-label', T[lang][key]);
+  });
   document.querySelectorAll('.lang-btn').forEach(b => {
     b.classList.toggle('active', b.getAttribute('data-lang') === lang);
   });
@@ -1938,17 +1951,45 @@ function setLang(lang){
 }
 /* lang autoload removed */
 
-// ─── TELEGRAM WIDGET INIT ───
+// ─── TELEGRAM WIDGET INIT — show after user has scrolled for a few seconds ───
 (function(){
   const bubble = document.getElementById('tg-bubble');
   const closeBtn = document.getElementById('tg-bubble-close');
   const btn = document.getElementById('tg-btn');
   if(!bubble || !closeBtn || !btn) return;
-  try{
-    if(!sessionStorage.getItem('tg-bubble-dismissed')){
-      setTimeout(() => bubble.classList.add('show'), 4000);
+
+  let firstScrollAt = 0, shown = false;
+  const SCROLL_DELAY_MS = 5000;   // wait this long after first scroll
+  const MIN_SCROLL_PX   = 600;    // and require this much scroll
+  const FALLBACK_MS     = 25000;  // safety net: show anyway after this long
+
+  function dismissed(){
+    try{ return sessionStorage.getItem('tg-bubble-dismissed') === '1'; } catch(e){ return false; }
+  }
+  function show(){
+    if(shown || dismissed()) return;
+    shown = true;
+    bubble.classList.add('show');
+  }
+  function onScroll(){
+    if(shown || dismissed()) return;
+    if(!firstScrollAt) firstScrollAt = Date.now();
+    const enoughScroll = window.scrollY >= MIN_SCROLL_PX;
+    const enoughTime   = (Date.now() - firstScrollAt) >= SCROLL_DELAY_MS;
+    if(enoughScroll && enoughTime) show();
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  // Re-check on a timer (so the bubble can fire 5s AFTER the user stopped scrolling)
+  const ticker = setInterval(() => {
+    if(shown || dismissed()){ clearInterval(ticker); return; }
+    if(firstScrollAt && window.scrollY >= MIN_SCROLL_PX &&
+       (Date.now() - firstScrollAt) >= SCROLL_DELAY_MS){
+      show(); clearInterval(ticker);
     }
-  } catch(e){}
+  }, 1000);
+  // Fallback: if user stays without scrolling
+  setTimeout(() => { if(!shown && !dismissed()) show(); }, FALLBACK_MS);
+
   closeBtn.addEventListener('click', e => {
     e.preventDefault();
     bubble.classList.remove('show');
@@ -2014,11 +2055,11 @@ function setLang(lang){
 </style>
 <div id="tg-widget">
   <div id="tg-bubble">
-    <button id="tg-bubble-close" aria-label="Cerrar">✕</button>
-    <p>👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX?</p>
-    <p>Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.</p>
+    <button id="tg-bubble-close" data-i18n-aria="tg_close_aria" aria-label="Cerrar">✕</button>
+    <p data-i18n="tg_bubble_p1">👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX?</p>
+    <p data-i18n="tg_bubble_p2">Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.</p>
   </div>
-  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" aria-label="Soporte vía Telegram">
+  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" data-i18n-aria="tg_aria" aria-label="Soporte vía Telegram">
     <span id="tg-dot"></span>
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.094-.622z" fill="white"/>
