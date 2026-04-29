@@ -2033,4 +2033,55 @@ if(document.readyState === 'loading'){
     border-radius:0 0 3px 0;
   }
   #tg-bubble p{margin:0; font-size:13px; line-height:1.45; color:#fff}
-  #tg-bubble strong{color:#fff; font-weight
+  #tg-bubble strong{color:#fff; font-weight:600}
+  #tg-bubble .tg-time{display:block; font-size:10px; opacity:.85; margin-top:4px; text-align:right; color:#fff}
+  #tg-bubble-close{
+    position:absolute; top:6px; right:8px;
+    background:rgba(255,255,255,.18); border:0; color:#fff;
+    font-size:12px; cursor:pointer; line-height:1; padding:3px 6px; border-radius:6px;
+    transition:background .15s;
+  }
+  #tg-bubble-close:hover{background:rgba(255,255,255,.32)}
+  #tg-btn{
+    width:58px; height:58px; border-radius:50%;
+    background:linear-gradient(135deg, #2AABEE, #1a8fd1);
+    box-shadow:0 8px 24px rgba(42,171,238,.45);
+    border:0; cursor:pointer; display:flex; align-items:center; justify-content:center;
+    transition:transform .2s, box-shadow .2s; text-decoration:none; position:relative;
+  }
+  #tg-btn:hover{transform:scale(1.08); box-shadow:0 10px 32px rgba(42,171,238,.6)}
+  #tg-btn svg{width:30px; height:30px}
+  #tg-btn::before{
+    content:''; position:absolute; inset:-5px; border-radius:50%;
+    border:2px solid rgba(42,171,238,.5);
+    animation:tg-pulse 2.5s ease-out infinite;
+  }
+  @keyframes tg-pulse{
+    0%{transform:scale(1); opacity:.7}
+    70%{transform:scale(1.4); opacity:0}
+    100%{transform:scale(1.4); opacity:0}
+  }
+  #tg-dot{position:absolute; top:2px; right:2px; width:12px; height:12px; background:var(--cyan); border-radius:50%; border:2px solid #fff; animation:tg-bounce 1.8s ease-in-out infinite}
+  @keyframes tg-bounce{0%,100%{transform:scale(1)} 50%{transform:scale(1.25)}}
+  @media(max-width:480px){
+    #tg-widget{bottom:16px; right:16px}
+    #tg-bubble{max-width:200px}
+  }
+</style>
+<div id="tg-widget">
+  <div id="tg-bubble">
+    <button id="tg-bubble-close" data-i18n-aria="tg_close_aria" aria-label="Cerrar">✕</button>
+    <p data-i18n="tg_bubble_msg">👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX? Respondemos en segundos.</p>
+    <span class="tg-time" data-i18n="tg_now">ahora</span>
+  </div>
+  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" data-i18n-aria="tg_aria" aria-label="Soporte vía Telegram">
+    <span id="tg-dot"></span>
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.094-.622z" fill="white"/>
+      <path d="M10 14.5l-1.5 4.5L7 13l11-7-8 8.5z" fill="rgba(42,171,238,0.4)"/>
+    </svg>
+  </a>
+</div>
+
+</body>
+</html>
