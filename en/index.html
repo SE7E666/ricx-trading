@@ -19,21 +19,21 @@
 <meta name="description" content="Automated copy trading robot for gold, forex and crypto on Axi. Verified on myfxbook, +65% in 7 months with professional risk management." />
 
 <!-- ═══ Open Graph / Social preview ═══ -->
-<meta property="og:title" content="RICX Copy Trading — Automated Robot Verified on Axi" />
+<meta property="og:title" content="RICX Copy Trading: Trading made easy" />
 <meta property="og:description" content="Automated copy trading robot for gold, forex and crypto on Axi. Verified on myfxbook, +65% in 7 months with professional risk management." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://ricxcopytrade.com/en/" />
 <meta property="og:site_name" content="RICX Copy Trading" />
 <meta property="og:image" content="https://ricxcopytrade.com/og-image.png" />
-<meta property="og:image:width" content="2000" />
-<meta property="og:image:height" content="2000" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="RICX Automated Trading" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:locale:alternate" content="es_ES" />
 <meta property="og:locale:alternate" content="pt_BR" />
 <meta property="og:locale:alternate" content="ar_AE" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="RICX Copy Trading — Automated Robot Verified on Axi" />
+<meta name="twitter:title" content="RICX Copy Trading: Trading made easy" />
 <meta name="twitter:description" content="Automated copy trading robot for gold, forex and crypto on Axi. Verified on myfxbook, +65% in 7 months with professional risk management." />
 <meta name="twitter:image" content="https://ricxcopytrade.com/og-image.png" />
 
@@ -1944,17 +1944,43 @@ function setLang(lang){
 }
 /* lang autoload removed */
 
-// ─── TELEGRAM WIDGET INIT ───
+// ─── TELEGRAM WIDGET INIT — show after user has scrolled for a few seconds ───
 (function(){
   const bubble = document.getElementById('tg-bubble');
   const closeBtn = document.getElementById('tg-bubble-close');
   const btn = document.getElementById('tg-btn');
   if(!bubble || !closeBtn || !btn) return;
-  try{
-    if(!sessionStorage.getItem('tg-bubble-dismissed')){
-      setTimeout(() => bubble.classList.add('show'), 4000);
+
+  let firstScrollAt = 0, shown = false;
+  const SCROLL_DELAY_MS = 5000;
+  const MIN_SCROLL_PX   = 600;
+  const FALLBACK_MS     = 25000;
+
+  function dismissed(){
+    try{ return sessionStorage.getItem('tg-bubble-dismissed') === '1'; } catch(e){ return false; }
+  }
+  function show(){
+    if(shown || dismissed()) return;
+    shown = true;
+    bubble.classList.add('show');
+  }
+  function onScroll(){
+    if(shown || dismissed()) return;
+    if(!firstScrollAt) firstScrollAt = Date.now();
+    const enoughScroll = window.scrollY >= MIN_SCROLL_PX;
+    const enoughTime   = (Date.now() - firstScrollAt) >= SCROLL_DELAY_MS;
+    if(enoughScroll && enoughTime) show();
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  const ticker = setInterval(() => {
+    if(shown || dismissed()){ clearInterval(ticker); return; }
+    if(firstScrollAt && window.scrollY >= MIN_SCROLL_PX &&
+       (Date.now() - firstScrollAt) >= SCROLL_DELAY_MS){
+      show(); clearInterval(ticker);
     }
-  } catch(e){}
+  }, 1000);
+  setTimeout(() => { if(!shown && !dismissed()) show(); }, FALLBACK_MS);
+
   closeBtn.addEventListener('click', e => {
     e.preventDefault();
     bubble.classList.remove('show');
@@ -2020,18 +2046,11 @@ function setLang(lang){
 </style>
 <div id="tg-widget">
   <div id="tg-bubble">
-    <button id="tg-bubble-close" aria-label="Cerrar">✕</button>
-    <p>👋 <strong>¡Hola!</strong> ¿Tienes dudas sobre RICX?</p>
-    <p>Nuestro <strong>bot de soporte</strong> responde en segundos — disponible 24/7.</p>
+    <button id="tg-bubble-close" aria-label="Close">✕</button>
+    <p>👋 <strong>Hi there!</strong> Got questions about RICX?</p>
+    <p>Our <strong>support bot</strong> replies in seconds — available 24/7.</p>
   </div>
-  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" aria-label="Soporte vía Telegram">
+  <a id="tg-btn" href="https://t.me/RICX_trading_bot" target="_blank" rel="noopener" aria-label="Telegram support">
     <span id="tg-dot"></span>
     <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M22.07 2.55a1.5 1.5 0 00-1.54-.208L2.21 10.097a1.5 1.5 0 00.08 2.775l3.965 1.322 1.98 5.94a1 1 0 001.752.261l2.438-2.926 4.332 3.193a1.5 1.5 0 002.352-.99l2.999-16.5a1.5 1.5 0 00-.094-.622z" fill="white"/>
-      <path d="M10 14.5l-1.5 4.5L7 13l11-7-8 8.5z" fill="rgba(42,171,238,0.4)"/>
-    </svg>
-  </a>
-</div>
-
-</body>
-</html>
+      <path d="M22.07 2.55a1.5 1.5 0 00-1.
