@@ -1,16 +1,16 @@
 {
-  "gain": "+84.8%",
-  "monthly": "+5.06%",
-  "last_month": "+2.03%",
+  "gain": "+80.3%",
+  "monthly": "+4.84%",
+  "last_month": "-0.43%",
   "months": "13",
-  "winrate": "67.3%",
-  "trades_won": 1110,
-  "trades_lost": 540,
-  "trades_total": 1650,
+  "winrate": "67.2%",
+  "trades_won": 1111,
+  "trades_lost": 543,
+  "trades_total": 1654,
   "drawdown": "-39.9%",
-  "balance": "$7,648.70",
-  "profit": "$3,079.53",
-  "last_updated": "2026-10-19 08:07",
+  "balance": "$7,464.41",
+  "profit": "$2,895.24",
+  "last_updated": "2026-10-20 08:02",
   "account_name": "RYCX AXI",
   "currency": "USD",
   "chart_data": [
@@ -64,7 +64,7 @@
     },
     {
       "date": "Out/26",
-      "value": 84.8
+      "value": 80.35
     }
   ]
 }
